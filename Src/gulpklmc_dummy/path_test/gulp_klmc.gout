@@ -1,0 +1,59 @@
+********************************************************************************
+*                       GENERAL UTILITY LATTICE PROGRAM                        *
+*                                 Julian Gale                                  *
+*                       Curtin Institute for Computation                       *
+*                    School of Molecular and Life Sciences                     *
+*                    Curtin University, Western Australia                      *
+********************************************************************************
+* Version = 6.1.2 * Last modified =   3rd November 2022                        *
+********************************************************************************
+*  optimise     - perform optimisation run                                     *
+*  conp         - constant pressure calculation                                *
+*  nosymmetry   - turn off symmetry after initial structure generation         *
+*  full         - generate full unit cell when symmetry is removed             *
+********************************************************************************
+* ortho pnma BiF3 lone pair active                                             *
+********************************************************************************
+
+
+  Job Started  at 17:14.53  7th July       2023                               
+
+  Number of CPUs =     1
+
+  Host name      = ln02                                    
+
+
+  Total number of configurations input =      1
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! ERROR : shell has been found with no matching core
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+  Configuration number =    1
+
+  List of unmatched shells for full cell : 
+
+--------------------------------------------------------------------------------
+    Shell atom number           Label       Fractional coordinates
+--------------------------------------------------------------------------------
+            65                 Bi       0.477350    0.125000    0.034900
+            66                 Bi       0.477350    0.625000    0.034900
+            67                 Bi       0.977350    0.125000    0.034900
+            68                 Bi       0.977350    0.625000    0.034900
+            69                 Bi       0.272650    0.375000    0.534900
+            70                 Bi       0.272650    0.875000    0.534900
+            71                 Bi       0.772650    0.375000    0.534900
+            72                 Bi       0.772650    0.875000    0.534900
+            73                 Bi       0.227350    0.125000    0.465100
+            74                 Bi       0.227350    0.625000    0.465100
+            75                 Bi       0.727350    0.125000    0.465100
+            76                 Bi       0.727350    0.625000    0.465100
+            77                 Bi       0.022650    0.375000    0.965100
+            78                 Bi       0.022650    0.875000    0.965100
+            79                 Bi       0.522650    0.375000    0.965100
+            80                 Bi       0.522650    0.875000    0.965100
+--------------------------------------------------------------------------------
+
+

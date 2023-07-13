@@ -1,0 +1,39 @@
+# 
+# Keywords:
+# 
+#single conp nosym full 
+opti conp nosym full 
+# 
+# Options:
+# 
+title
+ortho pnma BiF3 lone pair active
+end
+cell
+6.5614   7.0153   4.8414  90.000000  90.000000  90.000000
+fractional  1
+Bi    core 0.3547000 0.2500000 0.0349000 0.00000000 1.00000 0.00000
+F     core 0.5361000 0.2500000 0.6271000 0.00000000 1.00000 0.00000
+F     core 0.1652000 0.0577000 0.3528000 0.00000000 1.00000 0.00000
+#Bi    shel 0.3547000 0.2500000 0.0349000 0.00000000 1.00000 0.00000
+Bi    shel 0.9547000 0.2500000 0.0349000 0.00000000 1.00000 0.00000
+F     shel 0.5361000 0.2500000 0.6271000 0.00000000 1.00000 0.00000
+F     shel 0.1652000 0.0577000 0.3528000 0.00000000 1.00000 0.00000
+space
+62
+supercell
+2 2 1
+species   2
+Bi     core     3.000
+F      core    -1.0000
+buck
+Bi    shel Bi    shel  24.980000    0.328400  0.0000000      0.00  12.00
+buck
+F     shel Bi    shel  72276.42     0.2223    0.0000000      0.00  12.00
+spring
+F      6.3000000
+spring
+Bi     172.70000
+output cif sub/bif.cif
+output xyz sub/bif.xyz
+#output sdfaf asdfasdf.asdf

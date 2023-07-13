@@ -1,0 +1,33 @@
+single conp dist prt_two
+name
+CeO2
+cartesian
+ Ce core  0  0  0
+ O  core  0  2  0
+ O  core  2  0  0 
+cartesian
+ Ce core  0  0  0
+ O  core  0 -2  0
+ O  core -2  0  0 
+species   4
+#Ce     core   -9.850000
+#Ce     shel   13.850000
+#O      core    0.936345
+#O      shel   -2.936345
+Ce     core    1.0000
+Ce     shel    1.0000
+O      core   -1.
+O      shel   -1.
+buck
+O     shel O     shel  22764.300     0.149000  20.983768  0.00 15.00
+O     shel Ce    shel  1138.963021   0.417578  25.082349  0.00  5.278
+spring
+Ce     1071.1845
+O      53.022513
+#######   OPTIONS
+xtol opt   5.000000
+gtol opt   5.000000
+ftol opt   5.000000
+maxcyc opt  1000000
+cutd 3
+#switch rfo 0.03

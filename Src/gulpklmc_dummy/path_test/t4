@@ -1,0 +1,114 @@
+/work/e05/e05/wkjee/Software/gulp-6.1.2/Src/Custom/path_test
+C main> before calling gulpklmc
+in gulpmain: before calling GULP_initcomms()
+in initcomms : MPI_Init() is already called / lmpiinit<logical> :    T
+in initcomms : MPI_comm_GULP set to MPI_comm_in (KLMC used)
+in initcomms : before getting rank / size
+in initcomms : MPI_comm_in   <important>  1140850688
+in initcomms : MPI_comm_GULP <important>  1140850688
+in initcomms : procid / nprocs   0   1
+in gulpmain, ichemsh_link:    0
+in gulpmain: before call setupinputoutput
+in gulpmain: gulp_klmc_iopath  : /work/e05/e05/wkjee/Software/gulp-6.1.2/Src/Custom/path_test                                                            
+in gulpmain: klmc_gulp_input   : /work/e05/e05/wkjee/Software/gulp-6.1.2/Src/Custom/path_test/gulp_klmc.gin                                                                                                                                                                                      
+in gulpmain: klmc_gulp_output: : /work/e05/e05/wkjee/Software/gulp-6.1.2/Src/Custom/path_test/gulp_klmc.gout                                                                                                                                                                                     
+in gulpmain: if ioin open works before
+in gulpmain: if ioin open works after
+in gulpmain: if ioout open works before
+in gulpmain: if ioout open works after
+in gulpmain: after  call setupinputoutput
+in gulpmain: before call gulp_setup
+KLMC> in stopnow: something went wrong: checkout the .gout
+in gulpmain: after call gulp_setup
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+KLMC> in stopnow: something went wrong: checkout the .gout
+in mpfinish: MPI_Finalise() is not called
+KLMC> start: 20230707 132023.494 end: 20230707 132025.389 elapsed_time:   1.89448844 cpu_count:    1 task_id:    1 worker_id:    2 io_path: /work/e05/e05/wkjee/Software/gulp-6.1.2/Src/Custom/path_test                                                            
+C main> after calling gulpklmc

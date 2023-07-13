@@ -1,0 +1,1575 @@
+********************************************************************************
+*                       GENERAL UTILITY LATTICE PROGRAM                        *
+*                                 Julian Gale                                  *
+*                       Curtin Institute for Computation                       *
+*                    School of Molecular and Life Sciences                     *
+*                    Curtin University, Western Australia                      *
+********************************************************************************
+* Version = 6.1.0 * Last modified =  25th August 2022                          *
+********************************************************************************
+*  conv         - constant volume calculation                                  *
+*  genetic      - use genetic algorithm to search conformation space           *
+*  predict      - use global minimiser                                         *
+*  optimise     - will optimise best possible structures found w.r.t. energy   *
+*  cost         - will use Pannetier type cost function in global minimisers   *
+*  rfo          - optimisation step to be determined by RFO method             *
+********************************************************************************
+* This version of example24 has been changed by removing the C6                *
+* term for the O-O interaction and adding the ZBL potential to                 *
+* prevent like charges from coming too close. These both caused                *
+* the energy to tend to negative infinity for some configurations.             *
+********************************************************************************
+
+
+  Job Started  at 12:13.47 25th August     2022                               
+
+  Number of CPUs =     1
+
+
+  Total number of configurations input =      2
+
+********************************************************************************
+*  Input for Configuration =   1 : rutile                                      *
+********************************************************************************
+
+  Formula = Ti2O4                                                       
+
+  Number of irreducible atoms/shells =       6
+
+
+  Total number atoms/shells =       6
+
+  Dimensionality = 3               :  Bulk   
+
+
+
+  Cartesian lattice vectors (Angstroms) :
+
+        4.492300    0.000000    0.000000
+        0.000000    4.492300    0.000000
+        0.000000    0.000000    2.893000
+
+  Cell parameters (Angstroms/Degrees):
+
+  a =       4.4923    alpha =  90.0000
+  b =       4.4923    beta  =  90.0000
+  c =       2.8930    gamma =  90.0000
+
+  Initial cell volume =          58.382937 Angs**3
+
+  Temperature of configuration =   0.00     K 
+
+  Pressure of configuration =         0.000 GPa 
+
+
+
+********************************************************************************
+*  Input for Configuration =   2 : anatase                                     *
+********************************************************************************
+
+  Formula = Ti4O8                                                       
+
+  Number of irreducible atoms/shells =      12
+
+
+  Total number atoms/shells =      12
+
+  Dimensionality = 3               :  Bulk   
+
+
+
+  Cartesian lattice vectors (Angstroms) :
+
+        3.776000    0.000000    0.000000
+        0.000000    3.776000    0.000000
+        0.000000    0.000000    9.486000
+
+  Cell parameters (Angstroms/Degrees):
+
+  a =       3.7760    alpha =  90.0000
+  b =       3.7760    beta  =  90.0000
+  c =       9.4860    gamma =  90.0000
+
+  Initial cell volume =         135.253058 Angs**3
+
+  Temperature of configuration =   0.00     K 
+
+  Pressure of configuration =         0.000 GPa 
+
+
+
+********************************************************************************
+*  General input information                                                   *
+********************************************************************************
+
+  Species output for all configurations : 
+
+--------------------------------------------------------------------------------
+  Species    Type    Atomic    Atomic    Charge       Radii (Angs)     Library
+                     Number     Mass       (e)     Cova   Ionic  VDW   Symbol
+--------------------------------------------------------------------------------
+    Ti1      Core       22      47.88   4.000000   1.470  0.000  2.190          
+    Ti2      Core       22      47.88   4.000000   1.470  0.000  2.190          
+    O1       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    O2       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    O3       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    O4       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    Ti3      Core       22      47.88   4.000000   1.470  0.000  2.190          
+    Ti4      Core       22      47.88   4.000000   1.470  0.000  2.190          
+    O5       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    O6       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    O7       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+    O8       Core        8      16.00  -2.000000   0.730  0.000  1.360          
+--------------------------------------------------------------------------------
+
+
+  Lattice summation method               =    Ewald          (3-D)
+                                         =    Parry          (2-D)
+                                         =    Saunders et al (1-D)
+  Accuracy factor for lattice sums       =   12.000
+
+
+  Analytic derivatives to be used
+
+  Time limit = Infinity
+
+  Maximum range for interatomic potentials =    100000.000000 Angstroms
+
+  General interatomic potentials :
+
+--------------------------------------------------------------------------------
+Atom  Types   Potential      Parameter       Value         Units   Cutoffs(Ang)
+  1     2                                                            Min /  Max 
+--------------------------------------------------------------------------------
+O    c Ti   c Buckingham    Buckingham A     754.20000    eV        0.000 10.000
+                            Buckingham rho  0.38790000    Ang       
+                            Buckingham C     0.0000000    eV*Ang^6  
+--------------------------------------------------------------------------------
+O    c O    c Buckingham    Buckingham A     22764.000    eV        0.000 10.000
+                            Buckingham rho  0.14900000    Ang       
+                            Buckingham C     0.0000000    eV*Ang^6  
+--------------------------------------------------------------------------------
+O    c Ti   c ZBL           ZBL b1          0.18175000    None      0.000 10.000
+                            ZBL c1           3.1998000    None      
+                            ZBL b2          0.50986000    None      
+                            ZBL c2          0.94229000    None      
+                            ZBL b3          0.28022000    None      
+                            ZBL c3          0.40290000    None      
+                            ZBL b4          0.28170000E-01None      
+                            ZBL c4          0.20162000    None      
+                            ZBL d           0.46850000    None      
+                            Exponent n      0.23000000    None
+--------------------------------------------------------------------------------
+
+********************************************************************************
+*  Output for configuration   1 : rutile                                       *
+********************************************************************************
+
+
+ Welcome to GULPs General Algorithm for Structure Prediction
+              by Simulated Annealing or Genetics!
+
+
+--------------------------------------------------------------------------------
+
+
+  Maximum number of cycles     =           300
+  Initial #configurations      =           100
+  Maximum #configurations      =           100
+
+  Will look for   2 best candidates once all cycles completed
+
+  Difference between best candidates:  0.00000
+  Tournament probability       =     0.9000000
+  #successful old parents      =             2 (trying again)
+  Implementing a one point crossover scheme
+  Crossover probability        =     0.5000000
+  Mutation probability         =    -1.0000000
+  Random number seed           =            -1
+
+
+ COST FUNCTION
+
+  Will use the following weighted terms to assess the candidate structures
+
+   Weight                 Term
+   1.0000    Bond Valence Discrepancy
+   0.1000    Cation 1st Coodination Number Discrepancy
+   0.2000    Anion  1st Coodination Number Discrepancy
+   1.0000    Coulombic Energy between Cations
+   1.0000    Coulombic Energy between Anions
+
+
+  Start of optimisation :
+
+ The number of grid points across the unit cell in
+ any one direction has now changed to           16
+ Thus pmuta has also changed becoming    1.6666666666666666E-002
+  Cycle:    1 Cost fn : Min        45.490000 Max       175.805186 CPU:    0.019
+  Cycle:    2 Cost fn : Min        45.490000 Max       111.859905 CPU:    0.021
+  Cycle:    3 Cost fn : Min        45.490000 Max       311.770552 CPU:    0.024
+  Cycle:    4 Cost fn : Min        45.490000 Max       121.696206 CPU:    0.027
+  Cycle:    5 Cost fn : Min        41.606838 Max       568.926143 CPU:    0.030
+  Cycle:    6 Cost fn : Min        39.522863 Max        82.448461 CPU:    0.032
+  Cycle:    7 Cost fn : Min        38.862953 Max       135.811671 CPU:    0.035
+ The number of grid points across the unit cell in
+ any one direction has now changed to           32
+ Thus pmuta has also changed becoming    1.3333333333333334E-002
+  Cycle:    8 Cost fn : Min        37.053700 Max      2900.415065 CPU:    0.038
+  Cycle:    9 Cost fn : Min        37.053700 Max       231.303744 CPU:    0.041
+  Cycle:   10 Cost fn : Min        31.704732 Max      7195.847668 CPU:    0.043
+  Cycle:   11 Cost fn : Min        31.083620 Max      1413.006157 CPU:    0.046
+  Cycle:   12 Cost fn : Min        29.976146 Max       134.409109 CPU:    0.049
+  Cycle:   13 Cost fn : Min        29.976146 Max        92.961881 CPU:    0.051
+  Cycle:   14 Cost fn : Min        29.976146 Max      6856.125057 CPU:    0.054
+  Cycle:   15 Cost fn : Min        29.976146 Max      3088.656439 CPU:    0.057
+ The number of grid points across the unit cell in
+ any one direction has now changed to           64
+ Thus pmuta has also changed becoming    1.1111111111111112E-002
+  Cycle:   16 Cost fn : Min        29.976146 Max      1289.893371 CPU:    0.059
+  Cycle:   17 Cost fn : Min        26.815241 Max       257.246333 CPU:    0.062
+  Cycle:   18 Cost fn : Min        26.815241 Max       113.375648 CPU:    0.065
+  Cycle:   19 Cost fn : Min        26.704405 Max       131.872170 CPU:    0.067
+  Cycle:   20 Cost fn : Min        26.704405 Max       336.154534 CPU:    0.070
+  Cycle:   21 Cost fn : Min        26.704405 Max      7074.130722 CPU:    0.073
+  Cycle:   22 Cost fn : Min        26.687500 Max       229.041914 CPU:    0.076
+  Cycle:   23 Cost fn : Min        23.984733 Max       379.183708 CPU:    0.078
+ The number of grid points across the unit cell in
+ any one direction has now changed to          128
+ Thus pmuta has also changed becoming    9.5238095238095247E-003
+  Cycle:   24 Cost fn : Min        23.984733 Max      1068.886494 CPU:    0.081
+  Cycle:   25 Cost fn : Min        23.921998 Max      5676.365196 CPU:    0.084
+  Cycle:   26 Cost fn : Min        23.921998 Max       364.986823 CPU:    0.087
+  Cycle:   27 Cost fn : Min        23.921998 Max       214.690186 CPU:    0.089
+  Cycle:   28 Cost fn : Min        23.921998 Max       363.158194 CPU:    0.092
+  Cycle:   29 Cost fn : Min        23.806027 Max      2662.731772 CPU:    0.095
+  Cycle:   30 Cost fn : Min        23.606892 Max       539.370496 CPU:    0.097
+  Cycle:   31 Cost fn : Min        23.606892 Max       137.326633 CPU:    0.100
+ The number of grid points across the unit cell in
+ any one direction has now changed to          256
+ Thus pmuta has also changed becoming    8.3333333333333332E-003
+  Cycle:   32 Cost fn : Min        23.606892 Max      5458.842364 CPU:    0.103
+  Cycle:   33 Cost fn : Min        23.587361 Max      1235.645399 CPU:    0.105
+  Cycle:   34 Cost fn : Min        23.587361 Max       503.788361 CPU:    0.108
+  Cycle:   35 Cost fn : Min        23.587361 Max       884.506750 CPU:    0.111
+  Cycle:   36 Cost fn : Min        23.528548 Max      1045.000236 CPU:    0.113
+  Cycle:   37 Cost fn : Min        23.410923 Max      1214.354323 CPU:    0.116
+  Cycle:   38 Cost fn : Min        23.366371 Max        97.118647 CPU:    0.119
+  Cycle:   39 Cost fn : Min        23.366371 Max       140.400101 CPU:    0.121
+  Cycle:   40 Cost fn : Min        23.309186 Max       273.751645 CPU:    0.124
+  Cycle:   41 Cost fn : Min        23.221625 Max       272.748593 CPU:    0.127
+  Cycle:   42 Cost fn : Min        23.221625 Max       501.249304 CPU:    0.129
+  Cycle:   43 Cost fn : Min        23.221625 Max       135.503793 CPU:    0.132
+  Cycle:   44 Cost fn : Min        23.221625 Max      5578.227745 CPU:    0.134
+  Cycle:   45 Cost fn : Min        23.221625 Max       377.582235 CPU:    0.137
+  Cycle:   46 Cost fn : Min        23.221625 Max       137.966722 CPU:    0.140
+  Cycle:   47 Cost fn : Min        23.221625 Max       107.279691 CPU:    0.142
+  Cycle:   48 Cost fn : Min        23.221625 Max       106.646460 CPU:    0.145
+  Cycle:   49 Cost fn : Min        23.221625 Max      6131.791925 CPU:    0.147
+  Cycle:   50 Cost fn : Min        23.221625 Max       328.447949 CPU:    0.150
+  Cycle:   51 Cost fn : Min        23.142979 Max      1185.860870 CPU:    0.153
+  Cycle:   52 Cost fn : Min        23.142979 Max       125.975985 CPU:    0.155
+  Cycle:   53 Cost fn : Min        23.142979 Max     11944.081604 CPU:    0.158
+  Cycle:   54 Cost fn : Min        23.142979 Max        65.616932 CPU:    0.160
+  Cycle:   55 Cost fn : Min        23.142979 Max       190.085222 CPU:    0.163
+  Cycle:   56 Cost fn : Min        23.142979 Max      1775.926867 CPU:    0.166
+  Cycle:   57 Cost fn : Min        23.142979 Max       225.109172 CPU:    0.168
+  Cycle:   58 Cost fn : Min        23.089672 Max        73.613330 CPU:    0.171
+  Cycle:   59 Cost fn : Min        23.089672 Max       135.103407 CPU:    0.174
+  Cycle:   60 Cost fn : Min        23.089672 Max      3366.253865 CPU:    0.176
+  Cycle:   61 Cost fn : Min        23.089672 Max       130.836973 CPU:    0.179
+  Cycle:   62 Cost fn : Min        23.038401 Max       644.765517 CPU:    0.182
+  Cycle:   63 Cost fn : Min        22.995543 Max      1369.200809 CPU:    0.184
+  Cycle:   64 Cost fn : Min        22.995543 Max      2382.568174 CPU:    0.187
+  Cycle:   65 Cost fn : Min        22.995543 Max       119.112725 CPU:    0.189
+  Cycle:   66 Cost fn : Min        22.995543 Max       590.738085 CPU:    0.192
+  Cycle:   67 Cost fn : Min        22.970886 Max       352.961003 CPU:    0.194
+  Cycle:   68 Cost fn : Min        22.970886 Max      4829.438898 CPU:    0.197
+  Cycle:   69 Cost fn : Min        22.661127 Max        97.529330 CPU:    0.200
+  Cycle:   70 Cost fn : Min        22.661127 Max       488.428440 CPU:    0.202
+  Cycle:   71 Cost fn : Min        22.661127 Max      1093.172829 CPU:    0.205
+  Cycle:   72 Cost fn : Min        22.586693 Max      1409.249475 CPU:    0.207
+  Cycle:   73 Cost fn : Min        22.586693 Max       272.263120 CPU:    0.210
+  Cycle:   74 Cost fn : Min        22.292607 Max      4323.564453 CPU:    0.213
+  Cycle:   75 Cost fn : Min        22.292607 Max      8292.010817 CPU:    0.215
+  Cycle:   76 Cost fn : Min        22.292607 Max       122.064233 CPU:    0.218
+  Cycle:   77 Cost fn : Min        22.292607 Max       836.326238 CPU:    0.220
+  Cycle:   78 Cost fn : Min        22.292607 Max       272.449424 CPU:    0.223
+  Cycle:   79 Cost fn : Min        22.274186 Max       101.042464 CPU:    0.226
+  Cycle:   80 Cost fn : Min        22.274186 Max       101.682073 CPU:    0.228
+  Cycle:   81 Cost fn : Min        22.261131 Max      5406.181383 CPU:    0.231
+  Cycle:   82 Cost fn : Min        22.261131 Max      6754.657415 CPU:    0.233
+  Cycle:   83 Cost fn : Min        21.894413 Max       164.975465 CPU:    0.236
+  Cycle:   84 Cost fn : Min        21.894413 Max       103.605080 CPU:    0.239
+  Cycle:   85 Cost fn : Min        21.894413 Max       111.088536 CPU:    0.241
+  Cycle:   86 Cost fn : Min        21.894413 Max      2387.308847 CPU:    0.244
+  Cycle:   87 Cost fn : Min        21.894413 Max       183.378012 CPU:    0.246
+  Cycle:   88 Cost fn : Min        21.894413 Max       131.339290 CPU:    0.249
+  Cycle:   89 Cost fn : Min        21.791350 Max        88.392186 CPU:    0.252
+  Cycle:   90 Cost fn : Min        21.791350 Max       152.052769 CPU:    0.254
+  Cycle:   91 Cost fn : Min        21.791350 Max       292.672946 CPU:    0.257
+  Cycle:   92 Cost fn : Min        21.791350 Max      1985.146218 CPU:    0.259
+  Cycle:   93 Cost fn : Min        21.693219 Max       348.358192 CPU:    0.262
+  Cycle:   94 Cost fn : Min        21.693219 Max       180.323888 CPU:    0.265
+  Cycle:   95 Cost fn : Min        21.693219 Max        91.470422 CPU:    0.267
+  Cycle:   96 Cost fn : Min        21.682143 Max       182.424988 CPU:    0.270
+  Cycle:   97 Cost fn : Min        21.682143 Max        86.533864 CPU:    0.272
+  Cycle:   98 Cost fn : Min        21.682143 Max       626.587158 CPU:    0.275
+  Cycle:   99 Cost fn : Min        21.624735 Max        84.925069 CPU:    0.278
+  Cycle:  100 Cost fn : Min        21.624735 Max       104.474034 CPU:    0.280
+  Cycle:  101 Cost fn : Min        21.624735 Max       450.905098 CPU:    0.283
+  Cycle:  102 Cost fn : Min        21.624735 Max      3775.435296 CPU:    0.285
+  Cycle:  103 Cost fn : Min        21.624735 Max      1545.947999 CPU:    0.288
+  Cycle:  104 Cost fn : Min        21.624735 Max       180.296611 CPU:    0.291
+  Cycle:  105 Cost fn : Min        21.624735 Max        87.640317 CPU:    0.293
+  Cycle:  106 Cost fn : Min        21.624735 Max        73.376457 CPU:    0.296
+  Cycle:  107 Cost fn : Min        21.574926 Max       187.335144 CPU:    0.298
+  Cycle:  108 Cost fn : Min        21.574926 Max        86.915875 CPU:    0.301
+  Cycle:  109 Cost fn : Min        21.574926 Max        82.823412 CPU:    0.304
+  Cycle:  110 Cost fn : Min        21.574926 Max      3368.636953 CPU:    0.306
+  Cycle:  111 Cost fn : Min        21.574926 Max      3306.480905 CPU:    0.309
+  Cycle:  112 Cost fn : Min        21.574926 Max       163.868666 CPU:    0.311
+  Cycle:  113 Cost fn : Min        21.574926 Max      3373.354129 CPU:    0.314
+  Cycle:  114 Cost fn : Min        21.574926 Max      7803.405531 CPU:    0.317
+  Cycle:  115 Cost fn : Min        21.574926 Max        64.270306 CPU:    0.319
+  Cycle:  116 Cost fn : Min        21.477712 Max       410.844887 CPU:    0.322
+  Cycle:  117 Cost fn : Min        21.477712 Max        67.915605 CPU:    0.324
+  Cycle:  118 Cost fn : Min        21.477712 Max       365.983940 CPU:    0.327
+  Cycle:  119 Cost fn : Min        21.477712 Max      1829.715455 CPU:    0.330
+  Cycle:  120 Cost fn : Min        21.477712 Max       153.419128 CPU:    0.332
+  Cycle:  121 Cost fn : Min        21.477712 Max        96.744079 CPU:    0.335
+  Cycle:  122 Cost fn : Min        21.477712 Max        76.997497 CPU:    0.337
+  Cycle:  123 Cost fn : Min        21.471647 Max       140.423080 CPU:    0.340
+  Cycle:  124 Cost fn : Min        21.469232 Max       865.951582 CPU:    0.343
+  Cycle:  125 Cost fn : Min        21.469232 Max       660.802174 CPU:    0.345
+  Cycle:  126 Cost fn : Min        21.469232 Max      5894.698146 CPU:    0.348
+  Cycle:  127 Cost fn : Min        21.466013 Max      1215.364924 CPU:    0.350
+  Cycle:  128 Cost fn : Min        21.466013 Max      1184.798113 CPU:    0.353
+  Cycle:  129 Cost fn : Min        21.466013 Max       785.093931 CPU:    0.356
+  Cycle:  130 Cost fn : Min        21.466013 Max       755.802133 CPU:    0.358
+  Cycle:  131 Cost fn : Min        21.466013 Max       179.796050 CPU:    0.361
+  Cycle:  132 Cost fn : Min        21.454267 Max       302.374094 CPU:    0.363
+  Cycle:  133 Cost fn : Min        21.454267 Max       345.779610 CPU:    0.366
+  Cycle:  134 Cost fn : Min        21.454267 Max       146.992474 CPU:    0.369
+  Cycle:  135 Cost fn : Min        21.454267 Max       417.105162 CPU:    0.371
+  Cycle:  136 Cost fn : Min        21.454267 Max      2033.500240 CPU:    0.374
+  Cycle:  137 Cost fn : Min        21.454267 Max      9169.632558 CPU:    0.376
+  Cycle:  138 Cost fn : Min        21.454267 Max       111.871829 CPU:    0.379
+  Cycle:  139 Cost fn : Min        21.451083 Max      6153.478116 CPU:    0.381
+  Cycle:  140 Cost fn : Min        21.451083 Max      1384.450123 CPU:    0.384
+  Cycle:  141 Cost fn : Min        21.448163 Max       419.182316 CPU:    0.387
+  Cycle:  142 Cost fn : Min        21.448163 Max       431.861364 CPU:    0.389
+  Cycle:  143 Cost fn : Min        21.448163 Max       222.566395 CPU:    0.392
+  Cycle:  144 Cost fn : Min        21.448163 Max       169.304734 CPU:    0.394
+  Cycle:  145 Cost fn : Min        21.448163 Max      6454.063329 CPU:    0.397
+  Cycle:  146 Cost fn : Min        21.448163 Max       114.694914 CPU:    0.400
+  Cycle:  147 Cost fn : Min        21.421249 Max       360.005788 CPU:    0.402
+  Cycle:  148 Cost fn : Min        21.421249 Max       137.039553 CPU:    0.405
+  Cycle:  149 Cost fn : Min        21.399321 Max        63.253824 CPU:    0.407
+  Cycle:  150 Cost fn : Min        21.399321 Max       271.717010 CPU:    0.410
+  Cycle:  151 Cost fn : Min        21.399321 Max       475.195076 CPU:    0.412
+  Cycle:  152 Cost fn : Min        21.399321 Max       104.606363 CPU:    0.415
+  Cycle:  153 Cost fn : Min        21.399321 Max      4536.291597 CPU:    0.417
+  Cycle:  154 Cost fn : Min        21.397912 Max       166.642481 CPU:    0.420
+  Cycle:  155 Cost fn : Min        21.397912 Max       148.952600 CPU:    0.423
+  Cycle:  156 Cost fn : Min        21.397912 Max      1068.518974 CPU:    0.425
+  Cycle:  157 Cost fn : Min        21.397912 Max      3945.345558 CPU:    0.428
+  Cycle:  158 Cost fn : Min        21.397912 Max       631.639473 CPU:    0.430
+  Cycle:  159 Cost fn : Min        21.397912 Max      1973.220605 CPU:    0.433
+  Cycle:  160 Cost fn : Min        21.397912 Max       112.013890 CPU:    0.436
+  Cycle:  161 Cost fn : Min        21.397912 Max       226.420049 CPU:    0.438
+  Cycle:  162 Cost fn : Min        21.397912 Max       228.031483 CPU:    0.441
+  Cycle:  163 Cost fn : Min        21.397912 Max      2949.238933 CPU:    0.443
+  Cycle:  164 Cost fn : Min        21.397912 Max        84.769123 CPU:    0.446
+  Cycle:  165 Cost fn : Min        21.397912 Max       235.955413 CPU:    0.449
+  Cycle:  166 Cost fn : Min        21.397912 Max       481.208010 CPU:    0.451
+  Cycle:  167 Cost fn : Min        21.397912 Max      1407.455408 CPU:    0.454
+  Cycle:  168 Cost fn : Min        21.397912 Max       198.857203 CPU:    0.456
+  Cycle:  169 Cost fn : Min        21.397912 Max        97.042623 CPU:    0.459
+  Cycle:  170 Cost fn : Min        21.397912 Max       148.637698 CPU:    0.461
+  Cycle:  171 Cost fn : Min        21.397912 Max      9748.679482 CPU:    0.464
+  Cycle:  172 Cost fn : Min        21.397912 Max       214.122606 CPU:    0.467
+  Cycle:  173 Cost fn : Min        21.397912 Max        95.948520 CPU:    0.469
+  Cycle:  174 Cost fn : Min        21.383720 Max      2776.076447 CPU:    0.472
+  Cycle:  175 Cost fn : Min        21.383720 Max      7488.572435 CPU:    0.474
+  Cycle:  176 Cost fn : Min        21.383720 Max      3556.300734 CPU:    0.477
+  Cycle:  177 Cost fn : Min        21.383720 Max       549.638048 CPU:    0.480
+  Cycle:  178 Cost fn : Min        21.383720 Max        77.990802 CPU:    0.482
+  Cycle:  179 Cost fn : Min        21.383720 Max        90.702184 CPU:    0.485
+  Cycle:  180 Cost fn : Min        21.383720 Max      2097.380396 CPU:    0.487
+  Cycle:  181 Cost fn : Min        21.383720 Max       203.181926 CPU:    0.490
+  Cycle:  182 Cost fn : Min        21.383720 Max       192.729364 CPU:    0.492
+  Cycle:  183 Cost fn : Min        21.383720 Max      3369.477315 CPU:    0.495
+  Cycle:  184 Cost fn : Min        21.383720 Max       521.241720 CPU:    0.498
+  Cycle:  185 Cost fn : Min        21.383720 Max       159.964021 CPU:    0.500
+  Cycle:  186 Cost fn : Min        21.383720 Max       170.167131 CPU:    0.503
+  Cycle:  187 Cost fn : Min        21.383720 Max      2926.253229 CPU:    0.506
+  Cycle:  188 Cost fn : Min        21.383720 Max        96.814528 CPU:    0.508
+  Cycle:  189 Cost fn : Min        21.383720 Max       312.180167 CPU:    0.511
+  Cycle:  190 Cost fn : Min        21.383720 Max      3332.614900 CPU:    0.513
+  Cycle:  191 Cost fn : Min        21.383720 Max      1062.527825 CPU:    0.516
+  Cycle:  192 Cost fn : Min        21.383720 Max        95.849024 CPU:    0.519
+  Cycle:  193 Cost fn : Min        21.383720 Max       844.419017 CPU:    0.521
+  Cycle:  194 Cost fn : Min        21.383720 Max       501.145985 CPU:    0.524
+  Cycle:  195 Cost fn : Min        21.383720 Max       860.859973 CPU:    0.526
+  Cycle:  196 Cost fn : Min        21.383720 Max       377.854027 CPU:    0.529
+  Cycle:  197 Cost fn : Min        21.383720 Max       219.997755 CPU:    0.532
+  Cycle:  198 Cost fn : Min        21.383720 Max      1589.635614 CPU:    0.534
+  Cycle:  199 Cost fn : Min        21.383720 Max      3518.810487 CPU:    0.537
+  Cycle:  200 Cost fn : Min        21.383720 Max        68.929602 CPU:    0.539
+  Cycle:  201 Cost fn : Min        21.383720 Max       150.866585 CPU:    0.542
+  Cycle:  202 Cost fn : Min        21.383720 Max      1228.532521 CPU:    0.545
+  Cycle:  203 Cost fn : Min        21.383720 Max        68.947141 CPU:    0.547
+  Cycle:  204 Cost fn : Min        21.383720 Max        92.527891 CPU:    0.550
+  Cycle:  205 Cost fn : Min        21.383720 Max      2144.397240 CPU:    0.552
+  Cycle:  206 Cost fn : Min        21.383720 Max       133.150408 CPU:    0.555
+  Cycle:  207 Cost fn : Min        21.383720 Max       212.898223 CPU:    0.558
+  Cycle:  208 Cost fn : Min        21.383720 Max      2724.451778 CPU:    0.560
+  Cycle:  209 Cost fn : Min        21.383720 Max       129.930637 CPU:    0.563
+  Cycle:  210 Cost fn : Min        21.383720 Max       171.807120 CPU:    0.565
+  Cycle:  211 Cost fn : Min        21.383720 Max       112.399176 CPU:    0.568
+  Cycle:  212 Cost fn : Min        21.383720 Max       210.773158 CPU:    0.571
+  Cycle:  213 Cost fn : Min        21.383720 Max      2145.837345 CPU:    0.573
+  Cycle:  214 Cost fn : Min        21.383720 Max      1956.555975 CPU:    0.576
+  Cycle:  215 Cost fn : Min        21.383720 Max      1103.134901 CPU:    0.579
+  Cycle:  216 Cost fn : Min        21.383720 Max      1027.857865 CPU:    0.581
+  Cycle:  217 Cost fn : Min        21.383720 Max      6209.757584 CPU:    0.584
+  Cycle:  218 Cost fn : Min        21.383720 Max      1177.034458 CPU:    0.586
+  Cycle:  219 Cost fn : Min        21.383720 Max       688.661544 CPU:    0.589
+  Cycle:  220 Cost fn : Min        21.381291 Max       990.479666 CPU:    0.591
+  Cycle:  221 Cost fn : Min        21.381291 Max      2914.226147 CPU:    0.594
+  Cycle:  222 Cost fn : Min        21.381291 Max       123.797322 CPU:    0.596
+  Cycle:  223 Cost fn : Min        21.381291 Max      5357.718456 CPU:    0.599
+  Cycle:  224 Cost fn : Min        21.381291 Max       145.845955 CPU:    0.602
+  Cycle:  225 Cost fn : Min        21.381291 Max        84.158536 CPU:    0.604
+  Cycle:  226 Cost fn : Min        21.381291 Max      4599.060761 CPU:    0.607
+  Cycle:  227 Cost fn : Min        21.381291 Max        99.437283 CPU:    0.609
+  Cycle:  228 Cost fn : Min        21.381291 Max       743.424037 CPU:    0.612
+  Cycle:  229 Cost fn : Min        21.381291 Max      1396.410130 CPU:    0.614
+  Cycle:  230 Cost fn : Min        21.381291 Max        83.050355 CPU:    0.617
+  Cycle:  231 Cost fn : Min        21.381291 Max      2323.234053 CPU:    0.620
+  Cycle:  232 Cost fn : Min        21.381291 Max      4262.115546 CPU:    0.622
+  Cycle:  233 Cost fn : Min        21.381291 Max       481.689986 CPU:    0.625
+  Cycle:  234 Cost fn : Min        21.381291 Max       100.571525 CPU:    0.627
+  Cycle:  235 Cost fn : Min        21.381291 Max       144.255324 CPU:    0.630
+  Cycle:  236 Cost fn : Min        21.381291 Max        68.318899 CPU:    0.632
+  Cycle:  237 Cost fn : Min        21.381291 Max       306.442025 CPU:    0.635
+  Cycle:  238 Cost fn : Min        21.381291 Max       265.458603 CPU:    0.638
+  Cycle:  239 Cost fn : Min        21.381291 Max      3142.759800 CPU:    0.640
+  Cycle:  240 Cost fn : Min        21.381291 Max      2577.244797 CPU:    0.643
+  Cycle:  241 Cost fn : Min        21.381291 Max        67.651738 CPU:    0.645
+  Cycle:  242 Cost fn : Min        21.381291 Max       250.555532 CPU:    0.648
+  Cycle:  243 Cost fn : Min        21.381291 Max        79.833682 CPU:    0.650
+  Cycle:  244 Cost fn : Min        21.381291 Max      5803.939767 CPU:    0.653
+  Cycle:  245 Cost fn : Min        21.381291 Max       122.192619 CPU:    0.656
+  Cycle:  246 Cost fn : Min        21.381291 Max        98.146492 CPU:    0.658
+  Cycle:  247 Cost fn : Min        21.381291 Max       169.448515 CPU:    0.661
+  Cycle:  248 Cost fn : Min        21.381291 Max       116.012063 CPU:    0.663
+  Cycle:  249 Cost fn : Min        21.381291 Max       711.054613 CPU:    0.666
+  Cycle:  250 Cost fn : Min        21.381291 Max       116.195878 CPU:    0.669
+  Cycle:  251 Cost fn : Min        21.381291 Max        69.250554 CPU:    0.671
+  Cycle:  252 Cost fn : Min        21.381291 Max        79.873415 CPU:    0.674
+  Cycle:  253 Cost fn : Min        21.381291 Max       184.402533 CPU:    0.676
+  Cycle:  254 Cost fn : Min        21.381291 Max       180.595791 CPU:    0.679
+  Cycle:  255 Cost fn : Min        21.381291 Max      3711.657576 CPU:    0.681
+  Cycle:  256 Cost fn : Min        21.381291 Max       106.803815 CPU:    0.684
+  Cycle:  257 Cost fn : Min        21.381291 Max        98.086045 CPU:    0.686
+  Cycle:  258 Cost fn : Min        21.381291 Max        71.172824 CPU:    0.689
+  Cycle:  259 Cost fn : Min        21.381291 Max       760.484568 CPU:    0.692
+  Cycle:  260 Cost fn : Min        21.381291 Max     11379.238013 CPU:    0.694
+  Cycle:  261 Cost fn : Min        21.381291 Max       826.957081 CPU:    0.697
+  Cycle:  262 Cost fn : Min        21.381291 Max       274.158617 CPU:    0.699
+  Cycle:  263 Cost fn : Min        21.381291 Max       265.510323 CPU:    0.702
+  Cycle:  264 Cost fn : Min        21.381291 Max       481.399115 CPU:    0.705
+  Cycle:  265 Cost fn : Min        21.381291 Max        99.166015 CPU:    0.707
+  Cycle:  266 Cost fn : Min        21.381291 Max      1137.098946 CPU:    0.710
+  Cycle:  267 Cost fn : Min        21.381291 Max       140.160697 CPU:    0.712
+  Cycle:  268 Cost fn : Min        21.381291 Max      2795.000440 CPU:    0.715
+  ************  STUCK  *******************************************************
+  ************  CHANGING GRID SIZE *******************************************
+  Cycle:  269 Cost fn : Min        21.381291 Max       379.657124 CPU:    0.717
+  Cycle:  270 Cost fn : Min        21.381291 Max       200.075055 CPU:    0.720
+  Cycle:  271 Cost fn : Min        21.381291 Max     16913.396313 CPU:    0.723
+ The number of grid points across the unit cell in
+ any one direction has now changed to           32
+ Thus pmuta has also changed becoming    1.3333333333333334E-002
+  Cycle:  272 Cost fn : Min        21.381291 Max      2077.895254 CPU:    0.725
+  Cycle:  273 Cost fn : Min        21.381291 Max      3626.663288 CPU:    0.728
+  Cycle:  274 Cost fn : Min        21.381291 Max       120.354906 CPU:    0.730
+  Cycle:  275 Cost fn : Min        21.381291 Max       407.148724 CPU:    0.733
+  Cycle:  276 Cost fn : Min        21.381291 Max        74.662190 CPU:    0.736
+  Cycle:  277 Cost fn : Min        21.381291 Max     31848.372972 CPU:    0.738
+  Cycle:  278 Cost fn : Min        21.369219 Max        97.173908 CPU:    0.741
+  Cycle:  279 Cost fn : Min        21.369219 Max       947.684962 CPU:    0.743
+ The number of grid points across the unit cell in
+ any one direction has now changed to           64
+ Thus pmuta has also changed becoming    1.1111111111111112E-002
+  Cycle:  280 Cost fn : Min        21.369219 Max       105.804763 CPU:    0.746
+  Cycle:  281 Cost fn : Min        21.369219 Max       126.899245 CPU:    0.749
+  Cycle:  282 Cost fn : Min        21.369219 Max       392.421724 CPU:    0.751
+  Cycle:  283 Cost fn : Min        21.369219 Max       187.996221 CPU:    0.754
+  Cycle:  284 Cost fn : Min        21.369219 Max       175.748516 CPU:    0.757
+  Cycle:  285 Cost fn : Min        21.369219 Max       146.102474 CPU:    0.759
+  Cycle:  286 Cost fn : Min        21.359165 Max       561.343788 CPU:    0.762
+  Cycle:  287 Cost fn : Min        21.359165 Max      3491.332833 CPU:    0.764
+ The number of grid points across the unit cell in
+ any one direction has now changed to          128
+ Thus pmuta has also changed becoming    9.5238095238095247E-003
+  Cycle:  288 Cost fn : Min        21.359165 Max      2998.750910 CPU:    0.767
+  Cycle:  289 Cost fn : Min        21.359165 Max      3776.049279 CPU:    0.770
+  Cycle:  290 Cost fn : Min        21.359165 Max       617.909201 CPU:    0.772
+  Cycle:  291 Cost fn : Min        21.359165 Max       119.586311 CPU:    0.775
+  Cycle:  292 Cost fn : Min        21.311293 Max      1390.158025 CPU:    0.778
+  Cycle:  293 Cost fn : Min        21.311293 Max       199.512016 CPU:    0.780
+  Cycle:  294 Cost fn : Min        21.311293 Max       949.104329 CPU:    0.783
+  Cycle:  295 Cost fn : Min        21.311293 Max       225.183829 CPU:    0.785
+ The number of grid points across the unit cell in
+ any one direction has now changed to          256
+ Thus pmuta has also changed becoming    8.3333333333333332E-003
+  Cycle:  296 Cost fn : Min        21.311293 Max       102.186631 CPU:    0.788
+  Cycle:  297 Cost fn : Min        21.311293 Max      1287.282441 CPU:    0.791
+  Cycle:  298 Cost fn : Min        21.311293 Max      2745.062542 CPU:    0.793
+  Cycle:  299 Cost fn : Min        21.311293 Max       633.292248 CPU:    0.796
+  Cycle:  300 Cost fn : Min        21.311293 Max      1297.636807 CPU:    0.798
+
+
+  Best configurations from genetic algorithm optimisation :
+
+--------------------------------------------------------------------------------
+                                1            2
+--------------------------------------------------------------------------------
+  Sum of squares =            21.31129     21.31129
+--------------------------------------------------------------------------------
+  1  Fractional    2 x        0.50000      0.50000
+  2  Fractional    2 y        0.50000      0.50000
+  3  Fractional    2 z        0.49609      0.49609
+  4  Fractional    3 x        0.53516      0.53516
+  5  Fractional    3 y        0.84766      0.84766
+  6  Fractional    3 z        0.34375      0.34375
+  7  Fractional    4 x        0.93750      0.93750
+  8  Fractional    4 y        0.33984      0.33984
+  9  Fractional    4 z        0.07422      0.07422
+ 10  Fractional    5 x        0.17188      0.17188
+ 11  Fractional    5 y        0.74609      0.74609
+ 12  Fractional    5 z        0.37500      0.37500
+ 13  Fractional    6 x        0.59375      0.59375
+ 14  Fractional    6 y        0.25000      0.25000
+ 15  Fractional    6 z        0.96875      0.96875
+--------------------------------------------------------------------------------
+
+
+
+
+  Time for Global Optimiser  =        0.7985   seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+################################################################################
+                     0  structures optimised out of            2
+################################################################################
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =        8142.67909625 eV    
+  Monopole - monopole (real) =         384.94480200 eV    
+  Monopole - monopole (recip)=        -170.64595353 eV    
+  Monopole - monopole (total)=         214.29884847 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        8356.97794472 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          806320.6236 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+
+  Number of variables =       15
+
+  Maximum number of calculations  =          1000
+  Maximum Hessian update interval =            10
+  Maximum step size               =   1.000000000
+  Maximum parameter tolerance     =   0.000010000
+  Maximum function  tolerance     =   0.000010000
+  Maximum gradient  tolerance     =   0.001000000
+  Maximum gradient  component     =   0.010000000
+
+  Symmetry not applied to optimisation
+
+  RFO method to be used
+
+  DFP hessian update to be used
+
+  Lower half triangular hessian to be used
+
+  Start of bulk optimisation :
+
+  Cycle:      0 Energy:      8356.977945  Gnorm:  12300.520001  CPU:    0.799
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  10
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   9
+  Cycle:      1 Energy:       293.513052  Gnorm:    337.457424  CPU:    0.801
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   9
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   9
+  Cycle:      2 Energy:       -34.063402  Gnorm:     45.707359  CPU:    0.804
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   8
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   6
+  Cycle:      3 Energy:      -146.287963  Gnorm:     21.460001  CPU:    0.806
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   5
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   4
+  Cycle:      4 Energy:      -165.912739  Gnorm:     13.396816  CPU:    0.808
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   3
+  Cycle:      5 Energy:      -172.964756  Gnorm:      9.696094  CPU:    0.809
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   3
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  Cycle:      6 Energy:      -177.473029  Gnorm:      8.183489  CPU:    0.812
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  Cycle:      7 Energy:      -180.765240  Gnorm:      6.173832  CPU:    0.813
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  Cycle:      8 Energy:      -182.593034  Gnorm:      3.781022  CPU:    0.815
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  Cycle:      9 Energy:      -183.392399  Gnorm:      3.349233  CPU:    0.817
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  Cycle:     10 Energy:      -184.199268  Gnorm:      2.949370  CPU:    0.819
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  Cycle:     11 Energy:      -184.746410  Gnorm:      2.527146  CPU:    0.820
+  ** Hessian has required structure
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  ** Hessian has required structure
+  Cycle:     12 Energy:      -185.602063  Gnorm:      0.460097  CPU:    0.822
+  ** Hessian has required structure
+  Cycle:     13 Energy:      -185.701427  Gnorm:      0.159876  CPU:    0.822
+  ** Hessian has required structure
+  Cycle:     14 Energy:      -185.717012  Gnorm:      0.126659  CPU:    0.823
+  ** Hessian has required structure
+  Cycle:     15 Energy:      -185.722125  Gnorm:      0.052360  CPU:    0.823
+  ** Hessian has required structure
+  Cycle:     16 Energy:      -185.723448  Gnorm:      0.012212  CPU:    0.824
+  ** Hessian has required structure
+  Cycle:     17 Energy:      -185.724026  Gnorm:      0.026711  CPU:    0.824
+  ** Hessian has required structure
+  Cycle:     18 Energy:      -185.724487  Gnorm:      0.013059  CPU:    0.825
+  ** Hessian has required structure
+  Cycle:     19 Energy:      -185.724542  Gnorm:      0.003194  CPU:    0.825
+  ** Hessian has required structure
+
+
+  **** Optimisation achieved ****
+
+
+  Final energy =    -185.72454448 eV      
+  Final Gnorm  =       0.00060626
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =          72.89191713 eV    
+  Monopole - monopole (real) =         -58.03810986 eV    
+  Monopole - monopole (recip)=        -200.57835175 eV    
+  Monopole - monopole (total)=        -258.61646161 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        -185.72454448 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          -17919.5795 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+  Final fractional coordinates of atoms :
+
+--------------------------------------------------------------------------------
+   No.  Atomic        x           y          z          Radius
+        Label       (Frac)      (Frac)     (Frac)       (Angs) 
+--------------------------------------------------------------------------------
+     1  Ti1   c     0.000000    0.000000    0.000000    0.000000
+     2  Ti2   c     0.500004    0.500007    0.999957    0.000000
+     3  O1    c     0.289434    0.789439    0.499984    0.000000
+     4  O2    c     0.210580    0.289437    0.500014    0.000000
+     5  O3    c     0.789427    0.710572    0.499945    0.000000
+     6  O4    c     0.710582    0.210572    0.499983    0.000000
+--------------------------------------------------------------------------------
+
+  Final internal derivatives :
+
+--------------------------------------------------------------------------------
+   No.  Atomic          a             b             c           Radius
+        Label          (eV)          (eV)          (eV)        (eV/Angs)
+--------------------------------------------------------------------------------
+      1 Ti1   c       0.000000      0.000000      0.000000      0.000000
+      2 Ti2   c       0.001605      0.005279     -0.004129      0.000000
+      3 O1    c       0.002654      0.001337      0.000339      0.000000
+      4 O2    c       0.001507     -0.000213      0.001626      0.000000
+      5 O3    c      -0.003834     -0.000039     -0.001003      0.000000
+      6 O4    c       0.001727     -0.001588      0.000306      0.000000
+--------------------------------------------------------------------------------
+  Maximum abs         0.003834      0.005279      0.004129      0.000000
+--------------------------------------------------------------------------------
+
+
+  Time to end of optimisation =       0.8259 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+################################################################################
+                     1  structures optimised out of            2
+################################################################################
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =          72.89191713 eV    
+  Monopole - monopole (real) =         -58.03810986 eV    
+  Monopole - monopole (recip)=        -200.57835175 eV    
+  Monopole - monopole (total)=        -258.61646161 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        -185.72454448 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          -17919.5795 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+
+  Number of variables =       15
+
+  Maximum number of calculations  =          1000
+  Maximum Hessian update interval =            10
+  Maximum step size               =   1.000000000
+  Maximum parameter tolerance     =   0.000010000
+  Maximum function  tolerance     =   0.000010000
+  Maximum gradient  tolerance     =   0.001000000
+  Maximum gradient  component     =   0.010000000
+
+  Symmetry not applied to optimisation
+
+  RFO method to be used
+
+  DFP hessian update to be used
+
+  Lower half triangular hessian to be used
+
+  Start of bulk optimisation :
+
+  Cycle:      0 Energy:      -185.724544  Gnorm:      0.000606  CPU:    0.826
+
+
+  **** Optimisation achieved ****
+
+
+  Final energy =    -185.72454448 eV      
+  Final Gnorm  =       0.00060626
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =          72.89191713 eV    
+  Monopole - monopole (real) =         -58.03810986 eV    
+  Monopole - monopole (recip)=        -200.57835175 eV    
+  Monopole - monopole (total)=        -258.61646161 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        -185.72454448 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          -17919.5795 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+  Final fractional coordinates of atoms :
+
+--------------------------------------------------------------------------------
+   No.  Atomic        x           y          z          Radius
+        Label       (Frac)      (Frac)     (Frac)       (Angs) 
+--------------------------------------------------------------------------------
+     1  Ti1   c     0.000000    0.000000    0.000000    0.000000
+     2  Ti2   c     0.500004    0.500007    0.999957    0.000000
+     3  O1    c     0.289434    0.789439    0.499984    0.000000
+     4  O2    c     0.210580    0.289437    0.500014    0.000000
+     5  O3    c     0.789427    0.710572    0.499945    0.000000
+     6  O4    c     0.710582    0.210572    0.499983    0.000000
+--------------------------------------------------------------------------------
+
+  Final internal derivatives :
+
+--------------------------------------------------------------------------------
+   No.  Atomic          a             b             c           Radius
+        Label          (eV)          (eV)          (eV)        (eV/Angs)
+--------------------------------------------------------------------------------
+      1 Ti1   c       0.000000      0.000000      0.000000      0.000000
+      2 Ti2   c       0.001605      0.005279     -0.004129      0.000000
+      3 O1    c       0.002654      0.001337      0.000339      0.000000
+      4 O2    c       0.001507     -0.000213      0.001626      0.000000
+      5 O3    c      -0.003834     -0.000039     -0.001003      0.000000
+      6 O4    c       0.001727     -0.001588      0.000306      0.000000
+--------------------------------------------------------------------------------
+  Maximum abs         0.003834      0.005279      0.004129      0.000000
+--------------------------------------------------------------------------------
+
+
+  Time to end of optimisation =       0.8264 seconds
+
+
+
+  XTL file written for configuration    1 as ruti01_1.xtl
+  XTL file written for configuration    2 as ruti01_2.xtl
+
+********************************************************************************
+*  Output for configuration   2 : anatase                                      *
+********************************************************************************
+
+
+
+  Maximum number of cycles     =           300
+  Initial #configurations      =           100
+  Maximum #configurations      =           100
+
+  Will look for   2 best candidates once all cycles completed
+
+  Difference between best candidates:  0.00000
+  Tournament probability       =     0.9000000
+  #successful old parents      =             2 (trying again)
+  Implementing a one point crossover scheme
+  Crossover probability        =     0.5000000
+  Mutation probability         =    -1.0000000
+  Random number seed           =            -1
+
+
+ COST FUNCTION
+
+  Will use the following weighted terms to assess the candidate structures
+
+   Weight                 Term
+   1.0000    Bond Valence Discrepancy
+   0.1000    Cation 1st Coodination Number Discrepancy
+   0.2000    Anion  1st Coodination Number Discrepancy
+   1.0000    Coulombic Energy between Cations
+   1.0000    Coulombic Energy between Anions
+
+
+  Start of optimisation :
+
+ The number of grid points across the unit cell in
+ any one direction has now changed to           16
+ Thus pmuta has also changed becoming    7.5757575757575760E-003
+  Cycle:    1 Cost fn : Min       252.937699 Max      4039.478943 CPU:    0.844
+  Cycle:    2 Cost fn : Min       252.937699 Max       910.675436 CPU:    0.853
+  Cycle:    3 Cost fn : Min       225.893481 Max      2743.877342 CPU:    0.861
+  Cycle:    4 Cost fn : Min       225.893481 Max      1053.753955 CPU:    0.870
+  Cycle:    5 Cost fn : Min       225.893481 Max      9455.097843 CPU:    0.878
+  Cycle:    6 Cost fn : Min       225.893481 Max     12726.785366 CPU:    0.887
+  Cycle:    7 Cost fn : Min       225.893481 Max       817.294284 CPU:    0.895
+ The number of grid points across the unit cell in
+ any one direction has now changed to           32
+ Thus pmuta has also changed becoming    6.0606060606060606E-003
+  Cycle:    8 Cost fn : Min       225.893481 Max       445.848243 CPU:    0.904
+  Cycle:    9 Cost fn : Min       224.654361 Max      6357.494973 CPU:    0.912
+  Cycle:   10 Cost fn : Min       223.089553 Max      2758.397480 CPU:    0.921
+  Cycle:   11 Cost fn : Min       212.654715 Max       382.224610 CPU:    0.929
+  Cycle:   12 Cost fn : Min       210.551201 Max      9116.869610 CPU:    0.938
+  Cycle:   13 Cost fn : Min       210.551201 Max      5868.224265 CPU:    0.946
+  Cycle:   14 Cost fn : Min       210.377570 Max      4023.085651 CPU:    0.955
+  Cycle:   15 Cost fn : Min       202.352943 Max       418.008788 CPU:    0.964
+ The number of grid points across the unit cell in
+ any one direction has now changed to           64
+ Thus pmuta has also changed becoming    5.0505050505050509E-003
+  Cycle:   16 Cost fn : Min       202.352943 Max       388.978411 CPU:    0.972
+  Cycle:   17 Cost fn : Min       202.352943 Max       444.706395 CPU:    0.981
+  Cycle:   18 Cost fn : Min       201.866968 Max      3319.645726 CPU:    0.989
+  Cycle:   19 Cost fn : Min       201.866968 Max      7294.501906 CPU:    0.998
+  Cycle:   20 Cost fn : Min       199.912023 Max       389.182766 CPU:    1.006
+  Cycle:   21 Cost fn : Min       199.912023 Max       402.054588 CPU:    1.015
+  Cycle:   22 Cost fn : Min       198.068920 Max      3554.881624 CPU:    1.023
+  Cycle:   23 Cost fn : Min       198.068920 Max      1875.226685 CPU:    1.032
+ The number of grid points across the unit cell in
+ any one direction has now changed to          128
+ Thus pmuta has also changed becoming    4.3290043290043290E-003
+  Cycle:   24 Cost fn : Min       198.068920 Max      2740.422692 CPU:    1.041
+  Cycle:   25 Cost fn : Min       197.695296 Max      2784.946559 CPU:    1.049
+  Cycle:   26 Cost fn : Min       195.535376 Max     15698.402213 CPU:    1.058
+  Cycle:   27 Cost fn : Min       195.535376 Max       562.912603 CPU:    1.066
+  Cycle:   28 Cost fn : Min       193.671769 Max       659.511563 CPU:    1.075
+  Cycle:   29 Cost fn : Min       193.671769 Max      9332.740836 CPU:    1.084
+  Cycle:   30 Cost fn : Min       193.671769 Max      5592.379378 CPU:    1.093
+  Cycle:   31 Cost fn : Min       193.671769 Max      6702.923678 CPU:    1.102
+ The number of grid points across the unit cell in
+ any one direction has now changed to          256
+ Thus pmuta has also changed becoming    3.7878787878787880E-003
+  Cycle:   32 Cost fn : Min       193.671769 Max      3611.737504 CPU:    1.110
+  Cycle:   33 Cost fn : Min       193.529971 Max       623.634424 CPU:    1.119
+  Cycle:   34 Cost fn : Min       193.529971 Max      6205.754433 CPU:    1.127
+  Cycle:   35 Cost fn : Min       192.040791 Max      2296.278049 CPU:    1.136
+  Cycle:   36 Cost fn : Min       192.040791 Max      2392.227726 CPU:    1.144
+  Cycle:   37 Cost fn : Min       192.040791 Max      1466.566532 CPU:    1.153
+  Cycle:   38 Cost fn : Min       191.891009 Max       387.787502 CPU:    1.161
+  Cycle:   39 Cost fn : Min       190.817460 Max      2355.365176 CPU:    1.170
+  Cycle:   40 Cost fn : Min       188.958200 Max       958.298048 CPU:    1.178
+  Cycle:   41 Cost fn : Min       188.958200 Max      5286.184207 CPU:    1.187
+  Cycle:   42 Cost fn : Min       188.958200 Max      1288.504181 CPU:    1.195
+  Cycle:   43 Cost fn : Min       188.958200 Max      2477.716468 CPU:    1.204
+  Cycle:   44 Cost fn : Min       188.958200 Max       964.917279 CPU:    1.212
+  Cycle:   45 Cost fn : Min       188.598458 Max      1853.161633 CPU:    1.221
+  Cycle:   46 Cost fn : Min       187.637844 Max       518.108224 CPU:    1.229
+  Cycle:   47 Cost fn : Min       187.637844 Max      5513.990701 CPU:    1.238
+  Cycle:   48 Cost fn : Min       187.637844 Max       349.134450 CPU:    1.246
+  Cycle:   49 Cost fn : Min       187.637844 Max       292.071558 CPU:    1.255
+  Cycle:   50 Cost fn : Min       183.659640 Max       372.533472 CPU:    1.263
+  Cycle:   51 Cost fn : Min       183.659640 Max       306.477281 CPU:    1.271
+  Cycle:   52 Cost fn : Min       183.659640 Max      1396.002391 CPU:    1.280
+  Cycle:   53 Cost fn : Min       183.659640 Max      9911.374558 CPU:    1.288
+  Cycle:   54 Cost fn : Min       182.906768 Max       314.325967 CPU:    1.297
+  Cycle:   55 Cost fn : Min       182.906768 Max       974.591589 CPU:    1.305
+  Cycle:   56 Cost fn : Min       182.868269 Max       517.636191 CPU:    1.313
+  Cycle:   57 Cost fn : Min       182.868269 Max      2600.531971 CPU:    1.322
+  Cycle:   58 Cost fn : Min       182.868269 Max       666.927047 CPU:    1.330
+  Cycle:   59 Cost fn : Min       180.943430 Max       879.032313 CPU:    1.338
+  Cycle:   60 Cost fn : Min       180.283483 Max      2275.456101 CPU:    1.347
+  Cycle:   61 Cost fn : Min       179.961592 Max      1185.503792 CPU:    1.355
+  Cycle:   62 Cost fn : Min       179.961592 Max      4746.788600 CPU:    1.363
+  Cycle:   63 Cost fn : Min       179.961592 Max      3995.316519 CPU:    1.372
+  Cycle:   64 Cost fn : Min       179.961592 Max       724.169950 CPU:    1.380
+  Cycle:   65 Cost fn : Min       179.961592 Max       780.576594 CPU:    1.389
+  Cycle:   66 Cost fn : Min       179.961592 Max      9217.912750 CPU:    1.397
+  Cycle:   67 Cost fn : Min       179.938024 Max       442.827545 CPU:    1.405
+  Cycle:   68 Cost fn : Min       178.898861 Max      1659.333568 CPU:    1.414
+  Cycle:   69 Cost fn : Min       178.898861 Max      1116.458892 CPU:    1.422
+  Cycle:   70 Cost fn : Min       178.898861 Max       640.369204 CPU:    1.431
+  Cycle:   71 Cost fn : Min       177.797030 Max      8865.879465 CPU:    1.439
+  Cycle:   72 Cost fn : Min       177.797030 Max      1240.617489 CPU:    1.447
+  Cycle:   73 Cost fn : Min       176.844836 Max       445.766035 CPU:    1.455
+  Cycle:   74 Cost fn : Min       176.844836 Max      1930.052126 CPU:    1.464
+  Cycle:   75 Cost fn : Min       176.844836 Max       578.315118 CPU:    1.472
+  Cycle:   76 Cost fn : Min       176.844836 Max       609.099161 CPU:    1.481
+  Cycle:   77 Cost fn : Min       176.844836 Max       805.423393 CPU:    1.489
+  Cycle:   78 Cost fn : Min       175.416209 Max       253.512276 CPU:    1.498
+  Cycle:   79 Cost fn : Min       175.416209 Max       330.770234 CPU:    1.506
+  Cycle:   80 Cost fn : Min       173.867463 Max      1318.473042 CPU:    1.515
+  Cycle:   81 Cost fn : Min       173.867463 Max       395.782400 CPU:    1.523
+  Cycle:   82 Cost fn : Min       173.867463 Max       877.341913 CPU:    1.532
+  Cycle:   83 Cost fn : Min       173.859598 Max      7431.069789 CPU:    1.540
+  Cycle:   84 Cost fn : Min       173.793243 Max      1201.490972 CPU:    1.548
+  Cycle:   85 Cost fn : Min       173.793243 Max       918.299096 CPU:    1.557
+  Cycle:   86 Cost fn : Min       173.698291 Max       502.437463 CPU:    1.565
+  Cycle:   87 Cost fn : Min       173.252522 Max     13151.506086 CPU:    1.573
+  Cycle:   88 Cost fn : Min       173.252522 Max       784.372737 CPU:    1.582
+  Cycle:   89 Cost fn : Min       173.252522 Max      1671.955376 CPU:    1.590
+  Cycle:   90 Cost fn : Min       173.252522 Max       410.712150 CPU:    1.599
+  Cycle:   91 Cost fn : Min       173.128601 Max       491.386233 CPU:    1.607
+  Cycle:   92 Cost fn : Min       172.973381 Max       313.947706 CPU:    1.615
+  Cycle:   93 Cost fn : Min       172.973381 Max      2891.962648 CPU:    1.624
+  Cycle:   94 Cost fn : Min       172.670332 Max      4070.080069 CPU:    1.632
+  Cycle:   95 Cost fn : Min       172.670332 Max      3675.917430 CPU:    1.640
+  Cycle:   96 Cost fn : Min       172.460086 Max      1810.837460 CPU:    1.649
+  Cycle:   97 Cost fn : Min       172.460086 Max      1736.157271 CPU:    1.657
+  Cycle:   98 Cost fn : Min       171.835981 Max       322.422465 CPU:    1.665
+  Cycle:   99 Cost fn : Min       171.835981 Max       304.592909 CPU:    1.674
+  Cycle:  100 Cost fn : Min       171.835981 Max      5769.343335 CPU:    1.682
+  Cycle:  101 Cost fn : Min       171.835981 Max      8224.451568 CPU:    1.690
+  Cycle:  102 Cost fn : Min       171.835981 Max      1326.298356 CPU:    1.698
+  Cycle:  103 Cost fn : Min       171.835981 Max      2720.260958 CPU:    1.707
+  Cycle:  104 Cost fn : Min       171.835981 Max      7688.152935 CPU:    1.715
+  Cycle:  105 Cost fn : Min       171.835981 Max       952.342670 CPU:    1.723
+  Cycle:  106 Cost fn : Min       171.835981 Max       296.704327 CPU:    1.731
+  Cycle:  107 Cost fn : Min       171.835981 Max      2143.049956 CPU:    1.740
+  Cycle:  108 Cost fn : Min       171.835981 Max      1125.147295 CPU:    1.748
+  Cycle:  109 Cost fn : Min       171.835981 Max      2036.791992 CPU:    1.756
+  Cycle:  110 Cost fn : Min       171.801602 Max      1937.138349 CPU:    1.765
+  Cycle:  111 Cost fn : Min       171.801602 Max      5175.527122 CPU:    1.773
+  Cycle:  112 Cost fn : Min       171.801602 Max      3902.455433 CPU:    1.781
+  Cycle:  113 Cost fn : Min       171.801602 Max       532.979196 CPU:    1.790
+  Cycle:  114 Cost fn : Min       171.801602 Max       605.276377 CPU:    1.798
+  Cycle:  115 Cost fn : Min       171.801602 Max      1994.693579 CPU:    1.807
+  Cycle:  116 Cost fn : Min       171.801602 Max       429.707280 CPU:    1.815
+  Cycle:  117 Cost fn : Min       171.801602 Max       468.264703 CPU:    1.823
+  Cycle:  118 Cost fn : Min       171.457882 Max       351.184816 CPU:    1.832
+  Cycle:  119 Cost fn : Min       171.457882 Max       382.914891 CPU:    1.840
+  Cycle:  120 Cost fn : Min       171.457882 Max      2172.478683 CPU:    1.848
+  Cycle:  121 Cost fn : Min       171.457882 Max      1103.408018 CPU:    1.857
+  Cycle:  122 Cost fn : Min       171.457882 Max      4544.929430 CPU:    1.865
+  Cycle:  123 Cost fn : Min       171.250801 Max       641.702484 CPU:    1.873
+  Cycle:  124 Cost fn : Min       171.250801 Max     14980.158281 CPU:    1.882
+  Cycle:  125 Cost fn : Min       171.250801 Max      7617.884511 CPU:    1.890
+  Cycle:  126 Cost fn : Min       171.250801 Max      1343.028467 CPU:    1.899
+  Cycle:  127 Cost fn : Min       171.250801 Max       798.176573 CPU:    1.907
+  Cycle:  128 Cost fn : Min       171.250801 Max       459.675084 CPU:    1.915
+  Cycle:  129 Cost fn : Min       171.250801 Max       458.325944 CPU:    1.924
+  Cycle:  130 Cost fn : Min       171.250801 Max      1039.852724 CPU:    1.932
+  Cycle:  131 Cost fn : Min       171.217048 Max       332.688033 CPU:    1.940
+  Cycle:  132 Cost fn : Min       171.217048 Max      1126.626692 CPU:    1.949
+  Cycle:  133 Cost fn : Min       171.217048 Max      1846.318537 CPU:    1.957
+  Cycle:  134 Cost fn : Min       171.173391 Max      6886.413159 CPU:    1.966
+  Cycle:  135 Cost fn : Min       171.173391 Max      1921.538119 CPU:    1.974
+  Cycle:  136 Cost fn : Min       171.173391 Max       595.615430 CPU:    1.982
+  Cycle:  137 Cost fn : Min       171.041531 Max      1023.389035 CPU:    1.991
+  Cycle:  138 Cost fn : Min       171.041531 Max      1553.155849 CPU:    1.999
+  Cycle:  139 Cost fn : Min       170.756951 Max      1835.386724 CPU:    2.007
+  Cycle:  140 Cost fn : Min       170.756951 Max       477.395755 CPU:    2.016
+  Cycle:  141 Cost fn : Min       170.756951 Max       300.204840 CPU:    2.024
+  Cycle:  142 Cost fn : Min       170.496765 Max      4909.256955 CPU:    2.032
+  Cycle:  143 Cost fn : Min       170.496765 Max      2044.621257 CPU:    2.041
+  Cycle:  144 Cost fn : Min       170.496765 Max       416.166817 CPU:    2.049
+  Cycle:  145 Cost fn : Min       170.496765 Max       401.788851 CPU:    2.057
+  Cycle:  146 Cost fn : Min       170.496765 Max       303.094675 CPU:    2.066
+  Cycle:  147 Cost fn : Min       170.496765 Max      2802.517398 CPU:    2.074
+  Cycle:  148 Cost fn : Min       170.333004 Max      3000.529104 CPU:    2.082
+  Cycle:  149 Cost fn : Min       170.333004 Max       478.445206 CPU:    2.090
+  Cycle:  150 Cost fn : Min       170.333004 Max       270.059921 CPU:    2.099
+  Cycle:  151 Cost fn : Min       170.333004 Max       337.564488 CPU:    2.107
+  Cycle:  152 Cost fn : Min       170.333004 Max       948.568084 CPU:    2.115
+  Cycle:  153 Cost fn : Min       170.333004 Max       474.904067 CPU:    2.124
+  Cycle:  154 Cost fn : Min       169.561798 Max       332.629892 CPU:    2.132
+  Cycle:  155 Cost fn : Min       169.561798 Max       381.245703 CPU:    2.140
+  Cycle:  156 Cost fn : Min       169.561798 Max      1504.028162 CPU:    2.148
+  Cycle:  157 Cost fn : Min       169.561798 Max       426.398351 CPU:    2.157
+  Cycle:  158 Cost fn : Min       169.561798 Max      2804.959675 CPU:    2.165
+  Cycle:  159 Cost fn : Min       169.561798 Max      3369.037213 CPU:    2.173
+  Cycle:  160 Cost fn : Min       169.561798 Max      1664.996782 CPU:    2.182
+  Cycle:  161 Cost fn : Min       169.561798 Max     10150.689023 CPU:    2.190
+  Cycle:  162 Cost fn : Min       169.561798 Max       446.780879 CPU:    2.198
+  Cycle:  163 Cost fn : Min       169.561798 Max       358.672808 CPU:    2.207
+  Cycle:  164 Cost fn : Min       169.561798 Max       658.434281 CPU:    2.215
+  Cycle:  165 Cost fn : Min       169.561798 Max      1868.516481 CPU:    2.224
+  Cycle:  166 Cost fn : Min       169.561798 Max       917.295574 CPU:    2.232
+  Cycle:  167 Cost fn : Min       169.561798 Max       700.822415 CPU:    2.241
+  Cycle:  168 Cost fn : Min       169.561798 Max     12204.214052 CPU:    2.249
+  Cycle:  169 Cost fn : Min       169.479242 Max       491.251440 CPU:    2.257
+  Cycle:  170 Cost fn : Min       169.479242 Max       454.309400 CPU:    2.266
+  Cycle:  171 Cost fn : Min       169.439442 Max       393.485429 CPU:    2.276
+  Cycle:  172 Cost fn : Min       169.439442 Max      5547.953547 CPU:    2.285
+  Cycle:  173 Cost fn : Min       169.439442 Max       601.066998 CPU:    2.294
+  Cycle:  174 Cost fn : Min       169.439442 Max       723.355790 CPU:    2.303
+  Cycle:  175 Cost fn : Min       169.359521 Max       432.370703 CPU:    2.312
+  Cycle:  176 Cost fn : Min       169.334183 Max      3738.862551 CPU:    2.321
+  Cycle:  177 Cost fn : Min       169.334183 Max       855.500182 CPU:    2.329
+  Cycle:  178 Cost fn : Min       169.334183 Max      3122.772961 CPU:    2.338
+  Cycle:  179 Cost fn : Min       169.312771 Max      5734.609703 CPU:    2.347
+  Cycle:  180 Cost fn : Min       169.312771 Max       656.701883 CPU:    2.355
+  Cycle:  181 Cost fn : Min       169.266890 Max      1385.751730 CPU:    2.364
+  Cycle:  182 Cost fn : Min       169.080531 Max      6727.759964 CPU:    2.373
+  Cycle:  183 Cost fn : Min       169.059120 Max       784.463781 CPU:    2.381
+  Cycle:  184 Cost fn : Min       169.059120 Max      2154.066399 CPU:    2.390
+  Cycle:  185 Cost fn : Min       168.971808 Max       293.721739 CPU:    2.399
+  Cycle:  186 Cost fn : Min       168.971808 Max       819.601375 CPU:    2.407
+  Cycle:  187 Cost fn : Min       168.944001 Max       820.230973 CPU:    2.416
+  Cycle:  188 Cost fn : Min       168.944001 Max       365.391699 CPU:    2.425
+  Cycle:  189 Cost fn : Min       168.620755 Max      2379.037523 CPU:    2.433
+  Cycle:  190 Cost fn : Min       168.620755 Max      1304.976792 CPU:    2.442
+  Cycle:  191 Cost fn : Min       168.616626 Max       636.281992 CPU:    2.451
+  Cycle:  192 Cost fn : Min       168.616626 Max      1853.655100 CPU:    2.459
+  Cycle:  193 Cost fn : Min       168.510464 Max     11693.519064 CPU:    2.468
+  Cycle:  194 Cost fn : Min       168.396908 Max       558.496859 CPU:    2.476
+  Cycle:  195 Cost fn : Min       168.396908 Max       736.000414 CPU:    2.485
+  Cycle:  196 Cost fn : Min       168.396908 Max      7742.708220 CPU:    2.493
+  Cycle:  197 Cost fn : Min       168.396908 Max      2057.585360 CPU:    2.502
+  Cycle:  198 Cost fn : Min       168.396908 Max       594.751867 CPU:    2.511
+  Cycle:  199 Cost fn : Min       168.320020 Max      3842.786589 CPU:    2.519
+  Cycle:  200 Cost fn : Min       168.320020 Max       784.811853 CPU:    2.528
+  Cycle:  201 Cost fn : Min       168.320020 Max       363.870073 CPU:    2.536
+  Cycle:  202 Cost fn : Min       168.244203 Max      8782.244351 CPU:    2.545
+  Cycle:  203 Cost fn : Min       168.244203 Max      2087.807149 CPU:    2.554
+  Cycle:  204 Cost fn : Min       168.244203 Max       572.994468 CPU:    2.563
+  Cycle:  205 Cost fn : Min       168.244203 Max      4379.758174 CPU:    2.571
+  Cycle:  206 Cost fn : Min       168.186810 Max       690.807282 CPU:    2.580
+  Cycle:  207 Cost fn : Min       167.879551 Max      4396.955181 CPU:    2.589
+  Cycle:  208 Cost fn : Min       167.879551 Max      8112.977633 CPU:    2.597
+  Cycle:  209 Cost fn : Min       167.879551 Max      3707.351005 CPU:    2.606
+  Cycle:  210 Cost fn : Min       167.879551 Max      1295.255826 CPU:    2.615
+  Cycle:  211 Cost fn : Min       167.878786 Max       560.770509 CPU:    2.623
+  Cycle:  212 Cost fn : Min       167.831796 Max       488.530087 CPU:    2.632
+  Cycle:  213 Cost fn : Min       167.831796 Max       529.172918 CPU:    2.640
+  Cycle:  214 Cost fn : Min       167.831796 Max       505.736777 CPU:    2.649
+  Cycle:  215 Cost fn : Min       167.330469 Max       487.043180 CPU:    2.658
+  Cycle:  216 Cost fn : Min       167.330469 Max      5179.470663 CPU:    2.666
+  Cycle:  217 Cost fn : Min       167.330469 Max      2891.130139 CPU:    2.675
+  Cycle:  218 Cost fn : Min       166.688761 Max      1012.939182 CPU:    2.683
+  Cycle:  219 Cost fn : Min       166.688761 Max      7690.079352 CPU:    2.692
+  Cycle:  220 Cost fn : Min       166.688761 Max      2851.409444 CPU:    2.701
+  Cycle:  221 Cost fn : Min       166.688761 Max       264.594642 CPU:    2.709
+  Cycle:  222 Cost fn : Min       166.485251 Max       362.653085 CPU:    2.718
+  Cycle:  223 Cost fn : Min       166.485251 Max      3119.897802 CPU:    2.726
+  Cycle:  224 Cost fn : Min       166.256385 Max       637.595937 CPU:    2.735
+  Cycle:  225 Cost fn : Min       166.256385 Max       670.241080 CPU:    2.744
+  Cycle:  226 Cost fn : Min       166.256385 Max       426.213019 CPU:    2.753
+  Cycle:  227 Cost fn : Min       165.758947 Max       333.095874 CPU:    2.761
+  Cycle:  228 Cost fn : Min       165.753620 Max      2543.368831 CPU:    2.770
+  Cycle:  229 Cost fn : Min       165.427824 Max       333.474226 CPU:    2.779
+  Cycle:  230 Cost fn : Min       165.003347 Max       326.687706 CPU:    2.787
+  Cycle:  231 Cost fn : Min       165.003347 Max       451.844896 CPU:    2.796
+  Cycle:  232 Cost fn : Min       165.003347 Max      5333.845094 CPU:    2.805
+  Cycle:  233 Cost fn : Min       165.003347 Max      4544.039742 CPU:    2.813
+  Cycle:  234 Cost fn : Min       165.003347 Max       253.863754 CPU:    2.822
+  Cycle:  235 Cost fn : Min       164.313548 Max       781.686182 CPU:    2.830
+  Cycle:  236 Cost fn : Min       164.313548 Max      2258.137980 CPU:    2.839
+  Cycle:  237 Cost fn : Min       164.313548 Max      1943.614207 CPU:    2.847
+  Cycle:  238 Cost fn : Min       164.279975 Max      1320.423712 CPU:    2.856
+  Cycle:  239 Cost fn : Min       164.279975 Max     14073.995775 CPU:    2.864
+  Cycle:  240 Cost fn : Min       163.759490 Max      8620.230271 CPU:    2.873
+  Cycle:  241 Cost fn : Min       163.759490 Max      9771.483552 CPU:    2.881
+  Cycle:  242 Cost fn : Min       163.759490 Max      5865.413955 CPU:    2.890
+  Cycle:  243 Cost fn : Min       163.737775 Max      1740.915207 CPU:    2.899
+  Cycle:  244 Cost fn : Min       163.737775 Max      6222.183562 CPU:    2.907
+  Cycle:  245 Cost fn : Min       163.737775 Max      7608.787850 CPU:    2.916
+  Cycle:  246 Cost fn : Min       163.737775 Max      4585.041918 CPU:    2.924
+  Cycle:  247 Cost fn : Min       163.737775 Max      8669.396151 CPU:    2.933
+  Cycle:  248 Cost fn : Min       163.700376 Max       736.158274 CPU:    2.942
+  Cycle:  249 Cost fn : Min       163.681962 Max       768.036249 CPU:    2.951
+  Cycle:  250 Cost fn : Min       163.681962 Max      1214.785752 CPU:    2.959
+  Cycle:  251 Cost fn : Min       163.681962 Max       578.964115 CPU:    2.968
+  Cycle:  252 Cost fn : Min       163.681962 Max     12059.903865 CPU:    2.976
+  Cycle:  253 Cost fn : Min       163.681962 Max      1087.941212 CPU:    2.985
+  Cycle:  254 Cost fn : Min       163.681962 Max      9004.799818 CPU:    2.993
+  Cycle:  255 Cost fn : Min       163.653127 Max      1803.924356 CPU:    3.002
+  Cycle:  256 Cost fn : Min       163.653127 Max       802.234018 CPU:    3.011
+  Cycle:  257 Cost fn : Min       163.653127 Max       294.729056 CPU:    3.019
+  Cycle:  258 Cost fn : Min       163.653127 Max      3065.491887 CPU:    3.028
+  Cycle:  259 Cost fn : Min       163.576339 Max       300.363176 CPU:    3.036
+  Cycle:  260 Cost fn : Min       163.576339 Max      5649.576785 CPU:    3.045
+  Cycle:  261 Cost fn : Min       163.576339 Max      1704.324562 CPU:    3.053
+  Cycle:  262 Cost fn : Min       163.560226 Max      1002.489805 CPU:    3.062
+  Cycle:  263 Cost fn : Min       163.560226 Max      3249.555702 CPU:    3.071
+  Cycle:  264 Cost fn : Min       159.735799 Max      3590.196974 CPU:    3.079
+  Cycle:  265 Cost fn : Min       159.735799 Max      3075.071324 CPU:    3.088
+  Cycle:  266 Cost fn : Min       159.735799 Max      8229.762074 CPU:    3.096
+  Cycle:  267 Cost fn : Min       159.735799 Max       517.651483 CPU:    3.105
+  Cycle:  268 Cost fn : Min       159.517904 Max       813.945118 CPU:    3.113
+  Cycle:  269 Cost fn : Min       159.517904 Max      5435.894702 CPU:    3.122
+  Cycle:  270 Cost fn : Min       159.517904 Max       309.244572 CPU:    3.130
+  Cycle:  271 Cost fn : Min       159.247494 Max      7671.623857 CPU:    3.139
+  Cycle:  272 Cost fn : Min       159.128833 Max       542.905182 CPU:    3.147
+  Cycle:  273 Cost fn : Min       159.128833 Max      2612.933442 CPU:    3.156
+  Cycle:  274 Cost fn : Min       159.128833 Max      3663.682688 CPU:    3.165
+  Cycle:  275 Cost fn : Min       159.128833 Max       729.755277 CPU:    3.174
+  Cycle:  276 Cost fn : Min       159.128833 Max      2280.365981 CPU:    3.182
+  Cycle:  277 Cost fn : Min       159.128833 Max       415.952442 CPU:    3.190
+  Cycle:  278 Cost fn : Min       159.128833 Max       809.428496 CPU:    3.199
+  Cycle:  279 Cost fn : Min       158.825810 Max       457.685359 CPU:    3.207
+  Cycle:  280 Cost fn : Min       158.749902 Max       746.098049 CPU:    3.216
+  Cycle:  281 Cost fn : Min       158.749902 Max      1556.286643 CPU:    3.224
+  Cycle:  282 Cost fn : Min       158.516434 Max       245.789641 CPU:    3.232
+  Cycle:  283 Cost fn : Min       158.516434 Max      5868.737527 CPU:    3.241
+  Cycle:  284 Cost fn : Min       158.516434 Max       578.632307 CPU:    3.249
+  Cycle:  285 Cost fn : Min       158.516434 Max       405.913881 CPU:    3.257
+  Cycle:  286 Cost fn : Min       158.335933 Max       295.483575 CPU:    3.266
+  Cycle:  287 Cost fn : Min       158.263206 Max      1425.413813 CPU:    3.274
+  Cycle:  288 Cost fn : Min       158.143140 Max      1122.064510 CPU:    3.282
+  Cycle:  289 Cost fn : Min       158.143140 Max      8436.817386 CPU:    3.291
+  Cycle:  290 Cost fn : Min       158.143140 Max      1660.245549 CPU:    3.299
+  Cycle:  291 Cost fn : Min       158.143140 Max      1356.171324 CPU:    3.308
+  Cycle:  292 Cost fn : Min       158.143140 Max       990.860437 CPU:    3.317
+  Cycle:  293 Cost fn : Min       158.143140 Max       795.727567 CPU:    3.325
+  Cycle:  294 Cost fn : Min       156.963638 Max       403.885300 CPU:    3.333
+  Cycle:  295 Cost fn : Min       156.963638 Max       416.454118 CPU:    3.342
+  Cycle:  296 Cost fn : Min       156.963638 Max      3519.550105 CPU:    3.350
+  Cycle:  297 Cost fn : Min       156.632290 Max       319.124514 CPU:    3.358
+  Cycle:  298 Cost fn : Min       156.632290 Max       315.697554 CPU:    3.367
+  Cycle:  299 Cost fn : Min       156.632290 Max      1715.953700 CPU:    3.375
+  Cycle:  300 Cost fn : Min       156.580404 Max     14499.917397 CPU:    3.383
+
+
+  Best configurations from genetic algorithm optimisation :
+
+--------------------------------------------------------------------------------
+                                1            2
+--------------------------------------------------------------------------------
+  Sum of squares =           156.58040    156.60137
+--------------------------------------------------------------------------------
+  1  Fractional    2 x        0.46484      0.46484
+  2  Fractional    2 y        0.07031      0.07031
+  3  Fractional    2 z        0.35156      0.35156
+  4  Fractional    3 x        0.57812      0.57812
+  5  Fractional    3 y        0.18359      0.18359
+  6  Fractional    3 z        0.53516      0.53516
+  7  Fractional    4 x        0.78125      0.78125
+  8  Fractional    4 y        0.84375      0.84375
+  9  Fractional    4 z        0.73438      0.73438
+ 10  Fractional    5 x        0.85938      0.85938
+ 11  Fractional    5 y        0.92578      0.92578
+ 12  Fractional    5 z        0.36328      0.36328
+ 13  Fractional    6 x        0.87891      0.87891
+ 14  Fractional    6 y        0.26562      0.26562
+ 15  Fractional    6 z        0.84766      0.84766
+ 16  Fractional    7 x        0.00000      0.00000
+ 17  Fractional    7 y        0.27734      0.27734
+ 18  Fractional    7 z        0.53906      0.53906
+ 19  Fractional    8 x        0.42578      0.42578
+ 20  Fractional    8 y        0.36719      0.36719
+ 21  Fractional    8 z        0.68750      0.68750
+ 22  Fractional    9 x        0.33594      0.33594
+ 23  Fractional    9 y        0.25000      0.25000
+ 24  Fractional    9 z        0.95312      0.95312
+ 25  Fractional   10 x        0.23828      0.23828
+ 26  Fractional   10 y        0.83203      0.83203
+ 27  Fractional   10 z        0.19141      0.19141
+ 28  Fractional   11 x        0.87500      0.87500
+ 29  Fractional   11 y        0.43750      0.43750
+ 30  Fractional   11 z        0.75000      0.75000
+ 31  Fractional   12 x        0.21484      0.21484
+ 32  Fractional   12 y        0.14062      0.14062
+ 33  Fractional   12 z        0.14844      0.14844
+--------------------------------------------------------------------------------
+
+
+
+
+  Time for Global Optimiser  =        3.3834   seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+################################################################################
+                     0  structures optimised out of            2
+################################################################################
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =       84577.70784211 eV    
+  Monopole - monopole (real) =        4001.84108944 eV    
+  Monopole - monopole (recip)=          -5.32203719 eV    
+  Monopole - monopole (total)=        3996.51905225 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =       88574.22689436 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =         8546058.9142 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+
+  Number of variables =       33
+
+  Maximum number of calculations  =          1000
+  Maximum Hessian update interval =            10
+  Maximum step size               =   1.000000000
+  Maximum parameter tolerance     =   0.000010000
+  Maximum function  tolerance     =   0.000010000
+  Maximum gradient  tolerance     =   0.001000000
+  Maximum gradient  component     =   0.010000000
+
+  Symmetry not applied to optimisation
+
+  RFO method to be used
+
+  DFP hessian update to be used
+
+  Lower half triangular hessian to be used
+
+  Start of bulk optimisation :
+
+  Cycle:      0 Energy:     88574.226894  Gnorm:  51809.721234  CPU:    3.384
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  22
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  21
+  Cycle:      1 Energy:     25983.159793  Gnorm:  19374.752000  CPU:    3.390
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  19
+  Cycle:      2 Energy:      3702.225116  Gnorm:   4319.651450  CPU:    3.394
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  19
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  19
+  Cycle:      3 Energy:      1337.855780  Gnorm:   1403.545951  CPU:    3.400
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  18
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  18
+  Cycle:      4 Energy:       215.200663  Gnorm:    298.416068  CPU:    3.405
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  16
+  Cycle:      5 Energy:         2.538104  Gnorm:    147.332022  CPU:    3.409
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  12
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  12
+  Cycle:      6 Energy:       -49.426545  Gnorm:    109.502900  CPU:    3.414
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  11
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  11
+  Cycle:      7 Energy:      -186.312814  Gnorm:     87.670155  CPU:    3.420
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   9
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =  10
+  Cycle:      8 Energy:      -310.052092  Gnorm:     21.559007  CPU:    3.426
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   8
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   8
+  Cycle:      9 Energy:      -311.588187  Gnorm:     21.932416  CPU:    3.431
+  ** Hessian calculated **
+  Cycle:     10 Energy:      -322.496633  Gnorm:     16.439435  CPU:    3.434
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   7
+  Cycle:     11 Energy:      -348.296907  Gnorm:     13.206149  CPU:    3.438
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   6
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   7
+  Cycle:     12 Energy:      -358.409324  Gnorm:     12.105689  CPU:    3.444
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   6
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   7
+  Cycle:     13 Energy:      -358.496200  Gnorm:     11.704058  CPU:    3.449
+  ** Hessian calculated **
+  Cycle:     14 Energy:      -368.005431  Gnorm:      7.630222  CPU:    3.451
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   6
+  Cycle:     15 Energy:      -373.576138  Gnorm:      4.561306  CPU:    3.454
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   4
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   4
+  Cycle:     16 Energy:      -382.598389  Gnorm:      3.203457  CPU:    3.460
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   4
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   3
+  Cycle:     17 Energy:      -383.856860  Gnorm:      3.174346  CPU:    3.463
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   3
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  Cycle:     18 Energy:      -384.399971  Gnorm:      3.158731  CPU:    3.468
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  Cycle:     19 Energy:      -388.321634  Gnorm:      3.465720  CPU:    3.472
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  Cycle:     20 Energy:      -392.601766  Gnorm:      2.442386  CPU:    3.477
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   2
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  Cycle:     21 Energy:      -395.333389  Gnorm:      1.505871  CPU:    3.481
+  ** Hessian has wrong structure
+  ** Imaginary eigenvectors =   1
+  Cycle:     22 Energy:      -396.822280  Gnorm:      1.158524  CPU:    3.484
+  ** Hessian has required structure
+  Cycle:     23 Energy:      -397.658112  Gnorm:      0.586611  CPU:    3.486
+  ** Hessian has required structure
+  Cycle:     24 Energy:      -397.873274  Gnorm:      0.176161  CPU:    3.487
+  ** Hessian has required structure
+  Cycle:     25 Energy:      -397.908796  Gnorm:      0.078540  CPU:    3.489
+  ** Hessian has required structure
+  Cycle:     26 Energy:      -397.914889  Gnorm:      0.032935  CPU:    3.490
+  ** Hessian has required structure
+  Cycle:     27 Energy:      -397.915506  Gnorm:      0.010743  CPU:    3.492
+  ** Hessian has required structure
+  Cycle:     28 Energy:      -397.915599  Gnorm:      0.005437  CPU:    3.493
+  ** Hessian has required structure
+  Cycle:     29 Energy:      -397.915611  Gnorm:      0.002480  CPU:    3.495
+  ** Hessian has required structure
+  Cycle:     30 Energy:      -397.915613  Gnorm:      0.001141  CPU:    3.496
+  ** Hessian has required structure
+
+
+  **** Optimisation achieved ****
+
+
+  Final energy =    -397.91561389 eV      
+  Final Gnorm  =       0.00031616
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =         121.00810674 eV    
+  Monopole - monopole (real) =        -188.47381905 eV    
+  Monopole - monopole (recip)=        -330.44990157 eV    
+  Monopole - monopole (total)=        -518.92372062 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        -397.91561389 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          -38392.7740 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+  Final fractional coordinates of atoms :
+
+--------------------------------------------------------------------------------
+   No.  Atomic        x           y          z          Radius
+        Label       (Frac)      (Frac)     (Frac)       (Angs) 
+--------------------------------------------------------------------------------
+     1  Ti1   c     0.000000    0.000000    0.000000    0.000000
+     2  Ti2   c     0.499999    0.499997    0.750002    0.000000
+     3  Ti3   c     0.000005    0.999998    0.500001    0.000000
+     4  Ti4   c     0.500002    0.500001    0.250001    0.000000
+     5  O1    c     0.000005    0.499996    0.125001    0.000000
+     6  O2    c     0.500001    0.999999    0.125004    0.000000
+     7  O3    c     0.000011    0.500001    0.375000    0.000000
+     8  O4    c     0.499993    0.999988    0.625004    0.000000
+     9  O5    c     0.999997    0.499988    0.625002    0.000000
+    10  O6    c     0.500002    1.000000    0.875003    0.000000
+    11  O7    c     0.500010    0.000001    0.375005    0.000000
+    12  O8    c     0.999996    0.499999    0.874999    0.000000
+--------------------------------------------------------------------------------
+
+  Final internal derivatives :
+
+--------------------------------------------------------------------------------
+   No.  Atomic          a             b             c           Radius
+        Label          (eV)          (eV)          (eV)        (eV/Angs)
+--------------------------------------------------------------------------------
+      1 Ti1   c       0.000000      0.000000      0.000000      0.000000
+      2 Ti2   c      -0.000094      0.000472      0.003909      0.000000
+      3 Ti3   c       0.001048      0.000584     -0.004517      0.000000
+      4 Ti4   c      -0.001185      0.000489     -0.000912      0.000000
+      5 O1    c       0.000746     -0.000761      0.002537      0.000000
+      6 O2    c      -0.000198      0.000244      0.003638      0.000000
+      7 O3    c       0.000806     -0.000143     -0.000693      0.000000
+      8 O4    c      -0.001085     -0.000761      0.001101      0.000000
+      9 O5    c       0.000233     -0.000560      0.003319      0.000000
+     10 O6    c       0.000849      0.000096     -0.001744      0.000000
+     11 O7    c       0.000082      0.000061      0.002524      0.000000
+     12 O8    c      -0.000891     -0.000251     -0.004648      0.000000
+--------------------------------------------------------------------------------
+  Maximum abs         0.001185      0.000761      0.004648      0.000000
+--------------------------------------------------------------------------------
+
+
+  Time to end of optimisation =       3.4976 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+################################################################################
+                     1  structures optimised out of            2
+################################################################################
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =         121.00810674 eV    
+  Monopole - monopole (real) =        -188.47381905 eV    
+  Monopole - monopole (recip)=        -330.44990157 eV    
+  Monopole - monopole (total)=        -518.92372062 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        -397.91561389 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          -38392.7740 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+
+  Number of variables =       33
+
+  Maximum number of calculations  =          1000
+  Maximum Hessian update interval =            10
+  Maximum step size               =   1.000000000
+  Maximum parameter tolerance     =   0.000010000
+  Maximum function  tolerance     =   0.000010000
+  Maximum gradient  tolerance     =   0.001000000
+  Maximum gradient  component     =   0.010000000
+
+  Symmetry not applied to optimisation
+
+  RFO method to be used
+
+  DFP hessian update to be used
+
+  Lower half triangular hessian to be used
+
+  Start of bulk optimisation :
+
+  Cycle:      0 Energy:      -397.915614  Gnorm:      0.000316  CPU:    3.499
+
+
+  **** Optimisation achieved ****
+
+
+  Final energy =    -397.91561389 eV      
+  Final Gnorm  =       0.00031616
+
+  Components of energy : 
+
+--------------------------------------------------------------------------------
+  Interatomic potentials     =         121.00810674 eV    
+  Monopole - monopole (real) =        -188.47381905 eV    
+  Monopole - monopole (recip)=        -330.44990157 eV    
+  Monopole - monopole (total)=        -518.92372062 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =        -397.91561389 eV    
+--------------------------------------------------------------------------------
+  Total lattice energy       =          -38392.7740 kJ/(mole unit cells)
+--------------------------------------------------------------------------------
+
+  Final fractional coordinates of atoms :
+
+--------------------------------------------------------------------------------
+   No.  Atomic        x           y          z          Radius
+        Label       (Frac)      (Frac)     (Frac)       (Angs) 
+--------------------------------------------------------------------------------
+     1  Ti1   c     0.000000    0.000000    0.000000    0.000000
+     2  Ti2   c     0.499999    0.499997    0.750002    0.000000
+     3  Ti3   c     0.000005    0.999998    0.500001    0.000000
+     4  Ti4   c     0.500002    0.500001    0.250001    0.000000
+     5  O1    c     0.000005    0.499996    0.125001    0.000000
+     6  O2    c     0.500001    0.999999    0.125004    0.000000
+     7  O3    c     0.000011    0.500001    0.375000    0.000000
+     8  O4    c     0.499993    0.999988    0.625004    0.000000
+     9  O5    c     0.999997    0.499988    0.625002    0.000000
+    10  O6    c     0.500002    1.000000    0.875003    0.000000
+    11  O7    c     0.500010    0.000001    0.375005    0.000000
+    12  O8    c     0.999996    0.499999    0.874999    0.000000
+--------------------------------------------------------------------------------
+
+  Final internal derivatives :
+
+--------------------------------------------------------------------------------
+   No.  Atomic          a             b             c           Radius
+        Label          (eV)          (eV)          (eV)        (eV/Angs)
+--------------------------------------------------------------------------------
+      1 Ti1   c       0.000000      0.000000      0.000000      0.000000
+      2 Ti2   c      -0.000094      0.000472      0.003909      0.000000
+      3 Ti3   c       0.001048      0.000584     -0.004517      0.000000
+      4 Ti4   c      -0.001185      0.000489     -0.000912      0.000000
+      5 O1    c       0.000746     -0.000761      0.002537      0.000000
+      6 O2    c      -0.000198      0.000244      0.003638      0.000000
+      7 O3    c       0.000806     -0.000143     -0.000693      0.000000
+      8 O4    c      -0.001085     -0.000761      0.001101      0.000000
+      9 O5    c       0.000233     -0.000560      0.003319      0.000000
+     10 O6    c       0.000849      0.000096     -0.001744      0.000000
+     11 O7    c       0.000082      0.000061      0.002524      0.000000
+     12 O8    c      -0.000891     -0.000251     -0.004648      0.000000
+--------------------------------------------------------------------------------
+  Maximum abs         0.001185      0.000761      0.004648      0.000000
+--------------------------------------------------------------------------------
+
+
+  Time to end of optimisation =       3.4993 seconds
+
+
+
+  XTL file written for configuration    1 as anat01_1.xtl
+  XTL file written for configuration    2 as anat01_2.xtl
+
+  Peak dynamic memory used =       1.92 MB 
+
+
+  Timing analysis for GULP :
+
+--------------------------------------------------------------------------------
+  Task / Subroutine                                          Time (Seconds)
+--------------------------------------------------------------------------------
+  Calculation of reciprocal space energy and derivatives          0.0410
+  Calculation of real space energy and derivatives                3.2960
+  Calculation and manipulation of Hessian matrix                  0.0499
+--------------------------------------------------------------------------------
+  Total CPU time                                                  3.5007
+--------------------------------------------------------------------------------
+
+
+  XTL file written for configuration    1 as anat01_1.xtl
+  XTL file written for configuration    2 as anat01_2.xtl
+  Job Finished at 12:13.50 25th August     2022                               
+
