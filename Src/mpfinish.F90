@@ -10,13 +10,13 @@
   call MPI_Finalize(ierr)
 ! wkjee - check if MPI_Finalized()
 ! wkjee - do not finalize mpi - if KLMC is running
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_MPFINISH
   write(*,'(A,I4)') "in mpfinish: MPI_Finalized(): ", ierr
 #endif
 
 #else
 
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_MPFINISH
   write(*,'(A)') "in mpfinish: MPI_Finalise() is not called"
 #endif
 

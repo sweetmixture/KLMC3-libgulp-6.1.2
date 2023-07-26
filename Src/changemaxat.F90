@@ -129,6 +129,11 @@
   use spatialbo,      only : maxnspcellattotbo, xfinboxbo, yfinboxbo, zfinboxbo
   use sutton,         only : scrho, scrho12
   use velocities 
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxat
+#endif
   implicit none
 !
 !  Local variables
@@ -136,6 +141,15 @@
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxat = 0
 !
+#ifdef KLMC
+  if(lklmc_maxat) then
+    ! set it as gulpdefault
+    maxat = 0
+    oldmaxat = 0
+    lklmc_maxat = .false.
+  end if
+#endif  
+
   call realloc(atom2local,maxat,ierror)
   if (ierror.ne.0) call outofmemory('changemaxat','atom2local')
   call realloc(atom2locala,maxat,ierror)

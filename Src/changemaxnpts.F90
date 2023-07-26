@@ -30,10 +30,23 @@
   use cosmic
   use parallel,      only : npts2local, npts2node, node2pts
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxnpts
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxnpts = 0
+#ifdef KLMC
+  if(lklmc_maxnpts) then
+    ! set it as gulpdefault
+    maxnpts = 1
+    oldmaxnpts = 0
+    lklmc_maxnpts = .false.
+  end if
+#endif  
 !
   call realloc(sphere1,3_i4,maxnpts,ierror)
   if (ierror.ne.0) call outofmemory('changemaxnpts','sphere1')

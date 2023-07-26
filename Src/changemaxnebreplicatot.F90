@@ -27,12 +27,25 @@
   use current,        only : maxat
   use g_neb
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxnebreplicatot
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxnebreplicatot = 0
+#ifdef KLMC
+  if(lklmc_maxnebreplicatot) then
+    ! set it as gulpdefault
+    maxnebreplicatot = 1
+    oldmaxnebreplicatot = 0
+    lklmc_maxnebreplicatot = .false.
+  end if
+#endif  
 !
   call realloc(nnebreplicano,maxnebreplicatot,ierror)
   if (ierror.ne.0) call outofmemory('changemaxnebreplicatot','nnebreplicano')

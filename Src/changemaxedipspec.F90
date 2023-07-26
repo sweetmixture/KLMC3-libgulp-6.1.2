@@ -30,11 +30,24 @@
   use library
   use reallocate
   use EDIPdata
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxedipspec
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4)       :: maxEDIPspec2
   integer(i4), save :: oldmaxEDIPspec = 0
+#ifdef KLMC
+  if(lklmc_maxedipspec) then
+    ! set it as gulpdefault
+    maxEDIPspec = 1
+    oldmaxEDIPspec = 0
+    lklmc_maxedipspec = .false.
+  end if
+#endif  
 !
 !  Some things depend on pairs of species
 !

@@ -28,12 +28,25 @@
   use configurations
   use current
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxtempramp
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxtempramp = 0
+#ifdef KLMC
+  if(lklmc_maxtempramp) then
+    ! set it as gulpdefault
+    maxtempramp = 1
+    oldmaxtempramp = 0
+    lklmc_maxtempramp = .false.
+  end if
+#endif  
 !
 !  Configuration data
 !

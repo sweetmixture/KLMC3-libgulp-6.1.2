@@ -12,11 +12,11 @@
 *  distance     - calculate distances                                          *
 ********************************************************************************
 
-  Job Started  at 12:58.50 13th July       2023                               
+  Job Started  at 13:57.15 26th July       2023                               
 
   Number of CPUs =     1
 
-  Host name      = ln03                                    
+  Host name      = ln04                                    
 
 
   Total number of configurations input =      2
@@ -238,7 +238,7 @@ O    c O    s Spring (c-s)  Spring k 2       53.022513    eV*Ang^-2 0.000  0.800
   Total lattice energy       =           -1844.3252 kJ/mol
 --------------------------------------------------------------------------------
 
-  Peak dynamic memory used =       3.60 MB 
+  Peak dynamic memory used =       3.59 MB 
 
 
   Timing analysis for GULP :
@@ -247,9 +247,9 @@ O    c O    s Spring (c-s)  Spring k 2       53.022513    eV*Ang^-2 0.000  0.800
   Task / Subroutine                                          Time (Seconds)
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-  Total CPU time                                                  0.0081
+  Total CPU time                                                  0.0072
 --------------------------------------------------------------------------------
 
 
-  Job Finished at 12:58.50 13th July       2023                               
+  Job Finished at 13:57.15 26th July       2023                               
 

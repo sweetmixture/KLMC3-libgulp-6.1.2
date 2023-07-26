@@ -74,17 +74,44 @@
   call trace_in('initmemory')
 #endif
 !
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxallnearseg"
+#endif
   call changemaxallnearseg
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxat"
+#endif
   call changemaxat
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxathbH"
+#endif
   call changemaxathbH
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxatxbAB"
+#endif
   call changemaxatxbAB
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxatot"
+#endif
   call changemaxatot
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxbond"
+#endif
   call changemaxbond
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxbondq"
+#endif
   call changemaxbondq
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxbondvec"
+#endif
   call changemaxbondvec
+#ifdef KLMC_DEBUG_INITMEMORY
+  write(*,'(A)') "in initmemory.F90 : call changemaxccspec"
+#endif
   call changemaxccspec
   ! wkjee
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_INITMEMORY
   write(*,'(A)') "in initmemory.F90 : call changemaxcfg"
 #endif
   ! wkjee end

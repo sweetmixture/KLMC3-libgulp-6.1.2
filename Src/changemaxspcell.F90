@@ -29,10 +29,23 @@
 !
   use spatial
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxspcell
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxspcell = 0
+#ifdef KLMC
+  if(lklmc_maxspcell) then
+    ! set it as gulpdefault
+    maxspcell = 0
+    oldmaxspcell = 0
+    lklmc_maxspcell = .false.
+  end if
+#endif  
 !
 !  Spatial decomposition data
 !

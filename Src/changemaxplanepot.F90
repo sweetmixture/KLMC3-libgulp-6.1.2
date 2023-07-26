@@ -29,10 +29,23 @@
   use library
   use reallocate
   use plane
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxplanepot
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxplanepot = 0
+#ifdef KLMC
+  if(lklmc_maxplanepot) then
+    ! set it as gulpdefault
+    maxplanepot = 0
+    oldmaxplanepot = 0
+    lklmc_maxplanepot = .false.
+  end if
+#endif  
 !
 !  Species data
 !

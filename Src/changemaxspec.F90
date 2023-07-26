@@ -50,10 +50,23 @@
   use shells
   use species
   use two
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxspec
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxspec = 0
+#ifdef KLMC
+  if(lklmc_maxspec) then
+    ! set it as gulpdefault
+    maxspec = 20
+    oldmaxspec = 0
+    lklmc_maxspec = .false.
+  end if
+#endif  
 !
 !  Species data
 !

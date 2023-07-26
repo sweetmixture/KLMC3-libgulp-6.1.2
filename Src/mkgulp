@@ -158,6 +158,14 @@ echo '# GULP makefile : ' > makefile
 # wkjee -DKLMC_DEBUG   : debugging for basics - gulpmain / initcomm / mpifinish / iofilesetup
 # wkjee -DKLMC_DEBUG_A : debugging for sequential gulpmain calls 12 July 2023
 # -------------------------------------------------------------------------------------------
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG -DKLMC_DEBUG_A -DKLMC_DEBUG_B_1' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_B_1' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_B_1 -DKLMC_DEBUG_B_2' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_B_1 -DKLMC_DEBUG_B_3' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_B_1 -DKLMC_DEBUG_B_3 -DKLMC_DEBUG_B_4' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_B_1 -DKLMC_DEBUG_B_3 -DKLMC_DEBUG_B_4 -DKLMC_DEBUG_B_5' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_B_1 -DKLMC_DEBUG_B_4 -DKLMC_DEBUG_B_5' >> makefile
+#echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC -DKLMC_DEBUG_MAXCFG' >> makefile
 echo 'UDEFS=-DFLUSH -DNOFOX -DKLMC' >> makefile
 #--USER--End
 

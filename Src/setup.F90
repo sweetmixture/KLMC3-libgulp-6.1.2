@@ -194,10 +194,17 @@
   lsymopt = (lsymset(ncf).and.(nspcg(ncf).gt.1.or..not.lp1.or.ngocfg(ncf).gt.1)) 
   lqok = (index(keyword,'qok').ne.0)
   lvariablecharge = (((leem.or.lqeq.or.lSandM.or.lpacha.or.lgfnff).and.(.not.lnoqeem)).or.(nboQ.gt.0)) 
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 1"
+#endif
+
 !
 !  We can only use symmetry based derivative algorithms if the space group was input so that the
 !  orientation of the cell is correctly handled.
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 2"
+#endif
   if (lsymopt.and.(lsymdok.and.nspcg(ncf).gt.1)) then
     lsymderv = .true.
     lsymderv2 = (nprocs.eq.1)
@@ -208,10 +215,16 @@
 !
 !  Symmetry adapted second derivative algorithm cannot be used with variable charges or polarisation or rigid molecules
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3"
+#endif
   if (index(keyword,'nod2').ne.0.or.leem.or.lpolar.or.lrigid.or.lgfnff) lsymderv2 = .false.
 !
 !  Free energy cannot use symmetry adapted derivatives yet
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 4"
+#endif
   if (lfree) then
     lsymderv = .false.
     lsymderv2 = .false.
@@ -219,6 +232,9 @@
 !
 !  Atomic stresses cannot use symmetry either
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 5"
+#endif
   if (latomicstress) then
     lsymderv = .false.
     lsymderv2 = .false.
@@ -226,10 +242,16 @@
 !
 !  Reinitialise the control C trap flag
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 6"
+#endif
   controlC_opt = .false.
 !
 !  Find first atom shift
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 7"
+#endif
   nsft = 0
   if (ncf.gt.1) then
     do i = 1,ncf-1
@@ -239,10 +261,16 @@
 !
 !  Set dimensionality
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 8"
+#endif
   ndim = ndimen(ncf)
 !
 !  Set number of strains according to the dimensionality and pointer
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 9"
+#endif
   if (ndim.eq.3) then
     nstrains = 6
     nstrptr(1) = 1
@@ -266,10 +294,16 @@
 !
 !  Set total charge
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 10"
+#endif
   totalcharge = totalchargecfg(ncf)
 !
 !  Set pressure and temperature
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 11"
+#endif
   press = presscfg(ncf)
   lanisotropicpress = lanisotropicpresscfg(ncf)
   if (lanisotropicpresscfg(ncf)) then
@@ -284,6 +318,9 @@
 !
 !  Set start and stop steps for temperature ramps based on cumulative step count
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 12"
+#endif
   temperaturestart(1) = temperature
   ntemperaturestepstart(1) = ntempstpstart(1,ncf)
   ntemperaturestepstop(1)  = ntempstpstart(1,ncf) + ntemperaturestep(1)
@@ -295,8 +332,11 @@
 !
 !  Set dielectric constant
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 13"
+#endif
   dielectric = dielectriccfg(ncf)
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_SETUP
   ! wkjee - ncf<integer(i4)> : modules.F90, module current : current configuration
   ! wkjee - if normal calculation - 'dielectric' = 1.000000 ? - 12 July 2023
   ! wkjee - dielectriccfg, real(dp), dimension(:), pointer, save - <type info>
@@ -315,6 +355,9 @@
 !
 !  Check that this is not a defect run if dielectric constant is not 1
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 14"
+#endif
   if (ldefect.and.dielectric.gt.1.0_dp) then
     call outerror('dielectric constant must be one for defect calculations with Mott-Littleton',0_i4)
     call stopnow('setup')
@@ -322,8 +365,11 @@
 !
 !  Set Coulomb conversion factor for this configuration including the dielectric constant (usually just 1)
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 15"
+#endif
   angstoev = inverse_angstroms_to_ev/dielectric
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_SETUP
   ! wkjee
   ! wkjee - in the second gulp call - parameter 'dielectric' = 0.0000 why?
   write(*,'(A,F24.12,F24.12,F24.12)') "in setup.F90 (1) : angstoev inverse_angstroms_to_ev dielectric : ", angstoev, inverse_angstroms_to_ev, dielectric 
@@ -331,29 +377,44 @@
 !
 !  Set stress and strain
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 16"
+#endif
   stress(1:6) = stresscfg(1:6,ncf)
   strain(1:6) = straincfg(1:6,ncf)
 !
 !  For lstraincell algorithm set up inverse of strain matrix
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 17"
+#endif
   if (lstraincell) then
     call getinversestrain(strain)
   endif
 !
 !  Set mode restrictions for free energy
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 18"
+#endif
   maxmode = maxmodecfg(ncf)
   minmode = minmodecfg(ncf)
   nummode = nummodecfg(ncf)
 !
 !  Set force constant supercell values
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 19"
+#endif
   nd2cell(1:3) = nd2cellcfg(1:3,ncf)
   nd2cells = (2*nd2cell(1) + 1)*(2*nd2cell(2) + 1)*(2*nd2cell(3) + 1)
   lfcsupercell = (nd2cells.gt.1) 
 !
 !  Transfer stored configuration data into working arrays
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 20"
+#endif
   nasym = nascfg(ncf)
   nbsmat = 0
   do i = 1,nasym
@@ -373,6 +434,9 @@
 !
 !  Set up constraint pointers
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 21"
+#endif
   if (ncf.eq.ncfg) then
     if (ncontot.gt.0) ncon = ncontot + 1 - n1con(ncf)
   else
@@ -386,6 +450,9 @@
 !**********************
 !  Apply constraints  *
 !**********************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 22"
+#endif
   if (ncon.gt.0) then
     do j = 1,ncon
       ncfixind(j) = ncfixindcfg(ncfst+j)
@@ -400,6 +467,9 @@
 !********************
 !  Symmetry set up  *
 !********************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 23"
+#endif
   if (lsymopt) then
     call symmet
     call equpos(lall,.true.)
@@ -408,6 +478,9 @@
 !***********************
 !  No symmetry set up  *
 !***********************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 24"
+#endif
     ncbl = 1
     nccs = 1
     numat = nasym
@@ -430,6 +503,9 @@
 !
 !  Initialise fractional coordinates for dump to handle rigid molecules with straincell
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 25"
+#endif
   if (lrigid) then
     do i = 1,nasym
       xfdmp(i) = xfrac(i)
@@ -440,10 +516,16 @@
 !***************************
 !  Multiple charge ranges  *
 !***************************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 26"
+#endif
   nqrnow(1:numat) = 1
 !********************************
 !  Count atoms of each species  *
 !********************************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 27"
+#endif
   numofspec(1:nspec) = 0
   do i = 1,nasym
     ii = nspecptr(i)
@@ -452,6 +534,9 @@
 !*********************
 !  Set up unit cell  *
 !*********************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 28"
+#endif
   if (ndim.eq.3) then
     do i = 1,3
       rv(1,i) = rvcfg(1,i,ncf)
@@ -491,6 +576,9 @@
 !
 !  Make sure lra is consistent with the space group
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 29"
+#endif
     nspg = nspcg(ncf)
     if (nspg.le.15.or.(nspg.ge.143.and.nspg.le.194)) then
       lra = .false.
@@ -559,6 +647,9 @@
 !
 !  Setup cell vectors for neighbouring cells
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 30"
+#endif
   call rlist
 !***********************************
 !  Generate cartesian coordinates  *
@@ -652,6 +743,9 @@
 !******************************************************************
 !  Check charge and Ewald summation flag : create charge pointer  *
 !******************************************************************
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 31"
+#endif
   ncharge = 0
   sum = 0.0_dp
   asum = 0.0_dp
@@ -754,6 +848,9 @@
 !
 !  Set up one centre C terms
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-1"
+#endif
   if (lall.and.lc6one) then
     do i = 1,nasym
       do j = 1,nspec
@@ -783,6 +880,9 @@
 !
 !  Set up shell pointer array 
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-2"
+#endif
   ncore  = 0
   nshell = 0
   do i = 1,numat
@@ -811,7 +911,13 @@
 !
 !  Core-shell pair check
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-3"
+#endif
   if (lall) call cscheck
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-4"
+#endif
 ! 
 !  Set breathing shell pointer
 ! 
@@ -846,20 +952,42 @@
   endif
 !
   if (lall) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-5"
+#endif
 !
 !  Calculate parallel division of work :
 !   
 !  Spatial - divide cells over processors
 !  Non-spatial - divide atoms over processors
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') " in setup.F90: 3-5-1"
+#endif
     call setatomnoded2
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') " in setup.F90: 3-5-2"
+#endif
     call setatomdistribution('a')
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') " in setup.F90: 3-5-3"
+  write(*,'(I4,I4,I4,L4)') numat, nprocs, procid, lspatialok
+#endif
     call setatomnodes(numat,nprocs,procid,lspatialok)
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') " in setup.F90: 3-5-4"
+#endif
     call setatomnodesbo(numat,nprocs,procid,lspatialBOok)
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') " in setup.F90: 3-5-5"
+#endif
   endif
 !
 !  If molecule option is selected call molecule setup routine - must come after parallel setup
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-6"
+#endif
   if (lall.and.index(keyword,'mol').ne.0) then
     if (lmolatom.or.lmolrigid) then
       call setmola
@@ -993,6 +1121,9 @@
   endif
 !
   if (lall) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-7"
+#endif
 !
 !  Set up parallel distribution of variables
 !
@@ -1023,6 +1154,9 @@
 !  Setup Gasteiger charges if needed since they are not geometry dependent
 !
   if (lall.and.lgasteiger) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-8"
+#endif
     call gasteiger(.false.)
   endif
 !
@@ -1042,12 +1176,18 @@
 !  Set pointers to atoms for optimisation based on lfreeze
 !
   if (lall) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-9"
+#endif
     call setoptptr(lfreeze)
   endif
 !
 !  GFNFF setup
 !
   if (lall.and.lgfnff) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-10"
+#endif
 !
 !  Check for surface calculations and warn
 !

@@ -83,14 +83,34 @@
 !**********************
 !  Non-parallel case  *
 !**********************
+
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-1"
+  write(*,'(A,I4)')  "   maxatompernode  : ", maxatompernode
+#endif
     natompernode = numat
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-2"
+#endif
     if (natompernode.gt.maxatompernode) then
       maxatompernode = natompernode
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-3"
+#endif
       call changemaxatompernode
     endif
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-4"
+#endif
     do i = 1,natompernode
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A,I4)')  "in setatomnodes.F90: 1-4: (i): ", i
+#endif
        natomnodeptr(i) = i
     enddo
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A,L4)')     "in setatomnodes.F90: 1-5: before spatial", lspatial
+#endif
     if (lspatial) then
 !
 !  For spatial algorithm set pointers to cells
@@ -131,6 +151,9 @@
 !******************************
 !  Non-spatial parallel case  *
 !******************************
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-6"
+#endif
     nstep = numat/nprocs
     nrem  = numat - nprocs*nstep
     nmax = (procid + 1)*nstep + min(nrem,procid+1)
@@ -150,6 +173,9 @@
 !
 !  Allocate workspace memory
 !
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-7"
+#endif
     allocate(natompernodes(nprocs),stat=status)
     if (status/=0) call outofmemory('setatomnodes','natompernodes')
     allocate(ncellpernodes(nprocs),stat=status)
@@ -160,6 +186,9 @@
 !
 !  Initialise counters
 !
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-8"
+#endif
     natompernode = 0
     ncellpernode = 0
     natompernodes(1:nprocs) = 0
@@ -167,6 +196,9 @@
 !
 !  Loop over cells and assign to nodes based on balancing number of atoms per node
 !
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-9"
+#endif
     do ix = nbufferx+1,nspcell(1) - nbufferx
       do iy = nbuffery+1,nspcell(2) - nbuffery
         do iz = nbufferz+1,nspcell(3) - nbufferz
@@ -210,6 +242,9 @@
 !
               if (natompernode+nspcellat(ind).gt.maxatompernode) then
                 maxatompernode = natompernode + nspcellat(ind)
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A,I4)')     "in setatomnodes.F90: 1-10: maxatompernode: ", maxatompernode
+#endif
                 call changemaxatompernode
               endif
               do n = 1,nspcellat(ind)
@@ -254,5 +289,9 @@
     enddo
   endif
 !
+#ifdef KLMC_DEBUG_SETATOMNODES
+  write(*,'(A)')     "in setatomnodes.F90: 1-end"
+  write(*,'(A,I4)')  "   maxatompernode  : ", maxatompernode
+#endif
   return
   end

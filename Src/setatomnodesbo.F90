@@ -101,11 +101,23 @@
 !  Non-parallel case  *
 !**********************
     natompernode = numat
+#ifdef KLMC_DEBUG_SETATOMNODESBO
+  write(*,'(A,I4,I4)') "in setatomnodesbo.F90: 0: natompernode / maxatompernode", natompernode, maxatompernode
+#endif
     if (natompernode.gt.maxatompernode) then
       maxatompernode = natompernode
+#ifdef KLMC_DEBUG_SETATOMNODESBO
+  write(*,'(A)') "in setatomnodesbo.F90: 0-1"
+#endif
       call changemaxatompernodebo
     endif
+#ifdef KLMC_DEBUG_SETATOMNODESBO
+  write(*,'(A)') "in setatomnodesbo.F90: 1"
+#endif
     do i = 1,natompernode
+#ifdef KLMC_DEBUG_SETATOMNODESBO
+  write(*,'(A,I4)') "in setatomnodesbo.F90: 1: (i): ", i
+#endif
        natomnodeptr(i) = i
     enddo
     if (lspatial) then

@@ -27,10 +27,23 @@
 !
   use montecarlo
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxfstrain
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
-  integer(i4), save :: oldmaxgcmcmol   = 0
+  integer(i4), save :: oldmaxgcmcmol = 0
+#ifdef KLMC
+  if(lklmc_maxfstrain) then
+    ! set it as gulpdefault
+    maxgcmcmol = 1
+    oldmaxgcmcmol = 0
+    lklmc_maxfstrain = .false.
+  end if
+#endif  
 !
   call realloc(ngcmcmolat,maxgcmcmol,ierror)
   if (ierror.ne.0) call outofmemory('changemaxgcmcmol','ngcmcmolat')

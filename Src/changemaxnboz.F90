@@ -26,12 +26,25 @@
 !
   use bondorderdata
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxnboz
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxnboZ = 0
+#ifdef KLMC
+  if(lklmc_maxnboz) then
+    ! set it as gulpdefault
+    maxnboZ = 1
+    oldmaxnboZ = 0
+    lklmc_maxnboz = .false.
+  end if
+#endif  
 !
 !  Bond order potential data
 !

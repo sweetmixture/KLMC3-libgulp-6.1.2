@@ -28,10 +28,23 @@
   use cosmicpwtloc, only : npwtloc, npwtptrloc, maxnpwtloc
   use current,     only : maxat
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxnppa
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxnppa = 0
+#ifdef KLMC
+  if(lklmc_maxnppa) then
+    ! set it as gulpdefault
+    maxnppa = 1
+    oldmaxnppa = 0
+    lklmc_maxnppa = .false.
+  end if
+#endif  
 !
   call realloc(npwtloc,maxnppa,maxat,ierror)
   if (ierror.ne.0) call outofmemory('changemaxnppa','npwtloc')

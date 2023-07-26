@@ -120,13 +120,13 @@
     cosmodrsolv(icfg) = 0.1_dp
     cosmorsolv(icfg) = 1.0_dp
     dhklcfg(icfg) = 0.0_dp
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_INITMAXCFGDEFAULTS
     ! wkjee
     write(*,'(A,F24.12,I8)') "in initmaxcfgdefaults.F90 (0) : dielectric, icfg = ", dielectriccfg(icfg), icfg
     ! wkjee end
 #endif
     dielectriccfg(icfg) = 1.0_dp
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_INITMAXCFGDEFAULTS
     ! wkjee
     write(*,'(A,F24.12,I8)') "in initmaxcfgdefaults.F90 (1) : dielectric, icfg = ", dielectriccfg(icfg), icfg
     ! wkjee end

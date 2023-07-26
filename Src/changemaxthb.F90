@@ -37,10 +37,23 @@
 !
   use m_three
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxthb
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxthb = 0
+#ifdef KLMC
+  if(lklmc_maxthb) then
+    ! set it as gulpdefault
+    maxthb = 10
+    oldmaxthb = 0
+    lklmc_maxthb = .false.
+  end if
+#endif  
 !
 !  Three-body data
 !

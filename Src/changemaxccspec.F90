@@ -28,10 +28,23 @@
 !
   use chargecoupled
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxccspec
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxCCspec = 0
+#ifdef KLMC
+  if(lklmc_maxccspec) then
+  ! set it as gulpdefault
+    maxCCspec = 10
+    oldmaxCCspec = 0
+    lklmc_maxccspec = .false.
+  end if
+#endif
 !
 !  Species data
 !

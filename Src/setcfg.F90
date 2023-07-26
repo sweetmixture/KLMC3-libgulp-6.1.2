@@ -377,6 +377,11 @@
 !***************************************************
 !  Check for missing shells that need to be added  *
 !***************************************************
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 1"
+#endif
+  ! wkjee
   if (index(keyword,' noad').eq.0.and.index(keyword,'noad').ne.1) then
     do i = 1,ncfg
       call setup(.false.)
@@ -387,6 +392,11 @@
 !  Transform configurations input in rhombohedral form   *
 !  hexagonal setting (ifhr=1)                            *
 !*********************************************************
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 2"
+#endif
+  ! wkjee
   do i = 1,ncfg
     if (ndimen(i).eq.3) then
       ncf = i
@@ -456,6 +466,11 @@
 !******************************
 !  Twist option for polymers  *
 !******************************
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 3"
+#endif
+  ! wkjee
   do i = 1,ncfg
     if (ndimen(i).eq.1.and.ntwistcfg(i).ne.0_i4) then
       ncf = i
@@ -498,6 +513,11 @@
 !  (2) Centre cell if necessary
 !  (3) Create optimisation pointer arrays ioptindexcfg and iopttypecfg
 !
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 4"
+#endif
+  ! wkjee
   nvarl = 0
   do icfg = 1,ncfg
     ncf = icfg
@@ -505,7 +525,20 @@
     lsuper = (nsuper(1,icfg).gt.1.or.nsuper(2,icfg).gt.1.or.nsuper(3,icfg).gt.1)
     lsuperghost = (nsuperghost(1,icfg).gt.1.or.nsuperghost(2,icfg).gt.1.or.nsuperghost(3,icfg).gt.1)
     lsymopt = lsymset(icfg)
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 4-1"
+#endif
+  ! wkjee
     call setup(.false.)
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)')     "in setcfg.F90: 4-1: after call setup"
+  write(*,'(A,I4)')  "icfg: ", icfg
+  write(*,'(A,I4)')  "ndimen(icfg): ", ndimen(icfg)
+  write(*,'(A)')     "test"
+  ! wkjee
+#endif
     if (ndimen(icfg).eq.3) then
       if (lsymopt) call centre
       do i = 1,3
@@ -516,6 +549,11 @@
 !
 !  Save primitive cell in case needed later
 !
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-2"
+  ! wkjee
+#endif
       if (.not.lvecpin(icfg)) then
         ncorepcfg(icfg) = ncore
         do i = 1,3
@@ -534,10 +572,20 @@
 !
 !  If symmetry is to be switched off then expand structure due to nosym option or supercell calcn
 !
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-2-1"
+  ! wkjee
+#endif
     if ((lsymopt.and..not.lsym).or.lsuper.or.lmc.or.lmd) then
 !
 !  Call setup to reinitialise qf()
 !
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-3"
+  ! wkjee
+#endif
       call symoff
       call setup(.false.)
       lsym = .false.
@@ -549,6 +597,12 @@
 !
 !  Generate coordinates here in case molecule calculation is to be performed
 !
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-3-1"
+  ! wkjee
+#endif
+
     if (ndimen(icfg).eq.3) then
 !
 !  3-D
@@ -568,10 +622,25 @@
         zclat(i) = zfrac(i)
       enddo
     endif
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-3-1: before setup .true."
+  ! wkjee
+#endif
     call setup(.true.)
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-3-1: after  setup .true."
+  ! wkjee
+#endif
 !
 !  Count number of breathing shells and set default radii
 !
+#ifdef KLMC_DEBUG_SETCFG
+  ! wkjee
+  write(*,'(A)') "in setcfg.F90: 4-3-2: Count"
+  ! wkjee
+#endif
     nbsm = 0
     do i = 1,nasym
       if (lbsmat(nsft+i)) then
@@ -658,6 +727,11 @@
 !*******************
 !  Unit cell flags *
 !*******************
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 5"
+#endif
+  ! wkjee
       if (ndimen(icfg).gt.0) then
 !
 !  Set initial flags prior to symmetry checking
@@ -1016,6 +1090,11 @@
 !
 !  Set initial flags based on keywords or lack of them
 !
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 6"
+#endif
+  ! wkjee
       if (lflags) then
 !
 !  Atoms
@@ -1463,6 +1542,11 @@
 !##########################################
 !  Set fixed atom based on input options  #
 !##########################################
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 7"
+#endif
+  ! wkjee
             if (nfixatomtype.eq.1) then
 !
 !  First atom
@@ -1568,6 +1652,11 @@
 !#####################################
 !  Set fixed atom based on defaults  #
 !#####################################
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 8"
+#endif
+  ! wkjee
             if (nprocs.gt.1) then
 !
 !  Last atom - excluding shells
@@ -1757,6 +1846,11 @@
 !**********
 !  Radii  *
 !**********
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 9"
+#endif
+  ! wkjee
     if (.not.lbulknoopt.and.index(keyword,'nobr').eq.0) then
       do j = 1,nasymnomol
         jj = nasymnomolptr(j)
@@ -1784,6 +1878,11 @@
 !**************************************
 !  Initialise variable pointer array  *
 !**************************************
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 10"
+#endif
+  ! wkjee
     n1var(icfg) = nvarl + 1
 !
 !  Count number of variables and check memory
@@ -1827,6 +1926,11 @@
 !
 !  Strain or cell
 !
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 11"
+#endif
+  ! wkjee
       ncellmincfg(icfg) = 1
       do j = 1,nstrains
         if (loptc(j)) then
@@ -1944,6 +2048,11 @@
 !
 !  Internals
 !
+  ! wkjee
+#ifdef KLMC_DEBUG_SETCFG
+  write(*,'(A)') "in setcfg.F90: 12"
+#endif
+  ! wkjee
       ninternalmincfg(icfg) = + 1
       if (lrigid) then
         do j = 1,nasymnomol

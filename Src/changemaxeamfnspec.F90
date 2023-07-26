@@ -41,11 +41,24 @@
   use eam
   use gulp_lengths
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxeamfnspec
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4)       :: maxeamfnspec2
   integer(i4), save :: oldmaxeamfnspec = 0
+#ifdef KLMC
+  if(lklmc_maxeamfnspec) then
+  ! set it as gulpdefault
+    maxeamfnspec = 1
+    oldmaxeamfnspec = 0
+    lklmc_maxeamfnspec = .false.
+  end if
+#endif
 !
   maxeamfnspec2 = maxeamfnspec*(maxeamfnspec+1)/2
 !

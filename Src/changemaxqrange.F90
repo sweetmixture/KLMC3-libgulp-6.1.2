@@ -28,10 +28,23 @@
   use element,      only : maxele
   use eemdata
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxqrange
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxqrange = 0
+#ifdef KLMC
+  if(lklmc_maxqrange) then
+    ! set it as gulpdefault
+    maxqrange = 1
+    oldmaxqrange = 0
+    lklmc_maxqrange = .false.
+  end if
+#endif  
 !
 !  Electronegativity data for charge ranges
 !

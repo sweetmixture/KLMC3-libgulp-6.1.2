@@ -27,7 +27,7 @@ int main()
 
 	// 1. CALL GULP
 	memset(iopath,' ',sizeof(iopath));
-        sprintf(iopath,"/work/e05/e05/wkjee/Software/gulp-6.1.2/Src/gulpklmc/sample1");
+        sprintf(iopath,"/work/e05/e05/wkjee/Software/gulpklmc/KLMC3-libgulp-6.1.2/Src/gulpklmc_dummy/sample1");
 	printf("C iopath> %s\n",iopath);
         if( rank == 0 ) printf("C main> before calling gulpklmc\n");
 	printf("===========================================================================\n");
@@ -36,7 +36,7 @@ int main()
 
 	// 2. CALL GULP
 	memset(iopath,' ',sizeof(iopath));
-        sprintf(iopath,"/work/e05/e05/wkjee/Software/gulp-6.1.2/Src/gulpklmc/sample2");
+        sprintf(iopath,"/work/e05/e05/wkjee/Software/gulpklmc/KLMC3-libgulp-6.1.2/Src/gulpklmc_dummy/sample2");
 	printf("C iopath> %s\n",iopath);
         if( rank == 0 ) printf("C main> before calling gulpklmc\n");
 	printf("===========================================================================\n");

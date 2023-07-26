@@ -371,6 +371,49 @@
   use velocities
   use wolfcosmo
   use xcgc
+
+#ifdef KLMC
+!
+! 07/23 wkjee
+! module addition for gulpklmc reinitialisation of variables
+! 
+! KLMCADD LIST
+  use klmc
+
+  use bondvalence
+  use bondvectors
+  use chargecoupled
+  use cosmic
+  use cosmicpwtloc
+  use derivatives
+  use distances
+  use EDIPdata
+  use eembonds
+  use eemdata
+  use feworkspace
+  use field
+  use frequencies
+  use gaconf
+  use gulpinput
+  use interupt
+  use ksample_scatter
+  use kspace
+  use maths
+  use neighbours
+  use potentialinterpolation
+  use potentialnames
+  use progress
+  use projectdos
+  use region2a
+  use six
+  use splinedata
+  use m_ti
+  use transform
+! KLMCADD
+! end KLMC module addition
+#endif
+
+
   implicit none
 !
 !  Local variables
@@ -2949,5 +2992,651 @@
   call trace_out('initial')
 #endif
 !
+
+
+#ifdef KLMC
+
+  ! 07/23
+  ! wkjee - gulpklmc
+  ! 
+  ! variables with 'save' attribute
+  ! reinitialisation for multiple calls of 'gulpmain()' on KLMC3 interface
+  !
+  ! see also:
+  ! initmemory.F90
+  ! reinitialisation.F90
+  ! changemax*.F90
+  !
+
+  ! -------------------------------------------------------------------------
+  ! variables in 'module.F90'
+  ! -------------------------------------------------------------------------
+  ! commented variables are already reinitialised above
+  ! 'KLMCADD' comment - modules added or modified at the beginning of this source file
+  !
+
+  !
+  ! START
+  !
+
+  ! module element
+  ! maxele = 107
+
+  ! module bondcharge
+  ! maxbondQ = 1
+
+  ! module bondorderdata
+  maxnboA = 1
+  maxnboO = 1
+  maxnboR = 1
+  maxnboQ = 1
+  maxnboQ0 = 1
+  maxnboZ = 1
+  maxnbopot = 1
+  ! nboA = 0
+  ! nboO = 0
+  ! nboR = 0
+  ! nboQ = 0
+  ! nboQ0 = 0
+  ! nboZ = 0
+  ! nbopot = 0
+  ! nlibnboA = 0
+  ! nlibnboO = 0
+  ! nlibnboR = 0
+  ! nlibnboQ = 0
+  ! nlibnboQ0 = 0
+  ! nlibnboZ = 0
+  ! nlibnbopot = 0
+
+  lBOcnzin = .false.
+
+  BOcntol = 0.000001_dp
+  BOcnzb = 0.20039_dp
+  BOcnzt = 0.49751_dp
+
+  ! module bondvalence
+  ! KLMCADD
+  maxvalbond = 1
+  maxvalener = 1  
+  maxVBparB = 6   
+  maxVBparE = 6   
+  nvalbond = 0    
+  nvalener = 0    
+  nlibvalbond = 0 
+  nlibvalener = 0 
+  lPrintVB = .false.
+
+  ! module bondvectors
+  ! KLMCADD
+  maxbondvec = 3
+
+  ! module brennerdata
+  ! nbrennertype = 3
+
+  ! module chargecoupled
+  ! KLMCADD
+  maxCCspec = 10
+
+  ! module configurations
+  maxatot = 0
+  maxcfg = 1
+  maxcontot = 1
+  maxregion = 1
+  maxtempramp = 1
+  maxvar = 1
+
+  ! module g_constants (NOT TOUCHED)
+
+  ! module control
+  ! lgfnff = .false.
+
+  ! module cosmic
+  ! KLMCADD
+  maxallnearseg = 1
+  maxcosmoA = 1         
+  maxcosmoAu = 1        
+  maxnearseg = 1
+  maxnppa = 1
+  maxnpts = 1
+  maxnptsonnode = 1
+  maxnptsh = 1
+  maxnptstot = 1
+  maxnpwt = 4
+  maxnset = 1
+  maxsasparticles = 1
+  maxsasparticlespart = 1
+  isasatomoption = 1
+  ! nallnearseg = 0
+  ! nppa = 110
+  ! npts = 0
+  ! nptsh = 0
+  !nspa = 110
+  ! nspah = 110
+  ! ldodeca = .false.
+  ! lsegsmooth = .false.
+  ! cosmorange = 0.0_dp
+  ! cosmormax = 10.0_dp
+  ! cosmormaxs = 1.0_dp
+
+  ! module cosmicpwtloc
+  ! KLMCADD
+  maxnpwtloc = 1
+
+  ! module costfunction
+  maxat = 0    
+  maxatloc = 0 
+  maxbond = 12
+  maxcon = 1
+  maxdis = 1000
+  maxmdis = 1
+
+  ! module defects
+  maxdcon = 0
+  maxdef = 10
+  maxr1at = 1    
+  maxtotr1at = 1 
+  maxvac = 1     
+  maxint = 1     
+  maxtotvac = 1  
+  maxtotint = 1  
+  ! ninte = 0   
+  ! nvaca = 0   
+  ! ntotinte = 0
+  ! ntotvaca = 0
+ 
+  ! module derivatives
+  maxd1 = 0
+  maxd2 = 0
+  maxd2cell = 0     
+  maxd2cells = 0    
+  maxd2q = 0
+  maxd2qu = 0
+  maxd2u = 0
+  maxqatoms = 0
+  maxqatoms2 = 0
+
+  ! module distances
+  ! KLMCADD
+  ! lStoreVectors = .false.
+  maxndistancetotal = 1
+  ! ndistancetotal = 1
+
+  ! module eam
+  ! nlibeamfnspec = 0
+  ! nlibeamspec = 0
+  ! neamfnspec = 0
+  ! neamspec = 0
+  maxeamden = 3
+  maxeamspec = 1
+  maxeamfnspec = 1
+  maxneamfnnumeric = 1
+  ! nmeamcombotype = 2
+  ! nmeamrhotype = 2
+  ! lPrintEAM  = .false.
+  ! lMEAM    = .false.
+  ! lanyMEAMscreen = .false.
+  ! lMEAMfn  = .false.
+  ! lMEAMden = .false.
+
+  ! module EDIPdata
+  ! KLMCADD
+  maxEDIPspec = 1
+  nEDIPspec = 0
+  nlibEDIPspec = 0
+  EDIPmaxZcutoff = 6.0_dp
+
+  ! module eembonds
+  ! KLMCADD
+  maxeembond = 1
+
+  ! module eemdata
+  ! KLMCADD
+  maxqrange = 1   
+  maxeemtype = 4  
+
+  ! module feworkspace
+  ! KLMCADD
+  maxmany = 1
+  maxmany2 = 1
+
+  ! module field
+  ! KLMCADD
+  maxtdfield = 2
+
+  ! module gulp_files
+  iout_shengBTE = 32   
+  ! narcwrite = 1
+  ! nfreqdecimals = 6
+  nlammpspoints = 1000 
+  nxsfseq = 0          
+
+  ! module gulp_gfnff
+  gfnff_version = 'v6.3.3'
+  ngfnff_current_cfg = 0
+  max_gfnff_ele = 86            
+  maxat_gfnff = 1               
+  gfnff_autoangs = 0.52917726_dp
+  gfnff_autoev = 27.21138505_dp 
+  gfnff_pi_change = 0         
+  gfnff_pi_temp1 = 4000.0_dp  
+  gfnff_pi_temp2 =  300.0_dp  
+  gfnff_ks = 0.04_dp          
+  maxtoposhell  = 4           
+  maxtoposhell1 = 2           
+  lgfnff_newtopo = .true.     
+  lgfnff_xtbtopo = .false.    
+  tdist_thr = 12.0_dp         
+  gfnff_rtopo_scale = 1.175_dp
+  atm_alpha1 = 1.0_dp
+  gfnff_q_trap = -2.000_dp       
+  lgfnff_highcn_trap = .false.   
+  lgfnff_fragment_bond = .false. 
+  max_gfnff_accuracy = 31.622_dp 
+  max_gfnff_acc_disp = 31.622_dp 
+  max_gfnff_acc_rep  = 10000.0_dp
+  max_gfnff_acc_cn   = 100.0_dp  
+  max_gfnff_acc_hb1  = 10000.0_dp
+  max_gfnff_acc_hb2  = 1.0d8     
+  gfnff_accuracy = 0.1_dp        
+  gfnff_accuracy_disp = 0.1_dp   
+  gfnff_accuracy_rep = 0.1_dp    
+  gfnff_accuracy_cn = 0.1_dp     
+  gfnff_accuracy_hb1 = 0.1_dp    
+  gfnff_accuracy_hb2 = 0.1_dp    
+  gfnff_cnc6tol = 1.0d-10        
+  gfnff_taper = 0.95_dp          
+  gfnff_wolf_eta = 0.2_dp        
+  ! lgfnff_topowolf = .false.      
+  gfnff_kn_cn = -7.5_dp
+  gfnff_kn_hb = 27.5_dp
+  max_gfnff_angles = 0
+  n_gfnff_angles = 0
+  max_gfnff_torsions = 0
+  n_gfnff_torsions = 0
+  maxbond_hb_Bn = 1
+  maxbond_hb_nr = 0
+  maxathbH = 1
+  maxatxbAB = 1
+  n_gfnff_hb_H = 0
+  n_gfnff_hb_AB = 0
+  n_gfnff_xb_AB = 0
+
+  ! module fitting
+  maxfit = 1
+  maxfcon = 0
+
+  ! module four
+  maxlist4 = 1
+  maxfor = 10
+  maxiltor = 9
+  ! lPrintFour = .false.
+
+  ! module frequencies
+  ! KLMCADD
+  lStoreEig = .false.
+  maxfkpt = 1        
+  maxfreq = 0        
+
+  ! module gaconf
+  ! KLMCADD
+  maxbcfg = 0
+  maxgcfg = 0
+  maxmvar = 0
+
+  ! module general
+  maxtitle = 20
+
+  ! module genetic
+  ! iseed=-1
+  ! maxgacyc=300
+  ! mgacfg=10
+  ! ngabset=0
+  ! l2pxo=.false.
+  ! lgabest=.false.
+  ! lgadef=.false.
+  ! lgaexpw=.false.
+  ! loxygen=.false.
+  ! lstruc=.false.
+  ! udif=0.0_dp
+
+  ! module gulpinput
+  ! KLMCADD
+  maxword = 20
+
+  ! module interupt
+  ! KLMCADD
+  controlC_fit = .false.
+  controlC_opt = .false.
+  sigint = 2
+
+  ! module ksample
+  maxkpt = 1
+
+  ! module ksample_scatter
+  ! KLMCADD
+  maxskpt = 1
+
+  ! module kspace
+  ! KLMCADD
+  maxkvec = 500
+  maxindk = 60 
+
+  ! module library
+  maxlib = 4
+  ! llibsymdump = .false.
+
+  ! module maths
+  ! KLMCADD
+  elpatype = 1                 
+  qsolver = 1                  
+  leispack_eigensolve = .false.
+  ! lelpa = .false.              
+  ldivide_and_conquer = .false.
+  leig_2stage = .false.
+  leig_mrrr = .false.
+  ! lcosmo2D = .false.           
+  ! lhess2D = .false.            
+  lblock2D = .false.           
+
+  ! module montecarlo
+  maxmcswapspec = 1
+  maxmcswaps = 2
+  maxmctrans = 2
+  maxgcmcmol = 1
+  maxgcmcmolat = 10
+  maxtrialatom = 10
+
+  ! module molecule
+  maxconnect = 1
+  maxconnectpermol = 1
+  maxmol = 1
+  maxmolat = 10
+  maxmoleqv = 1
+  maxnobo = 1
+  maxbondtype = 1
+
+  ! module g_neb
+  maxnebreplicatot = 1
+
+  ! module neighbours
+  ! KLMCADD
+  maxneigh = 12
+
+  ! module observables
+  maxfgrad = 10
+  maxfstrain = 6
+  maxobs = 10
+  maxobsmode = 1
+
+  ! module one
+  maxone = 10
+
+  ! module optimisation
+  ! lPrintVar  = .false.
+  ! lstepmaxin = .false.
+
+  ! module plane
+  maxplanepot = 0
+
+  ! module potentialinterpolation
+  ! KLMCADD
+  maxptsinterpolate = 0
+
+  ! module potentialnames
+  ! KLMCADD
+  max2pottype = 64
+  max3pottype = 26
+  max4pottype = 17
+
+  ! module potentialpoints
+  maxppt = 1
+
+  ! module potentialsites
+  maxpotsites = 1
+
+  ! module progress
+  ! KLMCADD
+  lduring_opt  = .false.
+
+  ! module projectdos
+  ! KLMCADD
+  maxproj = 1
+  maxproji = 5
+
+  ! module randomnumbers
+  ! nrandomcalls = 0
+  ! npr_randomcalls = 0
+  ! npr_grandomcalls = 0
+  ! npr_randomcalls_adv = 0
+  ! npr_grandomcalls_adv = 0
+  ! lGaussianLast = .false.
+
+  ! module reaxFFdata
+  maxreaxFFspec = 1
+  maxreaxFFfixQspec = 1
+  maxreaxFFval3 = 2
+  ! nreaxFFspec = 0
+  nreaxFFfixQspec = 0
+  ! nlibreaxFFspec = 0
+  nlibreaxFFfixQspec = 0
+  ! nreaxFFqiter = 50
+
+  ! module region2a
+  ! KLMCADD
+  maxr2at = 0
+
+  ! module scatterdata
+  maxnq_step_fit = 1
+  maxnw_step_fit = 1
+  maxHold1 = 1
+  maxHold2 = 1
+  maxHold3 = 1
+  maxHold4 = 1
+  maxqvector = 1
+
+  ! module shellextrapolation
+  ! maxextrapol = 8
+
+  ! module six
+  ! KLMCADD
+  maxlist6 = 1
+  maxsix = 10
+  ! lPrintSix = .false.
+
+  ! module spatial
+  maxatompernode = 0
+  maxcellpernodebo = 0
+  maxspcellbo = 0
+  maxnspcellattotbo = 0
+
+  ! module spatialbo
+  maxatompernodebo = 0
+  maxcellpernodebo = 0
+  maxspcellbo = 0
+  maxnspcellattotbo = 0
+
+  ! module species
+  maxspec = 20         
+  ltianyqspec = .false.
+
+  ! module splinedata
+  ! KLMCADD
+  maxpts = 50
+
+  ! module spme
+  ! lspme = .false.
+  ! nBsplineorder = 4
+
+  ! module symmetry
+  maxsymop = 8
+
+  ! module m_three
+  maxlist3 = 1
+  maxthb = 10
+  maxn3bondnono = 2
+  ! lPrintThree = .false.
+
+  ! module m_ti
+  ! KLMCADD
+  maxlambda = 1          
+  nlambda = -1           
+  nlambdanow = 1         
+  ntistep = 1            
+  ntinow = 0             
+  ltirun = .false.       
+  lti = .false.          
+  lambda_initial = 0.0_dp
+  lambda_final = 1.0_dp  
+  lambda_step = 0.05_dp  
+  lambda = 1.0_dp        
+  tlambda = 100.0_dp     
+
+  ! module thresholds
+  ! thresh_fc3_ind = 0.0000001_dp
+  ! thresh_fc3_tot = 0.00001_dp  
+  thresh_c6 = 1.0d-6           
+  thresh_q  = 1.0d-12          
+
+  ! module times
+  talamode_fc = 0.0_dp
+  talamode_tc = 0.0_dp
+  ! tatom = 0.0_dp
+  ! tbondorder = 0.0_dp
+  ! tbrenner = 0.0_dp
+  ! tcorrect = 0.0_dp
+  ! tcosmo = 0.0_dp
+  ! tcosmoderv = 0.0_dp
+  td2charge = 0.0_dp
+  ! tderv3 = 0.0_dp
+  ! tdiag = 0.0_dp
+  ! tdisk = 0.0_dp
+  ! tedip = 0.0_dp
+  ! teem = 0.0_dp
+  tfc3 = 0.0_dp
+  ! tfederiv = 0.0_dp
+  ! tfitf = 0.0_dp
+  ! tfun = 0.0_dp
+  ! tfour = 0.0_dp
+  tgfnff = 0.0_dp
+  tgfnffsetup = 0.0_dp
+  ! thes = 0.0_dp
+  ! tion = 0.0_dp
+  ! tkim = 0.0_dp
+  ! tmany = 0.0_dp
+  ! tmati = 0.0_dp
+  ! tmc   = 0.0_dp
+  ! tmdinit = 0.0_dp
+  tmol  = 0.0_dp
+  ! tphon = 0.0_dp
+  ! tpolar = 0.0_dp
+  ! tpredict = 0.0_dp
+  ! tproj = 0.0_dp
+  ! tprop = 0.0_dp
+  ! treaxFF = 0.0_dp
+  ! treg1 = 0.0_dp
+  ! treg2a = 0.0_dp
+  ! treg2b = 0.0_dp
+  ! treg3 = 0.0_dp
+  ! treg4 = 0.0_dp
+  ! tregm = 0.0_dp
+  ! tres = 0.0_dp
+  ! trls = 0.0_dp
+  tscatter = 0.0_dp
+  ! tsearch = 0.0_dp
+  ! tsix = 0.0_dp
+  ! tspline = 0.0_dp
+  tspot = 0.0_dp
+  ! tsum = 0.0_dp
+  ! tsym = 0.0_dp
+  ! tthree = 0.0_dp
+  ! ttmat = 0.0_dp
+  tval = 0.0_dp
+  ! tvelcor = 0.0_dp
+
+  ! module transform
+  ! KLMCADD
+  maxn3a = 1
+  maxn3f = 1
+  maxn3ma = 1
+  maxn3mf = 1
+
+  ! module trap
+  ! ltrap_fc = .false.
+
+  ! module two
+  maxpot = 10
+  ! lPrintTwo = .false.
+
+  ! module uffdata
+  maxUFFspec = 20
+
+  ! module wolfcosmo
+  ! lPureCoulomb0D = .false.
+  ! cutwc = 20.0_dp
+  ! etawc = 0.05_dp
+
+  !
+  ! 07/23 wkjee
+  ! logical: lklmc_*  : tell if this is a fresh gulp call by KLMC
+  !
+  ! if(lklmcfreshrun) then
+  !   lklmc_maxat            = .true.
+  !   lklmc_maxatloc         = .true.
+  !   lklmc_maxatot          = .true.
+  !   lklmc_maxbond          = .true.
+  !   lklmc_maxbondq         = .true.
+  !   lklmc_maxccspec        = .true.
+  !   lklmc_maxcfg           = .true.
+  !   lklmc_maxconnect       = .true.
+  !   lklmc_maxdef           = .true.
+  !   lklmc_maxeamden        = .true.
+  !   lklmc_maxeamfnspec     = .true.
+  !   lklmc_maxeamspec       = .true.
+  !   lklmc_maxedipspec      = .true.
+  !   lklmc_maxfgrad         = .true.
+  !   lklmc_maxfit           = .true.
+  !   lklmc_maxfor           = .true.
+  !   lklmc_maxfstrain       = .true.
+  !   lklmc_maxgcmcmol       = .true.
+  !   lklmc_maxlambda        = .true.
+  !   lklmc_maxlib           = .true.
+  !   lklmc_maxmcswaps       = .true.
+  !   lklmc_maxmcswapspec    = .true.
+  !   lklmc_maxmctrans       = .true.
+  !   lklmc_maxmol           = .true.
+  !   lklmc_maxnboa          = .true.
+  !   lklmc_maxnboo          = .true.
+  !   lklmc_maxnbopot        = .true.
+  !   lklmc_maxnboq0         = .true.
+  !   lklmc_maxnboq          = .true.
+  !   lklmc_maxnbor          = .true.
+  !   lklmc_maxnboz          = .true.
+  !   lklmc_maxnebreplicatot = .true.
+  !   lklmc_maxnppa          = .true.
+  !   lklmc_maxnpts          = .true.
+  !   lklmc_maxobs           = .true.
+  !   lklmc_maxone           = .true.
+  !   lklmc_maxplanepot      = .true.
+  !   lklmc_maxpot           = .true.
+  !   lklmc_maxqrange        = .true.
+  !   lklmc_maxr1at          = .true.
+  !   lklmc_maxreaxffspec    = .true.
+  !   lklmc_maxreaxffval3    = .true.
+  !   lklmc_maxregion        = .true.
+  !   lklmc_maxsix           = .true.
+  !   lklmc_maxspcellbo      = .true.
+  !   lklmc_maxspcell        = .true.
+  !   lklmc_maxspec          = .true.
+  !   lklmc_maxtdfield       = .true.
+  !   lklmc_maxtempramp      = .true.
+  !   lklmc_maxthb           = .true.
+  !   lklmc_maxtitle         = .true.
+  !   lklmc_maxneighk        = .true.
+  !   lklmc_maxpdfcfg        = .true.
+  !   ! lklmcfreshrun controls above variables: see modules.F90: module klmc
+  !   lklmcfreshrun = .false.
+  ! end if
+#endif
+
   return
   end

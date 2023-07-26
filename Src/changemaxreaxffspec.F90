@@ -39,11 +39,24 @@
   use library
   use reallocate
   use reaxFFdata
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxreaxffspec
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4)       :: maxreaxFFspec2
   integer(i4), save :: oldmaxreaxFFspec = 0
+#ifdef KLMC
+  if(lklmc_maxreaxffspec) then
+    ! set it as gulpdefault
+    maxreaxFFspec = 1
+    oldmaxreaxFFspec = 0
+    lklmc_maxreaxffspec = .false.
+  end if
+#endif  
 !
 !  Some things depend on pairs of species
 !

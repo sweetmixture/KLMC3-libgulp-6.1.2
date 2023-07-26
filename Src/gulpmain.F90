@@ -152,12 +152,12 @@
 
 ! wkjee - anyway the initcomms called
 
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
   write(*,'(A)') "in gulpmain: before calling GULP_initcomms() before"
 #endif
   call GULP_initcomms(MPI_comm_in)
 
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
   write(*,'(A)') "in gulpmain: before calling GULP_initcomms() after"
 #endif
 
@@ -167,7 +167,7 @@
 #else
   if (ichemsh_link .eq. 0) then
   ! wkjee - ichemsh_link = 0 .. or here is the case? - i.e., GULP standard mode is using
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
     if(ioproc) then
       write(*,'(A,I4)') "in gulpmain, ichemsh_link (klmc_link): ", ichemsh_link
     end if
@@ -178,13 +178,13 @@
     !
     ! wkjee - setupinputoutput routine should be modified - in order to take the input and output files as its argument
     !
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
     if(ioproc) then
       write(*,'(A)') "in gulpmain: before call setupinputoutput" 
     end if
 #endif
     call setupinputoutput
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
     if(ioproc) then
       write(*,'(A)') "in gulpmain: after  call setupinputoutput" 
     end if
@@ -207,12 +207,12 @@
 !  Setup GULP  *
 !***************
   ! wkjee- check if 'gulp_setup' does inputfile read
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
   if(ioproc) write(*,'(A)') "in gulpmain: before call gulp_setup" 
 #endif
   call gulp_setup
   ! wkjee - gulp_setup ... doing with reading input files
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
   if(ioproc) write(*,'(A)') "in gulpmain: after call gulp_setup"
 #endif
 !*****************
@@ -328,7 +328,7 @@
 !  Set a flag that indicates that all I/O in parallel should be via the I/O proc
 !
     ! wkjee - check if seedname working
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_GULPMAIN
     if(ioproc) then
       write(*,'(A,A)') "in gulpmain: gulp_klmc_iopath  : ", gulp_klmc_iopath
       write(*,'(A,A)') "in gulpmain: klmc_gulp_input   : ", klmc_gulp_input

@@ -26,10 +26,23 @@
 !
   use montecarlo
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxmcswaps
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
-  integer(i4), save :: oldmaxmcswaps   = 0
+  integer(i4), save :: oldmaxmcswaps = 0
+#ifdef KLMC
+  if(lklmc_maxmcswaps) then
+    ! set it as gulpdefault
+    maxmcswaps = 2
+    oldmaxmcswaps = 0
+    lklmc_maxmcswaps = .false.
+  end if
+#endif  
 !
   call realloc(nmcswapnat,maxmcswapspec,maxmcswaps,ierror)
   if (ierror.ne.0) call outofmemory('changemaxmcswaps','nmcswapnat')

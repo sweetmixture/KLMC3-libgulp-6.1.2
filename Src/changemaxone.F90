@@ -27,10 +27,23 @@
 !
   use reallocate
   use one
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxone
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxone = 0
+#ifdef KLMC
+  if(lklmc_maxone) then
+    ! set it as gulpdefault
+    maxone = 10
+    oldmaxone = 0
+    lklmc_maxone = .false.
+  end if
+#endif  
 !
 !  Potential data
 !

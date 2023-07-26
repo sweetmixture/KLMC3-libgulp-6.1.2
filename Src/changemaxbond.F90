@@ -30,10 +30,24 @@
   use current
   use defects
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxbond
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxbond = 0
+!
+#ifdef KLMC
+  if(lklmc_maxbond) then
+  ! set it as gulpdefault
+    maxbond = 12
+    oldmaxbond = 0
+    lklmc_maxbond = .false.
+  endif
+#endif
 !
 !  Bulk bonding
 !

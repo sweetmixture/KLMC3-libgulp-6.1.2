@@ -27,11 +27,24 @@
 !
   use defects
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxdef
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxdef = 0
 !
+#ifdef KLMC
+  if(lklmc_maxdef) then
+  ! set it as gulpdefault
+    maxdef = 10
+    oldmaxdef = 0
+    lklmc_maxdef = .false.
+  end if
+#endif
   call realloc(inddeffix,maxdef,ierror)
   if (ierror.ne.0) call outofmemory('changemaxdef','inddeffix')
   call realloc(ldeffix,maxdef,ierror)

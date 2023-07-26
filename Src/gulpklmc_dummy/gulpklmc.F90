@@ -1,4 +1,8 @@
-subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_id ) bind (C,name="gulpklmc")
+!program gulpklmc_program
+!
+!end program gulpklmc_program ! this is not working ont Cray HPE
+
+subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath_dummy, klmc_task_id, klmc_worker_id ) bind (C,name="gulpklmc")
   !
   ! wkjee - KLMC development 07/2023
   !
@@ -21,10 +25,17 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
   integer*4,          intent(in) :: MPI_comm_klmc
   integer,            intent(in) :: klmc_task_id
   integer,            intent(in) :: klmc_worker_id
-  character(len=512), intent(in) :: klmc_task_iopath
+  ! character(kind=c_char,len=512), intent(in) :: klmc_task_iopath
+  ! character(kind=c_char,len=512), intent(in) :: klmc_task_iopath
+  ! character(kind=c_char), intent(in) :: klmc_task_iopath(512)
+  ! character(kind=c_char), dimension(512), intent(in) :: klmc_task_iopath
+  ! wkjee - generic string C->Fortran passer update
+  character(kind=c_char), dimension(*), intent(in) :: klmc_task_iopath_dummy
+  character(len=512) :: klmc_task_iopath
   
   ! iopath_length - string length of the file path
   integer iopath_length
+  ! integer, value :: iopath_length
   integer ierr
   integer rank
   integer cpu_count
@@ -41,6 +52,8 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
 
   ! wkjee - do not touch this block . related to gulp default ============
   iret = 0
+  ! wkjee - standard  gulp mode ichemsh_link(klmc_link) = 0: using gulp standalone mode
+  ! wkjee - chemshell      mode ichemsh_link(klmc_link) = 1: using chain gulp runs: without memory nullifying 
   klmc_link = 0
   MPI_comm_togulp = MPI_comm_klmc
   ! end wkjee ============================================================
@@ -60,7 +73,16 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
 
   ! wkjee - solid working without bulshit ending character
   ! <IMPORTANT> iopath_length - remove the terminating zero '0' at the end 
-  iopath_length = len_trim(klmc_task_iopath)-1
+
+  ! wkjee - refactoring klmc input path
+  klmc_task_iopath = ""
+  iopath_length = 0
+  do
+     if(klmc_task_iopath_dummy(iopath_length+1) == C_NULL_CHAR) exit
+     iopath_length = iopath_length + 1
+     klmc_task_iopath(iopath_length:iopath_length) = klmc_task_iopath_dummy(iopath_length)
+  end do
+  ! iopath_length = len_trim(klmc_task_iopath)-1
   gulp_klmc_iopath = klmc_task_iopath(1:iopath_length)
   ! write(*,'(A,I4)') "in gulpklmc: klmc_task_iopath_length: ", len_trim(klmc_task_iopath)-1
   write(*,'(A,A)') "in gulpklmc.F90 : KLMC klmc_task_iopath: ", klmc_task_iopath
@@ -78,16 +100,19 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
 ! Launch GULP-KLMC 
 !======================
 
-  lklmcfreshrun = .true.
-  write(*,'(A,L)') "in gulpklmc.F90: lklmcfresrun before gulpmain() : ", lklmcfreshrun
+  call gulpklmc_initmax
+
+! write(*,'(A,L)') "in gulpklmc.F90: lklmcfresrun before gulpmain() : ", lklmcfreshrun
 
   call gulpmain(iret, klmc_link, MPI_comm_togulp)
 
-  write(*,'(A,L)') "in gulpklmc.F90: lklmcfresrun after  gulpmain() : ", lklmcfreshrun
+! write(*,'(A,L)') "in gulpklmc.F90: lklmcfresrun after  gulpmain() : ", lklmcfreshrun
 
 !======================
 ! Finish GULP-KLMC run 
 !======================
+
+! call reinitialise
 
   call gulpfinish
   
@@ -103,8 +128,11 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
     " cpu_count: ", cpu_count, " task_id: ", klmc_task_id, " worker_id: ", klmc_worker_id, " io_path: ", klmc_task_iopath
   end if
 
-  contains
+  return
 
+! ---------------------------------------------------------------------------
+  contains
+! ---------------------------------------------------------------------------
     function getCurrentDateTime() result(dateTimeStr)
       character(len=40) :: dateTimeStr
       integer :: ierr

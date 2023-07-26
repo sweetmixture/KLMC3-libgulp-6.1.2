@@ -46,10 +46,23 @@
   use reallocate
   use splinedata
   use two
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxpot
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxpot = 0
+#ifdef KLMC
+  if(lklmc_maxpot) then
+    ! set it as gulpdefault
+    maxpot = 10
+    oldmaxpot = 0
+    lklmc_maxpot = .false.
+  end if
+#endif  
 !
 !  Spline data
 !

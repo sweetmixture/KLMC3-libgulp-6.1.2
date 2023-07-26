@@ -38,10 +38,23 @@
   use parallel,   only : node2var, nvar2node, nvar2local
   use parallel,   only : node2reg1, reg12node, reg12local
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxr1at
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxr1at = 0
+#ifdef KLMC
+  if(lklmc_maxr1at) then
+    ! set it as gulpdefault
+    maxr1at = 1
+    oldmaxr1at = 0
+    lklmc_maxr1at = .false.
+  end if
+#endif  
 !
   call realloc(idoptindex,4_i4*maxr1at,ierror)
   if (ierror.ne.0) call outofmemory('changemaxr1at','idoptindex')

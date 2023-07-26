@@ -32,10 +32,23 @@
 !
   use eam
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxeamden
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxeamden = 0
+#ifdef KLMC
+  if(lklmc_maxeamden) then
+  ! set it as gulpdefault
+    maxeamden = 3
+    oldmaxeamden = 0
+    lklmc_maxeamden = .false.
+  end if
+#endif
 !
 !  EAM data
 !

@@ -30,10 +30,23 @@
   use fitting
   use genetic
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxfit
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxfit = 0
+#ifdef KLMC
+  if(lklmc_maxfit) then
+    ! set it as gulpdefault
+    maxfit = 1
+    oldmaxfit = 0
+    lklmc_maxfit = .false.
+  end if
+#endif  
 !
   call realloc(ndiscret,maxfit,ierror)
   if (ierror.ne.0) call outofmemory('changemaxfit','ndiscret')

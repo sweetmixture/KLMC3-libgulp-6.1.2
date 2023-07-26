@@ -30,10 +30,23 @@
 !
   use reallocate
   use six
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxsix
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxsix = 0
+#ifdef KLMC
+  if(lklmc_maxsix) then
+    ! set it as gulpdefault
+    maxsix = 10
+    oldmaxsix = 0
+    lklmc_maxsix = .false.
+  end if
+#endif  
 !
 !  Six-body data
 !

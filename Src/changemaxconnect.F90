@@ -27,11 +27,24 @@
 !
   use molecule
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxconnect
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxconnect = 0
 !
+#ifdef KLMC
+  if(lklmc_maxconnect) then
+  ! set it as gulpdefault
+    maxconnect = 1
+    oldmaxconnect = 0
+    lklmc_maxconnect = .false.
+  end if
+#endif
   call realloc(n1connect,maxconnect,ierror)
   if (ierror.ne.0) call outofmemory('changemaxconnect','n1connect')
   call realloc(n2connect,maxconnect,ierror)

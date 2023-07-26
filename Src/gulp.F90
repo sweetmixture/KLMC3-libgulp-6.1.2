@@ -51,7 +51,7 @@
 !
   use datatypes,  only : i4
 #ifdef KLMC
-  use klmc
+  !use klmc
   implicit none
   include 'mpif.h'
   ! able to use 'gulp_klmc_iopath' module from modules.F90 (added)
@@ -91,7 +91,7 @@
 
   call MPI_Init(ierr)
   MPI_comm_dummy = MPI_comm_world
-  write(*,'(A,I)') "in gulp : MPI_comm_dummy = ", MPI_comm_dummy
+  write(*,'(A,I4)') "in gulp : MPI_comm_dummy = ", MPI_comm_dummy
   call MPI_Comm_rank(MPI_comm_dummy,rank,ierr)
   call MPI_Comm_size(MPI_comm_dummy,size,ierr)
  
@@ -105,7 +105,7 @@
   call gulpmain(iret, ichemsh_qm, MPI_comm_dummy)
 ! wkjee
 #elif defined KLMC
-  gulp_klmc_iopath = ""
+  ! gulp_klmc_iopath = ""
   call gulpmain(iret, ichemsh_link, MPI_comm_dummy)
 ! wkjee
 #else

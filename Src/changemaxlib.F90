@@ -29,10 +29,23 @@
   use gulp_lengths
   use library
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxlib
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxlib = 0
+#ifdef KLMC
+  if(lklmc_maxlib) then
+    ! set it as gulpdefault
+    maxlib = 4
+    oldmaxlib = 0
+    lklmc_maxlib = .false.
+  end if
+#endif  
 !
 !  Library data
 !

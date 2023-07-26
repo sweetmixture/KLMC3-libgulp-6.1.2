@@ -586,12 +586,25 @@ Contains
   use configurations
   use gulp_lengths
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxpdfcfg
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxcfg = 0
+#ifdef KLMC
+  if(lklmc_maxpdfcfg) then
+    ! set it as gulpdefault
+    maxcfg = 1
+    oldmaxcfg = 0
+    lklmc_maxpdfcfg = .false.
+  end if
+#endif  
 !
 !  Configuration data
 !

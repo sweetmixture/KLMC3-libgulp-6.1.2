@@ -35,10 +35,23 @@
 !
   use four
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxfor
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxfor = 0
+#ifdef KLMC
+  if(lklmc_maxfor) then
+    ! set it as gulpdefault
+    maxfor = 10
+    oldmaxfor = 0
+    lklmc_maxfor = .false.
+  end if
+#endif  
 !
 !  Four-body data
 !

@@ -35,6 +35,11 @@
   use moldyn,        only : lfix
   use reallocate
   use scan,          only : ltranat, ltranatminus
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxatot
+#endif
   implicit none
 !
 !  Local variables
@@ -42,6 +47,14 @@
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxatot = 0
 !
+#ifdef KLMC
+  if(lklmc_maxatot) then
+  ! set it as gulpdefault
+    maxatot = 0
+    oldmaxatot = 0
+    lklmc_maxatot = .false.
+  end if
+#endif
   call realloc(lbsmat,maxatot,ierror)
   if (ierror.ne.0) call outofmemory('changemaxatot','lbsmat')
   call realloc(leinsteinat,maxatot,ierror)

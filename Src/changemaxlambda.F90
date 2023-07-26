@@ -26,12 +26,25 @@
 !
   use m_ti
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxlambda
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxlambda = 0
+#ifdef KLMC
+  if(lklmc_maxlambda) then
+    ! set it as gulpdefault
+    maxlambda = 1
+    oldmaxlambda = 0
+    lklmc_maxlambda = .false.
+  end if
+#endif  
 !
   call realloc(dUdlambda,maxlambda,ierror)
   if (ierror.ne.0) call outofmemory('changemaxat','dUdlambda')

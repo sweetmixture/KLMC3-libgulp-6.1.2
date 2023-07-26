@@ -32,12 +32,25 @@
   use derivatives
   use energies,       only : eregion2region
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxregion
+#endif
   implicit none
 !
 !  Local variables
 !  
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxregion = 0
+#ifdef KLMC
+  if(lklmc_maxregion) then
+    ! set it as gulpdefault
+    maxregion = 1
+    oldmaxregion = 0
+    lklmc_maxregion = .false.
+  end if
+#endif  
 !
   call realloc(lopfreg,3_i4*maxregion,maxcfg,ierror)
   if (ierror.ne.0) call outofmemory('changemaxregion','lopfreg')

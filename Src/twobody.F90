@@ -565,7 +565,7 @@
 !
 
   factor = factorin
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
   ! wkjee
   write(*,'(A,F40.12)') "in twobody.F90 (0) factor = ", factor
 #endif
@@ -616,7 +616,7 @@
 !
 !  Save ereal on entry in case lskipq is true
 !
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
   ! wkjee
   write(*,'(A,F40.12)') "in twobody.F90 (0) Befor : ereal = ", ereal
 #endif
@@ -699,12 +699,12 @@
 !*****************************
   do k = nor0,nor
   
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
     ! wkjee
     write(*,'(A,I8,I8)')  "in twobody.F90 (0): nor0 nor   = ", nor0, nor
 #endif
     r = dist(k)
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
     ! wkjee
     write(*,'(A,I8,F40.12)') "in twobody.F90 (0): k, dist(k) = ", k, r
 #endif
@@ -3906,12 +3906,12 @@
             ereal = ereal
           else
             if ((r2.gt.cut2s.or..not.lcspair).and.r2.lt.cut2e) then
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
               ! wkjee
               write(*,'(A,F40.12)') "in twobody.F90 (0) Cluster electrostatic Befor : ereal = ", ereal
 #endif
               ereal = ereal + factor*rk
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
               ! wkjee
               write(*,'(A,F40.12,F40.12)') "in twobody,F90 (0) factor , rk = ", factor, rk
               write(*,'(A,F40.12)')        "in twobody.F90 (0) Cluster electrostatic After : ereal = ", ereal
@@ -4181,14 +4181,14 @@
 !
 !  Call real twobody routine
 !
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
   ! wkjee
   write(*,'(A,F40.12)') "in twobody.F90 (1) Befor : ereal = ", ereal
 #endif
   call twobody(eatom,ereal,ec6,lgrad1,lgrad2,lgrad3,nor,nor0,npots,npotl,cut2r,cut2e,cut2s,nmolonly, &
                factor,sfct,spfct,radsum,sctrm1,sctrm2,qi,qj,nsi,nsj,lcspair,lperiodic,lregion1,lskipsr, &
                lskipq)
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_TWOBODY
   ! wkjee
   write(*,'(A,F40.12)') "in twobody.F90 (1) After : ereal = ", ereal
 #endif

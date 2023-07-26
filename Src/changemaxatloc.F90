@@ -29,6 +29,11 @@
   use derivatives,    only : nqatoms, nqatomcell, nqatomptr, d2qdxyz2, d2qdxyzs, d2qds2, maxqatoms
   use derivatives,    only : qatomxyz
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxatloc
+#endif
   implicit none
 !
 !  Local variables
@@ -36,6 +41,14 @@
   integer(i4)       :: ierror, i, maxqatoms2
   integer(i4), save :: oldmaxatloc = 0
 !
+#ifdef KLMC
+  if(lklmc_maxatloc) then
+  ! set it as gulpdefault
+    maxatloc = 0
+    oldmaxatloc = 0
+    lklmc_maxatloc = .false.
+  end if
+#endif
   call realloc(d2qdxyzs,6_i4,3_i4*maxqatoms,maxatloc,ierror)
   if (ierror.ne.0) call outofmemory('changemaxatloc','d2qdxyzs')
   maxqatoms2 = (3_i4*maxqatoms + 3_i4)*(3_i4*maxqatoms + 6_i4)/2_i4

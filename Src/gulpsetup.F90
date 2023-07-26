@@ -116,19 +116,25 @@
 #endif
   call gulp_banner
   ! wkjee
-  ! write(*,'(A)') "in gulp_setup: after banner"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulp_setup: after banner"
+#endif
 !**************************
 !  Get local information  *
 !**************************
   call local
   ! wkjee
-  ! write(*,'(A)') "in gulp_setup: after local"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulp_setup: after local"
+#endif
 !****************************
 !  Set element information  *
 !****************************
   call setele(lopened)
   ! wkjee
-  ! write(*,'(A,L)') "in gulp_setup: after setele, lopened: ", lopened
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A,L)') "in gulp_setup: after setele, lopened: ", lopened
+#endif
   ! wkjee - lopened = .false.
 !*******************************************************
 !  Pre-processor passes before reading input properly  *
@@ -141,13 +147,17 @@
   ! wkjee - if commandline inputfile used in gulpmain 'setupinputoutput' this doesn't do anything
 
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before firstpass"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before firstpass"
+#endif
   ! wkjee
   call firstpass
   rewind(iotmp)
   ! wkjee - rewind does repositions the file connected to I/O unit=iotmp to the beginning of the file
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before secondpass"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before secondpass"
+#endif
   ! wkjee
   call secondpass
   rewind(iotmp)
@@ -155,25 +165,33 @@
 !  Read in keywords  *
 !*********************
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before getkeyward"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before getkeyward"
+#endif
   ! wkjee
   call getkeyword(iline)
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before setkeyward 1"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before setkeyward 1"
+#endif
   ! wkjee
   call setkeyword
 !***********************
 !  Process main input  *
 !***********************
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before inword"
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before inword"
+#endif
   ! wkjee
   call inword(iline)
 !*******************************************************
 !  Set keywords again in case any were in the library  *
 !*******************************************************
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before setkeyword 2 "
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before setkeyword 2 "
+#endif
   ! wkjee
   call setkeyword
   close(iotmp,status='delete')
@@ -181,20 +199,39 @@
 !  Set charge equilibration parameters  *
 !****************************************
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before seteem "
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before seteem "
+#endif
   ! wkjee
   call seteem
 !***************************
 !  Output keyword details  *
 !***************************
   ! wkjee
-  ! write(*,'(A)') "in gulpsetup - before outkey "
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before outkey "
+#endif
   ! wkjee
   call outkey
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - after  outkey "
+#endif
+  ! wkjee
 !*********************************************************
 !  Re-initialise memory as keywords may change settings  *
 !*********************************************************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - before initmemory "
+#endif
+  ! wkjee
   call initmemory
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - after initmemory "
+#endif
+  ! wkjee
 !**************
 !  Site name  *
 !**************
@@ -219,6 +256,11 @@
 !***********************
 !  CML initialisation  *
 !***********************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A,L)') "in gulpsetup - cml before: cml: ", lcml
+#endif
+  ! wkjee
   if (lcml) then
     call gulp_cml_init
     call gulp_cml_outkey
@@ -226,6 +268,11 @@
 !*************************
 !  GFNFF initialisation  *
 !*************************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A,L)') "in gulpsetup - lgfnff before: lgfnff: ", lgfnff
+#endif
+  ! wkjee
   if (lgfnff) then
 #ifndef NOGFNFF
     call gulp_gfnff_init
@@ -235,7 +282,17 @@
 !**************************
 !  One off initial set up *
 !**************************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - setcfg before"
+#endif
+  ! wkjee
   call setcfg
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - setcfg after"
+#endif
+  ! wkjee
 !*******************
 !  Species output  *
 !*******************
@@ -257,6 +314,11 @@
 !************************
 !  Output general info  *
 !************************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - outget before"
+#endif
+  ! wkjee
   if (ioproc) call outgen
 !*******************************
 !  Output polarisability info  *
@@ -265,14 +327,29 @@
 !*********************
 !  Check potentials  *
 !*********************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - checkpot before"
+#endif
+  ! wkjee
   call checkpot
 !**********************
 !  Output potentials  *
 !**********************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - outpot before"
+#endif
+  ! wkjee
   call outpot
 !*****************************
 !  Check options for method  *
 !*****************************
+  ! wkjee
+#ifdef KLMC_DEBUG_GULPSETUP
+  write(*,'(A)') "in gulpsetup - method before"
+#endif
+  ! wkjee
   call methodok
 !*****************************
 !  ChemShell charge-only run *

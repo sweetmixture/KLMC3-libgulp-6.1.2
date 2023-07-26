@@ -48,10 +48,23 @@
   use derivatives,    only : molQTdri, molQQdri, molQCdri, molTCdri, molTTdri
   use derivatives,    only : molQTdk, molQQdk, molQCdk, molTCdk, molTTdk
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxmol
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxmol = 0
+#ifdef KLMC
+  if(lklmc_maxmol) then
+    ! set it as gulpdefault
+    maxmol = 1
+    oldmaxmol = 0
+    lklmc_maxmol = .false.
+  end if
+#endif  
 !
   call realloc(molcom,3_i4,maxmol,ierror)
   if (ierror.ne.0) call outofmemory('changemaxmol','molcom')

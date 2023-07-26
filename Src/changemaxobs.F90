@@ -30,10 +30,23 @@
   use configurations,   only : maxcfg
   use observables
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxobs
+#endif
   implicit none
 !
   integer(i4), save :: oldmaxobs = 0
   integer(i4)       :: ierror, i
+#ifdef KLMC
+  if(lklmc_maxobs) then
+    ! set it as gulpdefault
+    maxobs = 10
+    oldmaxobs = 0
+    lklmc_maxobs = .false.
+  end if
+#endif  
 !
 !  Configuration data
 !

@@ -27,12 +27,25 @@
   use configurations
   use field
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxtdfield
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxtdfield = 0
+#ifdef KLMC
+  if(lklmc_maxtdfield) then
+    ! set it as gulpdefault
+    maxtdfield = 2
+    oldmaxtdfield = 0
+    lklmc_maxtdfield = .false.
+  end if
+#endif  
 !
 !  Configuration data
 !

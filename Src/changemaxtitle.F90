@@ -29,10 +29,23 @@
   use general
   use gulp_lengths
   use reallocate
+#ifdef KLMC
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxtitle
+#endif
   implicit none
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxtitle = 0
+#ifdef KLMC
+  if(lklmc_maxtitle) then
+    ! set it as gulpdefault
+    maxtitle = 20
+    oldmaxtitle = 0
+    lklmc_maxtitle = .false.
+  end if
+#endif  
 !
 !  Library data
 !

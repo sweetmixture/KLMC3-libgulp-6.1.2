@@ -48,7 +48,7 @@
 !
     ! wkjee - builtin MPI_Initilaized() checking if MPI_Init() done
     call MPI_Initialized(lmpiinit, ierr)
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
     write(*,'(A,L4)')   "in initcomms : MPI_Init() is already called / lmpiinit<logical> : ", lmpiinit
 #endif
     ! wkjee - default mode, lmpiinit = .false.
@@ -58,7 +58,7 @@
     ! wkjee - klmc modification
 #ifdef KLMC 
     if ( lmpiinit ) then
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
       write(*,'(A)') "in initcomms : MPI_comm_GULP set to MPI_comm_in (KLMC used)"
 #endif
       MPI_comm_GULP = MPI_comm_in
@@ -68,7 +68,7 @@
 
     if (.not. lmpiinit) then
        ! wkjee
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
        write(*,'(A)') "in initcomms : MPI_Init() is called (must not happen)"
 #endif
        call MPI_init(ierr)
@@ -76,7 +76,7 @@
 !  Set communicator for MPI based on MPI_comm_world
 !
        ! wkjee - MPI_comm_GULP in module parallel (modules.F90)
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
        write(*,'(A,I)') "in initcomms : MPI_comm_in (must not happen)", MPI_comm_in
 #endif
        MPI_comm_GULP = MPI_comm_world
@@ -87,7 +87,7 @@
 !
     ! wkjee - MPI_comm_GULP in module parallel (modules.F90)
     ! with condition ( ichemsh_link .eq. 0 ) lines below does not occur.
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
     write(*,'(A,I)')       "in initcomms : (must not happen) MPI_comm_in", MPI_comm_in
     write(*,'(A,I16,I16)') "in initcomms : (must not happen) catching MPI_comm_in / MPI_comm_GULP : ", MPI_comm_in, MPI_comm_GULP
 #endif
@@ -97,7 +97,7 @@
   call MPI_comm_rank(MPI_comm_GULP,lprocid,ierr)
   call MPI_comm_size(MPI_comm_GULP,lnprocs,ierr)
 
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
   ! wkjee - invalid communicator debugging - solved
   if(lprocid.eq.0) then
     write(*,'(A)')   "in initcomms : before getting rank / size"
@@ -111,7 +111,7 @@
   ! wkjee - procid / nproc (module parallel in modules.F90)
   ! procid : Number for local processor
   ! nrpoc  : Number of processors for parallel execution
-#ifdef KLMC_DEBUG
+#ifdef KLMC_DEBUG_INITCOMM
   write(*,'(A,I4,I4)') "in initcomms : procid / nprocs", lprocid, lnprocs
 #endif
   procid  = lprocid

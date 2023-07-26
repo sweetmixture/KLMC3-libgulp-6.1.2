@@ -125,8 +125,9 @@
   use thermalcond
 
 #ifdef KLMC
-  ! wkjee - 12 July 2023
-  use klmc
+  ! 07/23 wkjee
+  ! reset internal counter
+  use klmc, only : lklmc_maxcfg
 #endif
 
   implicit none
@@ -141,12 +142,12 @@
   ! wkjee end - very dangerous, = 0 will destroy all
 
 #ifdef KLMC
-  if(lklmcfreshrun) then
+  if(lklmc_maxcfg) then
     ! set it as gulpdefault
+    ! wkjee - 24/07/23 ... save attr must be reset ! (even the variable is local)
     maxcfg = 1
-    ! set it as gulpdefault
     oldmaxcfg = 0
-    lklmcfreshrun = .false.
+    lklmc_maxcfg = .false.
   end if 
 #endif
 
@@ -593,8 +594,8 @@
   if (ierror.ne.0) call outofmemory('changemaxcfg','lgfnff_ref_rv')
 
 
-#ifdef KLMC_DEBUG_A
-  ! wkjee 
+#ifdef KLMC_DEBUG_MAXCFG
+  ! wkjee important
   write(*,'(A,I8)') "in changemaxcfg.F90 (-2) : oldmaxcfg : ", oldmaxcfg
 #endif
 !
@@ -604,7 +605,7 @@
 !
 !  Initialise defaults for new part of array
 !
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_MAXCFG
   ! wkjee 
   write(*,'(A,I8)') "in changemaxcfg.F90 (-1) : oldmaxcfg : ", oldmaxcfg
   ! wkjee
@@ -613,14 +614,14 @@
 #endif
   if (maxcfg.gt.oldmaxcfg) then
     do i = oldmaxcfg+1,maxcfg
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_MAXCFG
       ! wkjee
       write(*,'(A)') "in changemaxcfg.F90   (1) : before call initmaxcfgdefaults()"
       ! wkjee end
 #endif
       call initmaxcfgdefaults(i)
     enddo
-#ifdef KLMC_DEBUG_A
+#ifdef KLMC_DEBUG_MAXCFG
   ! wkjee
   else
     write(*,'(A)') "in changemaxcfg.F90   (2) : initmaxcfgdefaults() is not called !!!"

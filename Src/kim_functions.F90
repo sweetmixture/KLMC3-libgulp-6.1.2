@@ -972,12 +972,25 @@
   use datatypes
   use current,        only : maxat
   use reallocate
+#ifdef KLMC
+   ! 07/23 wkjee
+   ! reset internal counter
+   use klmc, only : lklmc_maxneighk
+#endif
   implicit none
 !
 !  Local variables
 !
   integer(i4)       :: ierror, i
   integer(i4), save :: oldmaxat = 0
+#ifdef KLMC
+  if(lklmc_maxneighk) then
+    ! set it as gulpdefault
+    maxat = 0
+    oldmaxat = 0
+    lklmc_maxneighk = .false.
+  end if
+#endif  
 #ifdef TRACE
   call trace_in('changemaxneighk')
 #endif

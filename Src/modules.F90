@@ -4812,24 +4812,80 @@
   end module gulpchemsh
 !
 !  klmc module
-!  07 / 2023 W.K. Jee
+!  07 / 23 wkjee
 !
 #ifdef KLMC
   module klmc
     use datatypes
     use gulp_lengths
-    ! setting iopath (absolute)
+
+    !
+    ! KLMC3 TaskFarm Configuration + I/O Related
+    !
     character(len=256),                   save :: gulp_klmc_iopath
- 
     integer,                              save :: gulp_klmc_task_id
     integer,                              save :: gulp_klmc_worker_id
     integer,                              save :: gulp_klmc_cpu_count
 
-    ! variable for controling 'oldmaxcfg' in changemaxcfg.F90
-    logical,                              save :: lklmcfreshrun = .true.
-
-    ! klmc stdout channel
-    ! integer(i4),                          save :: gulp_klmc_stdout = 72_i4
+    !
+    ! 07/23 wkjee
+    ! Reinitialising GULP internal counters
+    ! 
+    logical,  save :: lklmcfreshrun
+                                                        ! GULP initial values : check also 'initial.F90'
+    logical,  save :: lklmc_maxat            = .true.   ! maxat = 0    : changemaxat.F90
+    logical,  save :: lklmc_maxatloc         = .true.   ! maxatloc = 0 : changemaxatloc.F90
+    logical,  save :: lklmc_maxatot          = .true.   ! maxatot = 0  : ...
+    logical,  save :: lklmc_maxbond          = .true.   ! maxbond = 12
+    logical,  save :: lklmc_maxbondq         = .true.   ! maxbondQ = 1
+    logical,  save :: lklmc_maxccspec        = .true.   ! maxCCspec = 10
+    logical,  save :: lklmc_maxcfg           = .true.   ! maxcfg = 1
+    logical,  save :: lklmc_maxconnect       = .true.   ! maxconnect = 1
+    logical,  save :: lklmc_maxdef           = .true.   ! maxdef = 10
+    logical,  save :: lklmc_maxeamden        = .true.   ! maxeamden = 3
+    logical,  save :: lklmc_maxeamfnspec     = .true.   ! maxeamfnspec = 1
+    logical,  save :: lklmc_maxeamspec       = .true.   ! maxeamspec = 1
+    logical,  save :: lklmc_maxedipspec      = .true.   ! maxEDIPspec = 1
+    logical,  save :: lklmc_maxfgrad         = .true.   ! maxfgrad = 10
+    logical,  save :: lklmc_maxfit           = .true.   ! maxfit = 1
+    logical,  save :: lklmc_maxfor           = .true.   ! maxfor = 10
+    logical,  save :: lklmc_maxfstrain       = .true.   ! maxfstrain = 6
+    logical,  save :: lklmc_maxgcmcmol       = .true.   ! maxgcmcmol = 1
+    logical,  save :: lklmc_maxlambda        = .true.   ! maxlambda = 1
+    logical,  save :: lklmc_maxlib           = .true.   ! maxlib = 4
+    logical,  save :: lklmc_maxmcswaps       = .true.   ! maxmcswaps = 2
+    logical,  save :: lklmc_maxmcswapspec    = .true.   ! maxmcswapspec = 1
+    logical,  save :: lklmc_maxmctrans       = .true.   ! maxmctrans = 2
+    logical,  save :: lklmc_maxmol           = .true.   ! maxmol = 1
+    logical,  save :: lklmc_maxnboa          = .true.   ! maxnboA = 1
+    logical,  save :: lklmc_maxnboo          = .true.   ! maxnboO = 1
+    logical,  save :: lklmc_maxnbopot        = .true.   ! maxnbopot = 1
+    logical,  save :: lklmc_maxnboq0         = .true.   ! maxnboQ0 = 1
+    logical,  save :: lklmc_maxnboq          = .true.   ! maxnboQ = 1
+    logical,  save :: lklmc_maxnbor          = .true.   ! maxnboR = 1
+    logical,  save :: lklmc_maxnboz          = .true.   ! maxnboZ = 1
+    logical,  save :: lklmc_maxnebreplicatot = .true.   ! maxnebreplicatot = 1
+    logical,  save :: lklmc_maxnppa          = .true.   ! maxnppa = 1
+    logical,  save :: lklmc_maxnpts          = .true.   ! maxnpts = 1
+    logical,  save :: lklmc_maxobs           = .true.   ! maxobs = 10
+    logical,  save :: lklmc_maxone           = .true.   ! maxone = 10
+    logical,  save :: lklmc_maxplanepot      = .true.   ! maxplanepot = 0
+    logical,  save :: lklmc_maxpot           = .true.   ! maxpot = 10
+    logical,  save :: lklmc_maxqrange        = .true.   ! maxqrange = 1
+    logical,  save :: lklmc_maxr1at          = .true.   ! maxr1at = 1
+    logical,  save :: lklmc_maxreaxffspec    = .true.   ! maxreaxFFspec = 1
+    logical,  save :: lklmc_maxreaxffval3    = .true.   ! maxreaxFFval3 = 2
+    logical,  save :: lklmc_maxregion        = .true.   ! maxregion = 1
+    logical,  save :: lklmc_maxsix           = .true.   ! maxsix = 10
+    logical,  save :: lklmc_maxspcellbo      = .true.   ! maxspcellbo = 0
+    logical,  save :: lklmc_maxspcell        = .true.   ! maxspcell = 0
+    logical,  save :: lklmc_maxspec          = .true.   ! maxspec = 20
+    logical,  save :: lklmc_maxtdfield       = .true.   ! maxtdfield = 2
+    logical,  save :: lklmc_maxtempramp      = .true.   ! maxtempramp = 1
+    logical,  save :: lklmc_maxthb           = .true.   ! maxthb = 10
+    logical,  save :: lklmc_maxtitle         = .true.   ! maxtitle = 20
+    logical,  save :: lklmc_maxneighk        = .true.   ! maxat = 0  : from kim_functions.F90
+    logical,  save :: lklmc_maxpdfcfg        = .true.   ! maxcfg = 1 :from m_pdfneutron.F90
 
   end module klmc
 #endif
