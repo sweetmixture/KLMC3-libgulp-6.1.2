@@ -1127,12 +1127,19 @@
 !
 !  Set up parallel distribution of variables
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-7-1"
+! lall = .true. case
+#endif
     call setvarnoded2(.false.)
   endif
 !
 !  Check that no cell variables are specified with Einstein model
 !
   if (leinstein.and.ncell.gt.0) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-7-2"
+#endif
     call outerror('cell must be fixed with Einstein model',0_i4)
     call stopnow('setup')
   endif
@@ -1140,6 +1147,9 @@
 !  Check that no cell variables are specified with electric field
 !
   if ((lfieldcfg(ncf).or.(ntdfieldcfg(ncf)).gt.0).and.ncell.gt.0) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-7-3"
+#endif
     call outerror('cell must be fixed with an electric field',0_i4)
     call stopnow('setup')
   endif
@@ -1147,6 +1157,9 @@
 !  Check that Grueneisen is compatible with cell
 !
   if (lgrueneisen.and.ndim.ne.3) then
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-7-4"
+#endif
     call outerror('Grueneisen parameters can only be calculated for 3-D systems',0_i4)
     call stopnow('setup')
   endif
@@ -1166,10 +1179,16 @@
 !  strain derivatives. Furthermore, if this is a 3-D system and MD then set lstr
 !  to be true so that the pressure is computed correctly.
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-8-1"
+#endif
   lstr = (ncell.gt.0.or.lprop.or.(lmd.and.(lpre.or.ndim.eq.3)).or.lstressout)
 !
 !  Surface energy flag - if cell is being optimised, don't do surface energy
 !
+#ifdef KLMC_DEBUG_SETUP
+  write(*,'(A)') "in setup.F90: 3-8-2"
+#endif
   lseok = ((ndim.eq.1.or.ndim.eq.2).and.sbulkecfg(ncf).ne.0.0_dp.and.ncell.eq.0)
   nzmol = nzmolcfg(ncf)
 !

@@ -2,7 +2,7 @@
 !
 !end program gulpklmc_program ! this is not working ont Cray HPE
 
-subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath_dummy, klmc_task_id, klmc_worker_id ) bind (C,name="gulpklmc")
+subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_id ) bind (C,name="gulpklmc")
   !
   ! wkjee - KLMC development 07/2023
   !
@@ -30,8 +30,8 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath_dummy, klmc_task_id, klmc_w
   ! character(kind=c_char), intent(in) :: klmc_task_iopath(512)
   ! character(kind=c_char), dimension(512), intent(in) :: klmc_task_iopath
   ! wkjee - generic string C->Fortran passer update
-  character(kind=c_char), dimension(*), intent(in) :: klmc_task_iopath_dummy
-  character(len=512) :: klmc_task_iopath
+  character(kind=c_char), dimension(*), intent(in) :: klmc_task_iopath
+  character(len=512) :: klmc_task_iopath_dummy
   
   ! iopath_length - string length of the file path
   integer iopath_length
@@ -75,17 +75,17 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath_dummy, klmc_task_id, klmc_w
   ! <IMPORTANT> iopath_length - remove the terminating zero '0' at the end 
 
   ! wkjee - refactoring klmc input path
-  klmc_task_iopath = ""
+  klmc_task_iopath_dummy = ""
   iopath_length = 0
   do
-     if(klmc_task_iopath_dummy(iopath_length+1) == C_NULL_CHAR) exit
+     if(klmc_task_iopath(iopath_length+1) == C_NULL_CHAR) exit
      iopath_length = iopath_length + 1
-     klmc_task_iopath(iopath_length:iopath_length) = klmc_task_iopath_dummy(iopath_length)
+     klmc_task_iopath_dummy(iopath_length:iopath_length) = klmc_task_iopath(iopath_length)
   end do
   ! iopath_length = len_trim(klmc_task_iopath)-1
-  gulp_klmc_iopath = klmc_task_iopath(1:iopath_length)
+  gulp_klmc_iopath = klmc_task_iopath_dummy(1:iopath_length)
   ! write(*,'(A,I4)') "in gulpklmc: klmc_task_iopath_length: ", len_trim(klmc_task_iopath)-1
-  write(*,'(A,A)') "in gulpklmc.F90 : KLMC klmc_task_iopath: ", klmc_task_iopath
+  write(*,'(A,A)') "in gulpklmc.F90 : KLMC klmc_task_iopath: ", klmc_task_iopath_dummy
   write(*,'(A,A)') "in gulpklmc.F90 : KLMC gulp_klmc_iopath: ", gulp_klmc_iopath 
 
   ! passing taskfarm info
@@ -125,7 +125,7 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath_dummy, klmc_task_id, klmc_w
 
   if ( rank .eq. 0 ) then
     write(*,'(A,A,A,A,A,F12.8,A,I4,A,I4,A,I4,A,A)') "KLMC_FINALIZE> start: ", trim(adjustl(start_timestamp)), " end: ", trim(adjustl(end_timestamp)), " elapsed_time: ", mpi_elapsed_t, &
-    " cpu_count: ", cpu_count, " task_id: ", klmc_task_id, " worker_id: ", klmc_worker_id, " io_path: ", klmc_task_iopath
+    " cpu_count: ", cpu_count, " task_id: ", klmc_task_id, " worker_id: ", klmc_worker_id, " io_path: ", gulp_klmc_iopath
   end if
 
   return

@@ -55,7 +55,14 @@
 !
 !  Determine parallel distribution of variables for block cyclic form
 !
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,I4)') "in setvernoded2.F90: 0: nprocs: ", nprocs
+    ! write(*,'(A,I4)') "in setvernoded2.F90: 0: nvar2node(1) : ", nvar2node(1)
+#endif
   if (nprocs.gt.1) then
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A)') "in setvernoded2.F90: 1"
+#endif
     nvaronnode = 0
     node = 0
     icount = 0
@@ -83,11 +90,29 @@
       endif
     enddo
   else
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,L4,L4,L4)') "in setvernodede2.F90: associated(nvar2node) / associated(node2var) / associated(nvar2local): ", associated(nvar2node), associated(node2var), associated(nvar2local)
+#endif
     nvaronnode = nvar
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,I4)') "in setvernoded2.F90: nvar: ", nvar
+#endif
     do i = 1,nvar
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,I4,I4,I4)') "in setvernoded2.F90: 3: i / nvar: ", i, nvar, nvar2node(i)
+#endif
       nvar2node(i) = 0
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,I4,I4)') "in setvernoded2.F90: 3-1: check nvar2node"
+#endif
       node2var(i) = i
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,I4,I4)') "in setvernoded2.F90: 3-1: check node2var"
+#endif
       nvar2local(i) = i
+#ifdef KLMC_DEBUG_SETVN2
+    write(*,'(A,I4,I4)') "in setvernoded2.F90: 3-1: check nvar2local"
+#endif
     enddo
   endif
   if (ldefect) then

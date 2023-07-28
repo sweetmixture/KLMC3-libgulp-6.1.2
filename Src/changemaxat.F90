@@ -132,7 +132,7 @@
 #ifdef KLMC
   ! 07/23 wkjee
   ! reset internal counter
-  use klmc, only : lklmc_maxat
+  use klmc, only : lklmc_maxat, iklmc_size_node2var, lklmcfreshrun
 #endif
   implicit none
 !
@@ -148,6 +148,13 @@
     oldmaxat = 0
     lklmc_maxat = .false.
   end if
+
+  ! reset node2var size
+  if(lklmcfreshrun) then
+    iklmc_size_node2var = 0
+    lklmcfreshrun = .false.
+  endif
+
 #endif  
 
   call realloc(atom2local,maxat,ierror)
@@ -197,6 +204,28 @@
   call realloc(iopttype,4_i4*maxat+6_i4,ierror)
   if (ierror.ne.0) call outofmemory('changemaxat','iopttype')
 !
+#ifdef KLMC_DEBUG_CMAXAT
+    write(*,'(A,I4)') "in changemaxat.F90: maxat               : ", maxat
+    write(*,'(A,I4)') "in changemaxat.F90: size                : ", size(node2var)
+    write(*,'(A,I4)') "in changemaxat.F90: iklmc_size_node2var : ", iklmc_size_node2var
+    write(*,'(A,L4)') "in changemaxat.F90: associated(node2var): ", associated(node2var)
+    write(*,'(A,I6,I6,L4)') "in chagemaxat.F90: LV / RV: ", 4*maxat+6, iklmc_size_node2var, (4_i4*maxat+6_i4.gt.iklmc_size_node2var)
+    write(*,'(A,I6,I6,L4)') "in chagemaxat.F90: LV / RV: ", 4*maxat+6, size(node2var), (4_i4*maxat+6_i4.gt.size(node2var))
+#endif
+
+#ifdef KLMC
+  if (4_i4*maxat+6_i4.gt.iklmc_size_node2var) then
+    call realloc(node2var,4_i4*maxat+6_i4,ierror)
+    if (ierror.ne.0) call outofmemory('changemaxat','node2var')
+    call realloc(nvar2local,4_i4*maxat+6_i4,ierror)
+    if (ierror.ne.0) call outofmemory('changemaxat','nvar2local')
+    call realloc(nvar2node,4_i4*maxat+6_i4,ierror)
+    if (ierror.ne.0) call outofmemory('changemaxat','nvar2node')
+    ! update
+    iklmc_size_node2var = size(node2var)
+  endif
+#else
+  ! gulp default (stand-alone)
   if (4_i4*maxat+6_i4.gt.size(node2var)) then
     call realloc(node2var,4_i4*maxat+6_i4,ierror)
     if (ierror.ne.0) call outofmemory('changemaxat','node2var')
@@ -205,6 +234,7 @@
     call realloc(nvar2node,4_i4*maxat+6_i4,ierror)
     if (ierror.ne.0) call outofmemory('changemaxat','nvar2node')
   endif
+#endif
 !
   call realloc(labsco,maxat,ierror)
   if (ierror.ne.0) call outofmemory('changemaxat','labsco')

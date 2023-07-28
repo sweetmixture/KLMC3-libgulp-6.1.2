@@ -4,6 +4,7 @@ subroutine gulpklmc_initmax
   implicit none
 
   lklmcfreshrun = .true.
+
   lklmc_maxat            = .true.
   lklmc_maxatloc         = .true.
   lklmc_maxatot          = .true.

@@ -41,7 +41,7 @@
 #ifdef KLMC
   ! 07/23 wkjee
   ! reset internal counter
-  use klmc, only : lklmc_maxr1at
+  use klmc, only : lklmc_maxr1at, iklmc_size_node2var, lklmcfreshrun
 #endif
   implicit none
 !
@@ -53,6 +53,12 @@
     maxr1at = 1
     oldmaxr1at = 0
     lklmc_maxr1at = .false.
+  end if
+
+  ! reset node2var size
+  if(lklmcfreshrun) then
+    iklmc_size_node2var = 0
+    lklmcfreshrun = .false.
   end if
 #endif  
 !
@@ -129,6 +135,28 @@
   call realloc(zperf,maxr1at,ierror)
   if (ierror.ne.0) call outofmemory('changemaxr1at','zperf')
 !
+#ifdef KLMC_DEBUG_CMAXR1AT
+    write(*,'(A,I4)') "in changemaxr1at.F90: maxr1at             : ", maxr1at
+    write(*,'(A,I4)') "in changemaxr1at.F90: size                : ", size(node2var)
+    write(*,'(A,I4)') "in changemaxr1at.F90: iklmc_size_node2var : ", iklmc_size_node2var
+    write(*,'(A,L4)') "in changemaxr1at.F90: associated(node2var): ", associated(node2var)
+    write(*,'(A,I6,I6,L4)') "in chagemaxr1at.F90: LV / RV: ", 4*maxr1at+6, size(node2var), (4_i4*maxr1at.gt.size(node2var))
+    write(*,'(A,I6,I6,L4)') "in chagemaxr1at.F90: LV / RV: ", 4*maxr1at+6, iklmc_size_node2var, (4_i4*maxr1at.gt.iklmc_size_node2var)
+#endif
+
+#ifdef KLMC
+  if (4_i4*maxr1at.gt.iklmc_size_node2var) then
+    call realloc(node2var,4_i4*maxr1at,ierror)
+    if (ierror.ne.0) call outofmemory('changemaxr1at','node2var')
+    call realloc(nvar2local,4_i4*maxr1at,ierror)
+    if (ierror.ne.0) call outofmemory('changemaxr1at','nvar2local')
+    call realloc(nvar2node,4_i4*maxr1at,ierror)
+    if (ierror.ne.0) call outofmemory('changemaxr1at','nvar2node')
+    ! update
+    iklmc_size_node2var = size(node2var)
+  endif
+#else
+  ! gulp default (stand-alone)
   if (4_i4*maxr1at.gt.size(node2var)) then
     call realloc(node2var,4_i4*maxr1at,ierror)
     if (ierror.ne.0) call outofmemory('changemaxr1at','node2var')
@@ -137,6 +165,7 @@
     call realloc(nvar2node,4_i4*maxr1at,ierror)
     if (ierror.ne.0) call outofmemory('changemaxr1at','nvar2node')
   endif
+#endif
 !
   call realloc(node2reg1,maxr1at,ierror)
   if (ierror.ne.0) call outofmemory('changemaxr1at','node2reg1')
