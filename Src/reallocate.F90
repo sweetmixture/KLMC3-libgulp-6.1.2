@@ -60,22 +60,6 @@
 
     integer(i4), save :: PeakMemory = 0
 
-#ifdef KLMC
-    ! 08/23 wkjee: if fresh run (i.e. lklmc_mem = .true.)
-    if(lklmc_mem) then
-       Wordslo  = 0
-       Wordsi2  = 0
-       Wordsi4  = 0
-       Wordsr4  = 0
-       Wordsr8  = 0
-       Wordsch  = 0
-       Wordsc8  = 0
-       Wordsc16 = 0
-       PeakMemory = 0
-       lklmc_mem = .false.
-    end if
-#endif
-
     interface realloc
 
       module procedure &
