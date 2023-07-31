@@ -4835,7 +4835,8 @@
 
     logical,  save :: lklmcfreshrun          = .true.
 
-    logical,  save :: lklmc_mem              = .true.
+    logical,  save :: lklmc_mem              = .true.   ! 08/23     : GULP printing Peak memory fix
+
                                                         ! GULP initial values : check also 'initial.F90'
     logical,  save :: lklmc_maxat            = .true.   ! maxat = 0    : changemaxat.F90
     logical,  save :: lklmc_maxatloc         = .true.   ! maxatloc = 0 : changemaxatloc.F90
