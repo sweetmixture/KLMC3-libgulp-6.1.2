@@ -4834,6 +4834,8 @@
     integer,  save :: iklmc_size_node2var   = 0         ! 28/07/23 : size error in multiple gulpmain calls fixed: related major modifications made in changemaxat.F90 / changemaxr1at.F90
 
     logical,  save :: lklmcfreshrun          = .true.
+
+    logical,  save :: lklmc_mem              = .true.
                                                         ! GULP initial values : check also 'initial.F90'
     logical,  save :: lklmc_maxat            = .true.   ! maxat = 0    : changemaxat.F90
     logical,  save :: lklmc_maxatloc         = .true.   ! maxatloc = 0 : changemaxatloc.F90
