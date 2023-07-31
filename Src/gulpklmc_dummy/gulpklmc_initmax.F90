@@ -60,6 +60,18 @@ subroutine gulpklmc_initmax
   lklmc_maxtitle         = .true.
   lklmc_maxneighk        = .true.
   lklmc_maxpdfcfg        = .true.
+!
+! 08/23 wkjee: memory from module 'reallocate'
+!
+  Wordslo  = 0
+  Wordsi2  = 0
+  Wordsi4  = 0
+  Wordsr4  = 0
+  Wordsr8  = 0
+  Wordsch  = 0
+  Wordsc8  = 0
+  Wordsc16 = 0
+  PeakMemory = 0
 
   return
 end subroutine
