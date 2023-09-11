@@ -1,11 +1,10 @@
 subroutine gulpklmc_initmax
 
   use klmc
+  use reallocate
   implicit none
 
   lklmcfreshrun = .true.
-
-  lklmc_mem              = .true.
 
   lklmc_maxat            = .true.
   lklmc_maxatloc         = .true.

@@ -25,7 +25,8 @@
 #ifdef KLMC
     ! wkjee - do not close processors
     if(ioproc) then
-      write(*,'(A)') "KLMC> in stopnow(routine): something went wrong: checkout the .gout"
+      write (ioout,'(A)') "KLMC> in stopnow(routine): something went wrong: checkout the .gout"
+      call gflush(ioout)
     end if
     ! return
 #endif
@@ -43,7 +44,8 @@
 #ifdef KLMC
   ! wkjee - instead 'stop' simply return
   if(ioproc) then
-    write(*,'(A)') "KLMC> in stopnow(return): something went wrong: checkout the .gout"
+    write(ioout,'(A)') "KLMC> in stopnow(return): something went wrong: checkout the .gout"
+    call gflush(ioout)
   end if
   return
 #endif

@@ -281,7 +281,8 @@ case $compiler in
 #  Provide the location and name of Scalapack, Blacs, Pblas, Lapack and Blas libraries.
 #--USER--Start
 # If installed via homebrew
-               echo 'SLIBS=-L/opt/homebrew/lib/ -lscalapack ' >> makefile
+			   # wkjee 08/23 : archer2 gnu
+               #echo 'SLIBS=-L/opt/homebrew/lib/ -lscalapack ' >> makefile
 # If installed via macports
 #               echo 'SLIBS=-L/opt/local/lib -lscalapack ' >> makefile
 # If using framework accelerate then leave blank
@@ -346,11 +347,13 @@ case $compiler in
 #
            if [ "$parallel" = "" ]
            then
-               echo 'RUNF90=ftn ' >> makefile
+               #echo 'RUNF90=ftn ' >> makefile
+               echo 'RUNF90=ftn -fallow-argument-mismatch ' >> makefile
                echo 'RUNCC=cc ' >> makefile
                echo 'SLIBS= ' >> makefile
            else
-               echo 'RUNF90=ftn ' >> makefile
+               #echo 'RUNF90=ftn ' >> makefile
+               echo 'RUNF90=ftn -fallow-argument-mismatch ' >> makefile
                echo 'RUNCC=cc ' >> makefile
                echo 'SLIBS= ' >> makefile
            fi

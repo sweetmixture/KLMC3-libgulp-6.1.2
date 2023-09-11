@@ -124,8 +124,9 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
   mpi_elapsed_t = mpi_tend - mpi_tstart
 
   if ( rank .eq. 0 ) then
-    write(*,'(A,A,A,A,A,F12.8,A,I4,A,I4,A,I4,A,A)') "KLMC_FINALIZE> start: ", trim(adjustl(start_timestamp)), " end: ", trim(adjustl(end_timestamp)), " elapsed_time: ", mpi_elapsed_t, &
-    " cpu_count: ", cpu_count, " task_id: ", klmc_task_id, " worker_id: ", klmc_worker_id, " io_path: ", gulp_klmc_iopath
+    write(*,'(A,A,A,A,A,F12.8,A,I4,A,I4,A,I4,A,A)') "KLMC_FINALIZE> start: ", trim(adjustl(start_timestamp)), &
+    " end: ", trim(adjustl(end_timestamp)), " elapsed_time: ", mpi_elapsed_t, " cpu_count: ", cpu_count, &
+    " task_id: ", klmc_task_id, " worker_id: ", klmc_worker_id, " io_path: ", gulp_klmc_iopath
   end if
 
   return
@@ -148,7 +149,7 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
     subroutine sflag( rank, flag, task_id )
       integer, intent(in) :: rank,flag,task_id
       if( rank == 0 ) then
-        write(*,'(a,I4,I4)') "F> flag task_id: ", flag, task_id
+        write(6,'(a,I4,I4)') "F> flag task_id: ", flag, task_id
       end if
     end subroutine
 
