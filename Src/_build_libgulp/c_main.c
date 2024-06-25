@@ -47,26 +47,26 @@ int main()
         if( rank == 0 ) printf("C main> after calling gulpklmc\n");
 
 	// 2. CALL GULP
-	memset(iopath,' ',sizeof(iopath));
-	strcpy(iopath,root);
-	strcat(iopath,"/sample2");
-        //sprintf(iopath,"/home/uccawkj/Software/taskfarm/gitupdate/KLMC3-libgulp-6.1.2/Src/gulpklmc_dummy/sample2");
-	printf("C iopath> %s\n",iopath);
-        if( rank == 0 ) printf("C main> before calling gulpklmc\n");
-	printf("===========================================================================\n");
-	gulpklmc( &base_comm, iopath, &task_id, &worker_id );
-        if( rank == 0 ) printf("C main> after calling gulpklmc\n");
+	//memset(iopath,' ',sizeof(iopath));
+	//strcpy(iopath,root);
+	//strcat(iopath,"/sample2");
+    //    //sprintf(iopath,"/home/uccawkj/Software/taskfarm/gitupdate/KLMC3-libgulp-6.1.2/Src/gulpklmc_dummy/sample2");
+	//printf("C iopath> %s\n",iopath);
+    //    if( rank == 0 ) printf("C main> before calling gulpklmc\n");
+	//printf("===========================================================================\n");
+	//gulpklmc( &base_comm, iopath, &task_id, &worker_id );
+    //    if( rank == 0 ) printf("C main> after calling gulpklmc\n");
 
-	// 3. CALL GULP
-	memset(iopath,' ',sizeof(iopath));
-	strcpy(iopath,root);
-	strcat(iopath,"/sample3");
-        //sprintf(iopath,"/home/uccawkj/Software/taskfarm/gitupdate/KLMC3-libgulp-6.1.2/Src/gulpklmc_dummy/sample2");
-	printf("C iopath> %s\n",iopath);
-        if( rank == 0 ) printf("C main> before calling gulpklmc\n");
-	printf("===========================================================================\n");
-	gulpklmc( &base_comm, iopath, &task_id, &worker_id );
-        if( rank == 0 ) printf("C main> after calling gulpklmc\n");
+	//// 3. CALL GULP
+	//memset(iopath,' ',sizeof(iopath));
+	//strcpy(iopath,root);
+	//strcat(iopath,"/sample3");
+    //    //sprintf(iopath,"/home/uccawkj/Software/taskfarm/gitupdate/KLMC3-libgulp-6.1.2/Src/gulpklmc_dummy/sample2");
+	//printf("C iopath> %s\n",iopath);
+    //    if( rank == 0 ) printf("C main> before calling gulpklmc\n");
+	//printf("===========================================================================\n");
+	//gulpklmc( &base_comm, iopath, &task_id, &worker_id );
+    //    if( rank == 0 ) printf("C main> after calling gulpklmc\n");
 
 	MPI_Finalize();
 	return 0;

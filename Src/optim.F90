@@ -1275,5 +1275,16 @@
 #ifdef TRACE
   call trace_out('optim')
 #endif
+
+#ifdef KLMC
+!
+! 06.2024 WKJEE: fully deallocate test
+! 
+  if (associated(hess)) then
+    deallocate(hess)
+    nullify(hess)
+  end if
+#endif 
+
   return
   end

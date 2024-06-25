@@ -1,0 +1,17 @@
+#
+# 06.2024 WKJEE
+#
+
+to use scorep (scalasca module on archer2 for profiling / debugging)
+
+#
+# following env setup is required (using scorep - GNU)
+#
+module unload perftools-base/22.12.0
+module load other-software
+module load PrgEnv-gnu
+module load scalasca/2.6.1-gcc11
+
+
+[a] cray_compile_scorep.sh : example for scorep compilation
+[b] scorep.slurm           : example scorep memory monitoring job script
