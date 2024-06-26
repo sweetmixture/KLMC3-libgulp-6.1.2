@@ -115,6 +115,8 @@ subroutine gulpklmc( MPI_comm_klmc, klmc_task_iopath, klmc_task_id, klmc_worker_
 ! call reinitialise
 
   call gulpfinish
+
+  call gulpklmc_deallocate_all
   
 !=====================
 ! Print out log
