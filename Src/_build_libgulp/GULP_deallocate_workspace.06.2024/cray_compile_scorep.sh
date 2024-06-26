@@ -29,12 +29,12 @@ cd $root
 # 
 # standard compilation (on ARCHER 2, using 'cce' and 'gnu' stable)
 # ---------------------------------------------------------------------------
-cc -c call_gulpmain.c.c
-ftn -fallow-argument-mismatch -c gulpklmc.F90 -I./../Linux_MPI
-ftn -fallow-argument-mismatch -c gulpklmc_initmax.F90 -I./../Linux_MPI
-ftn -fallow-argument-mismatch -c gulpklmc_deallocate_all.F90 -I./../Linux_MPI
-ftn -o ${exe} call_gulpmain.c.o gulpklmc.o gulpklmc_initmax.o gulpklmc_deallocate_all.o -L./../Linux_MPI -lgulpklmc -L./../../Utils/pGFNFF/Src -lpGFNFF
-rm *.o
+#cc -c call_gulpmain.c.c
+#ftn -fallow-argument-mismatch -c gulpklmc.F90 -I./../Linux_MPI
+#ftn -fallow-argument-mismatch -c gulpklmc_initmax.F90 -I./../Linux_MPI
+#ftn -fallow-argument-mismatch -c gulpklmc_deallocate_all.F90 -I./../Linux_MPI
+#ftn -o ${exe} call_gulpmain.c.o gulpklmc.o gulpklmc_initmax.o gulpklmc_deallocate_all.o -L./../Linux_MPI -lgulpklmc -L./../../Utils/pGFNFF/Src -lpGFNFF
+#rm *.o
 
 # ---------------------------------------------------------------------------
 # wkjee 06.2024 : for development only (using SCORE-P debugger)
@@ -51,12 +51,12 @@ rm *.o
 #          module load scalasca/2.6.1-gcc11
 #
 # ---------------------------------------------------------------------------
-#scorep-cc -c call_gulpmain.c.c
-#scorep-ftn -fallow-argument-mismatch -c gulpklmc.F90 -I./../Linux_MPI
-#scorep-ftn -fallow-argument-mismatch -c gulpklmc_initmax.F90 -I./../Linux_MPI
-#scorep-ftn -fallow-argument-mismatch -c gulpklmc_deallocate_all.F90 -I./../Linux_MPI
-#scorep-ftn -o ${exe} call_gulpmain.c.o gulpklmc.o gulpklmc_initmax.o gulpklmc_deallocate_all.o -L./../Linux_MPI -lgulpklmc -L./../../Utils/pGFNFF/Src -lpGFNFF
-#rm *.o
+scorep-cc -c call_gulpmain.c.c
+scorep-ftn -fallow-argument-mismatch -c gulpklmc.F90 -I./../Linux_MPI
+scorep-ftn -fallow-argument-mismatch -c gulpklmc_initmax.F90 -I./../Linux_MPI
+scorep-ftn -fallow-argument-mismatch -c gulpklmc_deallocate_all.F90 -I./../Linux_MPI
+scorep-ftn -o ${exe} call_gulpmain.c.o gulpklmc.o gulpklmc_initmax.o gulpklmc_deallocate_all.o -L./../Linux_MPI -lgulpklmc -L./../../Utils/pGFNFF/Src -lpGFNFF
+rm *.o
 
 
 # ---------------------------------------------------------------------------

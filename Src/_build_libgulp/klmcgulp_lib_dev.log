@@ -1,10 +1,16 @@
 #
-#	Author:         Woongkyu Jee / woong.jee.16@ucl.ac.uk
-#	Affiliation:    University College London
-#	Date:           2023.05.25 - 
+#   Author:         Woongkyu Jee / woong.jee.16@ucl.ac.uk
+#   Affiliation:    University College London
+#   Date:           2023.05.25 - 
 #
 # -----------------------------------------------------   
-#	KLMC3 - GULP library development log
+#   KLMC3 - GULP library development log
+#
+#   To build GULP library for KLMC3, run scripts:
+#
+#   ARCHER2 : cray_compile.sh
+#   YOUNG   : intel_compile.sh
+#
 # -----------------------------------------------------   
 #
 	1. 07.23 WKJEE. first libridisation
