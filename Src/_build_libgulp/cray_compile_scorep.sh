@@ -19,9 +19,9 @@ exe="call_gulpmain.x"
 # -j : parallel make
 # -m : using MPI
 # ---------------------------------------------------------------------------
-#cd ./../Linux_MPI
-#  ar rcv libgulpklmc.a $( ls *.o | grep -v gulp.o )
-#cd $root
+cd ./../Linux_MPI
+  ar rcv libgulpklmc.a $( ls *.o | grep -v gulp.o )
+cd $root
 
 # ---------------------------------------------------------------------------
 # wkjee 08.2023
