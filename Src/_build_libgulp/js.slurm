@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Slurm job options (job-name, compute nodes, job time)
-#SBATCH --job-name=scorep
+#SBATCH --job-name=callgm.t
 #SBATCH --time=0:20:00
 #SBATCH --nodes=1
 
@@ -16,11 +16,11 @@
 export OMP_NUM_THREADS=1
 
 # SCOREP ENV
-module unload perftools-base/22.12.0
-module load other-software
-module load PrgEnv-gnu
-module load scalasca/2.6.1-gcc11
-export SCOREP_MEMORY_RECORDING=true
+# module unload perftools-base/22.12.0
+# module load other-software
+# module load PrgEnv-gnu
+# module load scalasca/2.6.1-gcc11
+# export SCOREP_MEMORY_RECORDING=true
 
 # Launch the parallel job
 #   Using 512 MPI processes and 128 MPI processes per node
