@@ -49,8 +49,9 @@
 
 	3. 07.2024 WKJEE.
 
+		!
 		! BLACS communicator leaking fix
-
+		!
 			[a] This has been related to the following error
 	
 			'MPIR_Get_contextid_sparse_group(610): Too many communicators (0/2048 free on this process; ignore_id=0)'
@@ -72,3 +73,29 @@
 
 			* 'BLACS_GRIDINIT' used in other subroutines: 'eigensolve_elpa.F90', 'pdiagd.F90', 'pdiaggd.F90',
 			  and they are followed by 'BLACS_GRIDEXIT'
+
+		!
+		! Catching abnormal gulpfinish
+		!
+			* Core-Shell abnormal distance invoke gulpfinish (by 07.2024), this is managed by keep calling return.
+			  (not ideal solution, but can deal with this by adding 'stepmx' option word in GULP input files)
+
+			- Call stack of 'core-shell' distance: this check is done by 'cutscheck()' subroutine (in cutscheck.F90)
+
+			+ 128 gulpklmc
+				+ 128 gulpmain
+					+ 128 gulp_options
+						+ 128 optim
+							+ 384 funct
+								+ 384 cutscheck
+
+				gulpklmc()      | gulpklmc.F90 : gulpmain() wrapper for KLMC3
+				gulpmain()      | gulpmain.F90
+				gulp_options()  | options.F90
+				optim()         | optim.F90
+				funct()         | funct.F90
+				cutscheck()     | cutscheck.F90
+
+			> implementaion of backtracing to 'gulpmain' has not been done.
+
+
