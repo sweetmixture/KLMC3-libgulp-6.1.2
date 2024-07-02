@@ -77,7 +77,7 @@
 !
        ! wkjee - MPI_comm_GULP in module parallel (modules.F90)
 #ifdef KLMC_DEBUG_INITCOMM
-       write(*,'(A,I)') "in initcomms : MPI_comm_in (must not happen)", MPI_comm_in
+       write(*,'(A,I16)') "in initcomms : MPI_comm_in (must not happen)", MPI_comm_in
 #endif
        MPI_comm_GULP = MPI_comm_world
     end if
@@ -88,7 +88,7 @@
     ! wkjee - MPI_comm_GULP in module parallel (modules.F90)
     ! with condition ( ichemsh_link .eq. 0 ) lines below does not occur.
 #ifdef KLMC_DEBUG_INITCOMM
-    write(*,'(A,I)')       "in initcomms : (must not happen) MPI_comm_in", MPI_comm_in
+    write(*,'(A,I16)')       "in initcomms : (must not happen) MPI_comm_in", MPI_comm_in
     write(*,'(A,I16,I16)') "in initcomms : (must not happen) catching MPI_comm_in / MPI_comm_GULP : ", MPI_comm_in, MPI_comm_GULP
 #endif
     MPI_comm_GULP = MPI_comm_in
@@ -101,8 +101,8 @@
   ! wkjee - invalid communicator debugging - solved
   if(lprocid.eq.0) then
     write(*,'(A)')   "in initcomms : before getting rank / size"
-    write(*,'(A,I)') "in initcomms : MPI_comm_in   <important>", MPI_comm_in
-    write(*,'(A,I)') "in initcomms : MPI_comm_GULP <important>", MPI_comm_GULP
+    write(*,'(A,I16)') "in initcomms : MPI_comm_in   <important>", MPI_comm_in
+    write(*,'(A,I16)') "in initcomms : MPI_comm_GULP <important>", MPI_comm_GULP
   end if
 #endif
   ! wkjee
@@ -120,9 +120,15 @@
 !  Initialise Blacs for use by pblas/scalapack
 !
   iBlacsContext = MPI_comm_GULP
+#ifdef KLMC_DEBUG_INITCOMM
+  write(*,'(A,I4,I4)') "in initcomms BEFORE calling blacs_gridinit : procid / nprocs", lprocid, lnprocs
+#endif
   call blacs_gridinit( iBlacsContext, 'C', 1, lnprocs)
+#ifdef KLMC_DEBUG_INITCOMM
+  write(*,'(A,I4,I4)') "in initcomms AFTER  calling blacs_gridinit : procid / nprocs", lprocid, lnprocs
+#endif
 #else
-  ! ifndef MPI - wkjee
+  ! ^ thie 'else' is for 'ifndef MPI' - wkjee
   procid  = 0
   nprocs  = 1
 #endif

@@ -1,0 +1,52 @@
+#
+#   Author:         Woongkyu Jee / woong.jee.16@ucl.ac.uk
+#   Affiliation:    University College London
+#   Date:           2023.05.25 - 
+#
+# -----------------------------------------------------   
+#   KLMC3 - GULP library development log
+#
+#   To build GULP library for KLMC3, run scripts:
+#
+#   ARCHER2 : cray_compile.sh
+#   YOUNG   : intel_compile.sh
+#
+# -----------------------------------------------------   
+#
+	1. 07.2023 WKJEE. first libridisation
+	
+	2. 06.2024 WKJEE. memory leaking fix
+
+		* * * major changes * * *
+
+		! new subroutine: 'gulpklmc_deallocate_all.F90' added
+
+			[a] any allocatables in 'modules.F90' are forced to be deallocated
+			    * this subroutine will be called always at the end of 'gulpklmc()' to clean up
+
+			[b] in 'initmemory.F90', 'subroutine initmemory()'
+
+				* module 'm_gfnff_nbr3' (m_gfnff_nbr3.F90) 
+					allocatables are forced to be deallocated, as a part of 'gulpklmc_deallocate_all.F90'
+				* module 'kim_models' (modules_kim.F90)
+					allocatables are forced to be deallocated, as a part of 'gulpklmc_deallocate_all.F90'
+				* module 'm_pr' (m_pr.F90)
+					allocatables are forced to be deallocated, as a part of 'gulpklmc_deallocate_all.F90'
+				* module 'm_pdfneutron' (m_pdfneutron.F90)
+					allocatables are forced to be deallocated, as a part of 'gulpklmc_deallocate_all.F90' : only pointers will be deallocated (allocatables not touched)
+			
+			[c] N.B. other allocatables in 'modules'
+
+				e.g., 'kim_functions' (kim_functions.F90), any m_*.F90 files have not been explicitly touched
+				* require further development (remember: associated can only be used for pointers, allocatalbe -> use allocated() )
+
+		! in GULP source code level: 'optim.F90', at the end of 'subroutine optim()' is modified for KLMC3 use.
+
+			[a] in block #ifdef KLMC3 ~ #end
+				* local allocatable 'hess' is forced to be deallocated, when it is used as a part of KLMC.
+
+	*
+	*	copy of 'gulpklmc_deallocate_all.F90' is at dir: ./gulpklmc_memoryleak_fix.06.2024
+	*
+
+	3. 07.2024

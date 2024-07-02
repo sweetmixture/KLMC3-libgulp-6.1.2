@@ -13,11 +13,9 @@
 #
 # -----------------------------------------------------   
 #
-	1. 07.23 WKJEE. first libridisation
+	1. 07.2023 WKJEE. first libridisation
 	
-	2. 06.23 WKJEE. memory leaking fix
-
-		* * * major changes * * *
+	2. 06.2024 WKJEE. memory leaking fix
 
 		! new subroutine: 'gulpklmc_deallocate_all.F90' added
 
@@ -47,4 +45,30 @@
 
 	*
 	*	copy of 'gulpklmc_deallocate_all.F90' is at dir: ./gulpklmc_memoryleak_fix.06.2024
-	* 
+	*
+
+	3. 07.2024 WKJEE.
+
+		! BLACS communicator leaking fix
+
+			[a] This has been related to the following error
+	
+			'MPIR_Get_contextid_sparse_group(610): Too many communicators (0/2048 free on this process; ignore_id=0)'
+
+			encountered when 'gulpmain()' called 512 times on ARCHER 2
+
+			* Issue:
+				CALL BLACS_GRIDINIT(CONTEXT): 'initcomm.F90', which never freed.
+				CONTEXT: typically a MPI_Comm handle
+
+			-> solution: added to 'gulpklmc_deallocate_all.F90' under 'module parallel'
+
+				CALL BLACS_GRIDEXIT(CONTEXT):
+				CONTEXT consume resources, and therefore CONTEXT should be released when no longer needed. 
+				After the freeing of a context, the context no longer exists,
+				* * * and its handle may be re-used if new contexts are defined. * * *
+				Note. CALL BLACS_EXIT(CONTEXT): this will destroy CONTEXT, and the CONTEXT no longer available.
+				(i.e., the MPI_Comm passed to Context will no longer be available)
+
+			* 'BLACS_GRIDINIT' used in other subroutines: 'eigensolve_elpa.F90', 'pdiagd.F90', 'pdiaggd.F90',
+			  and they are followed by 'BLACS_GRIDEXIT'
