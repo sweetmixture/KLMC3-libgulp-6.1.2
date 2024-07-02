@@ -1,57 +1,80 @@
-### KLMC3-libgulp-6.1.2
-  
-GULP-6.1.2 libridised version:
+### General Utility Lattice Program (GULP) Static Library for Knowledge Led Master Code 3 (KLMC3)
+---
+Original GULP source code is from: https://gulp.curtin.edu.au.
 
-[1] Aiming to use ```gulpmain()``` soubroutine for repeated calls.
+This modification has been made to use ```gulpmain()``` soubroutine, for instance, which could be interfaced by using a wrapper (currently used in KLMC3: https://github.com/sweetmixture/KLMC3).
 
-  * To use this functionality, first you must compile the GULP source files, which can be achieved by following command line instructions:
 
-    ! Using CRAY system, e.g., on ARCHER2
+  * Examples of building GULP static library
 
-    [a] Loading following modules,
+    As a common step, clone this git-repo on your Linux system
+    ```
+    git clone https://github.com/sweetmixture/KLMC3-libgulp-6.1.2.git
+    ```
+    and move to ```/KLMC3-libgulp-6.1.2.git/Src/```.
+
+    Build of the library has been tested on CRAY (GNU) and INTEL systems.
+
+    ---
+    #### [A] On CRAY system
+    for instance, if you have an account on ARCHER 2 (https://www.archer2.ac.uk):
+
+    STEP1. First make sure to use following modules,
     ```
     $ module restore
     $ module load PrgEnv-gnu
     ```
-    [b] Creating GULP *.mod / *.o files,
+    module ```PrgEnv-gnu``` could be replaced to any other equivalents, e.g., ```PrgEnv-gnu-amd```.
+
+    STEP2. Creating GULP *.mod / *.o files,
     ```
     $ cd /path/to/KLMC3-libgulp-6.1.2/Src
-    $ ./mkgulp -c cray -j 4 -m
+    $ ./mkgulp_cray_gnu -c cray -j 4 -m
     ```
-    where
-      -c cray : using "cray" compiler
-      -j 4    : using 4 cpu cores for this makefile run
-      -m      : using MPI
+    where  
+      -c cray : using "cray" compiler  
+      -j 4    : using 4 cpu cores for this makefile run  
+      -m      : using MPI  
 
-    This
+    STEP3. Creating static library  
+    ```
+    cd _build_libgulp
+    bash cray_compile.sh
+    ```
+    This will generate ```libgulpklmc.a``` at: ```/path/to/KLMC3-libgulp-6.1.2/Src/Linux_MPI```,
+    which will be automatically picked up by KLMC3 during its compilation.
 
-    ... KEEP EDITING
+    ---
+    #### [B] On Intel system
+    for instance, if you have an account on UCL MMM YOUNG (https://www.rc.ucl.ac.uk/docs/Clusters/Young):
 
+    STEP1. First make sure to use following modules,
+    ```
+    $ module load gcc-libs/4.9.2
+    $ module load compilers/intel/2019/update4
+    $ module load mpi/intel/2019/update4/intel
+    ```
+    It could be possible to use different versions of INTEL compilers and INTEL-MPI libraries, however, other verions have not checked.  
+
+    * The rest of steps (2 and 3) are as in [A] with slightly different commands.  
+   
+    STEP2. Creating GULP *.mod / *.o files,
+    ```
+    $ cd /path/to/KLMC3-libgulp-6.1.2/Src
+    $ ./mkgulp_intel -c intel -j 4 -m
+    ```
+    where  
+      -c intel : using "intel" compiler  
+      -j 4    : using 4 cpu cores for this makefile run  
+      -m      : using MPI  
+
+    STEP3. Creating static library  
+    ```
+    cd _build_libgulp
+    bash cray_compile.sh
+    ```
+    This will generate ```libgulpklmc.a``` at: ```/path/to/KLMC3-libgulp-6.1.2/Src/Linux_MPI```,
+    which will be automatically picked up by KLMC3 during its compilation.
     
-  * Each gulpmain() call is intended to conduct a standard GULP run:
-    (by 06.2024) For the current implementation, an example wrapper for ```gulpmain()``` subroutine is given at: ```/root/Src/_build_libgulp```
-    including following source files
-      call_gulpmain.c             :
-      gulpklmc.c                  :
-      gulpklmc_initmax.c          :
-      gulpklmc_deallocate_all.c   :
-
-
-* ------------------------------------------
-* OLD DESCRIPTION - 05.2024
+    
   
-Purpose: call gulpmain() multiple times for it's use on the KLMC3 task-farm interface.  
-  
-* Build (Compilation) : environment ARCHER 2 using cray-GNU
-
-1. In ```/root/Src/```, type command,  
-```
-  $ ./mkgulp -c cray -j 4 -m
-```
-
-2. Once step 1 is finished, type commands,
-```
-  $ cd _build_libgulp
-  $ bash cray_compile.sh
-```
-which will generate a static library, libgulp.a, in the path ```/root/Src/Linux_MPI/```.  
