@@ -96,6 +96,6 @@
 				funct()         | funct.F90
 				cutscheck()     | cutscheck.F90
 
-			> implementaion of backtracing to 'gulpmain' has not been done.
+			> implementation of backtracing to 'gulpmain' has not been done.
 
 

@@ -6,6 +6,7 @@
 #SBATCH --nodes=1
 
 # Replace [budget code] below with your budget code (e.g. t01)
+#SBATCH --account=e05-react-smw
 #SBATCH --partition=standard
 #SBATCH --qos=short
 
@@ -28,5 +29,5 @@ export OMP_NUM_THREADS=1
 #/work/ta159/ta159/ta159wkjee/Software/checkmem/check_mem.sh 1> check_mem.out 2> check_mem.err &
 #sleep 30
 
-EXE="/work/ta159/ta159/ta159wkjee/Software/klmc3_compiler_tests/KLMC3-libgulp-6.1.2-gnu/Src/_build_libgulp_mpierr_simple/call_gulpmain.x"
+EXE="/work/e05/e05/wkjee/Software/gulpklmc/klmc3_tf_interface.update.12092023/KLMC3-libgulp-6.1.2-07.2024/Src/_build_libgulp_mpierr_07.2024/call_gulpmain.x"
 srun --ntasks-per-node=128 --cpus-per-task=1 --distribution=block:block --hint=nomultithread --exact ${EXE} 1> stdout 2> stderr
