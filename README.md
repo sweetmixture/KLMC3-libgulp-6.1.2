@@ -71,7 +71,7 @@ This modification has been made to use ```gulpmain()``` soubroutine, for instanc
     STEP3. Creating static library  
     ```
     cd _build_libgulp
-    bash cray_compile.sh
+    bash intel_compile.sh
     ```
     This will generate ```libgulpklmc.a``` at: ```/path/to/KLMC3-libgulp-6.1.2/Src/Linux_MPI```,
     which will be automatically picked up by KLMC3 during its compilation.
