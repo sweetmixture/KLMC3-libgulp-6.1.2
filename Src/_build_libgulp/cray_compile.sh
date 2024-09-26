@@ -14,7 +14,8 @@ exe="call_gulpmain.x"
 # generate libgulpklmc (archiving)
 #
 # before run this script, build gulp first at ${GULPROOT}/Src
-# e.g., $ mkgulp -c cray -j 4 -m
+# e.g. 1 using gnu, $ mkgulp_cray_gnu -c cray -j 4 -m
+# e.g. 2 using cce, $ mkgulp_cray_cce -c cray -j 4 -m
 # -c : compiler type
 # -j : parallel make
 # -m : using MPI
@@ -43,6 +44,7 @@ rm *.o
 #                 e.g., $ ./mkgulp_scorep -c cray -j 4 -m
 # 
 # 06.2024: memory leak fix (force to dealloac all) -> see 'klmcgulp_lib.log'
+w
 #          to use scorep compiler, set relevant modules
 #          e.g., on ARCHER 2
 #          module unload perftools-base/22.12.0

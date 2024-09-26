@@ -1,0 +1,46 @@
+#
+# 09.2024 WKJEE
+#
+
+ * Compile/Archiving(static libridisation) of GULP 6.1.2
+
+ List of scripts for the archiving: execute one of the following scripts compatible with your system specification
+
+ -----------------------------------------------------------------------------------------------------------------
+ *** On MMM Machines: YOUNG, KATHLEEN, MYRIAD ...
+
+ [1] 'intel_compile.sh'
+
+    required modules
+
+    'mpi/intel/2019/update4/intel'
+    'compilers/intel/2019/update4'
+ 
+    Note. Version of MPI & Compiler must match : '2019' tested and stable
+
+ -----------------------------------------------------------------------------------------------------------------
+ *** On ARCHER2 (or any equivalent CRAY system)
+
+ [2] 'cray_compile.sh'
+
+    required modules
+
+    a.'module load PrgEnv-gnu' : if 'mkgulp_cray_gnu' was used to compile the GULP source
+
+    b.'module load PrgEnv-cce' : if 'mkgulp_cray_cce' was used to compile the GULP source
+
+
+ [3] 'cray_compile_scorep.sh' * debugging with SCORE-P
+
+    required modules
+
+    'module unload perftools-base/22.12.0'
+    'module load other-software'
+    'module load PrgEnv-gnu'
+    'module load scalasca/2.6.1-gcc11'
+
+    misics:
+
+    'scorep.slurm' is an example slurm script to excute under SCORE-P debugging mode (possible output '*.cube' files)
+
+    'GULP_deallocate_workspace.06.2024' workspace for debugging memory / MPI communicator / BLACS 

@@ -14,7 +14,7 @@ exe="call_gulpmain.x"
 # generate libgulpklmc (archiving)
 #
 # before run this script, build gulp first at ${GULPROOT}/Src
-# e.g., $ mkgulp -c intel -j 4 -m
+# e.g., $ mkgulp_intel -c intel -j 4 -m
 # -c : compiler type
 # -j : parallel make
 # -m : using MPI
@@ -29,10 +29,12 @@ cd $root
 #
 # tested environement?
 # ---------------------------------------------------------------------------
-mpicc  -c call_gulpmain.c.c
+
+mpicc  -c call_gulpmain.c
 mpif90 -c gulpklmc.F90 -I./../Linux_MPI
 mpif90 -c gulpklmc_initmax.F90 -I./../Linux_MPI
-mpicc  -o ${exe} call_gulpmain.c.o gulpklmc.o gulpklmc_initmax.o \
+mpif90 -c gulpklmc_deallocate_all.F90 -I./../Linux_MPI
+mpicc  -o ${exe} call_gulpmain.o gulpklmc.o gulpklmc_initmax.o gulpklmc_deallocate_all.o \
           -L./../Linux_MPI -lgulpklmc -lifcore -lifport \
           -L./../../Utils/pGFNFF/Src -lpGFNFF \
           -L${MKLROOT}/lib/intel64 \

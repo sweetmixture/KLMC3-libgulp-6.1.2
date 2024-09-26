@@ -338,9 +338,9 @@ case $compiler in
   # -------------------------------------------------
            if [ "$debug" = "" ]
            then
-               echo 'OPT=-O3 -g' >> makefile
-               echo 'OPT2=-O2 -g' >> makefile
-               echo 'OPT1=-O1 -g' >> makefile
+               echo 'OPT=-O3 -g' >> makefile  	# '-g' flag for using 'scorep' debugger
+               echo 'OPT2=-O2 -g' >> makefile 	# '-g' flag for using 'scorep' debugger
+               echo 'OPT1=-O1 -g' >> makefile 	# '-g' flag for using 'scorep' debugger
            else
                echo 'OPT=' >> makefile
                echo 'OPT1=' >> makefile
