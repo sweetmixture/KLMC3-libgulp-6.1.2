@@ -4812,8 +4812,10 @@
   end module gulpchemsh
 !
 !  klmc module
-!  07 / 23 wkjee
-!
+!  07/23 wkjee : KLMC extension development
+!  10/24 wkjee
+!  * IMPORTANT > Please check 'initial.F90' file, some of variables below may need to be reinitialised
+!  
 #ifdef KLMC
   module klmc
     use datatypes
@@ -4888,6 +4890,20 @@
     logical,  save :: lklmc_maxtitle         = .true.   ! maxtitle = 20
     logical,  save :: lklmc_maxneighk        = .true.   ! maxat = 0  : from kim_functions.F90
     logical,  save :: lklmc_maxpdfcfg        = .true.   ! maxcfg = 1 :from m_pdfneutron.F90
+
+    !
+    ! 10/24 wkjee
+    ! GULP return/kill normal fix
+    !
+    logical,  save :: lklmc_return_gulp      = .false.  ! type A. set 'true' for normal GULP return -> continue KLMC tasks
+    logical,  save :: lklmc_kill_gulp        = .false.  ! type B. set 'true' for abort GULP -> kill KLMC
+
+    !
+    ! varialbes above may need reinitialisation, see 'initial.F90'
+    !
+    ! type A. possible returns : core-shell fail, optimisation fail, ...
+    ! type B. possible kills   : wrong input file (charged system ... etc) to avoid wasting resource
+    !
 
   end module klmc
 #endif

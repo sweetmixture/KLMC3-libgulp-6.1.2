@@ -34,6 +34,9 @@
 #ifdef TRACE
   use trace,       only : trace_in, trace_out
 #endif
+#ifdef KLMC
+  use klmc,        only : lklmc_return_gulp
+#endif
   implicit none
 !
 !  Passed variables
@@ -153,6 +156,18 @@
   iflag = 0
   if (imode.eq.1) then
     call funct(iflag,nvar,xparam,phi(2),grad,"olin1")
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine olinmin() > see olinmin.F90 : invoked after funct() : 1"
+            call gflush(ioout)
+          endif         
+          goto 190
+        endif           
+#endif
   else
     call deffun(iflag,nvar,xparam,phi(2),grad)
   endif
@@ -185,6 +200,18 @@
   iflag = 0
   if (imode.eq.1) then
     call funct(iflag,nvar,xparam,funct1,grad,"olin2")
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine olinmin() > see olinmin.F90 : invoked after funct() : 2"
+            call gflush(ioout)
+          endif         
+          goto 190
+        endif           
+#endif
   else
     call deffun(iflag,nvar,xparam,funct1,grad)
   endif
@@ -242,6 +269,18 @@
      iflag = 0
      if (imode.eq.1) then
        call funct(iflag,nvar,xparam,funct1,grad,"olin3")
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine olinmin() > see olinmin.F90 : invoked after funct() : 3"
+            call gflush(ioout)
+          endif         
+          goto 190
+        endif           
+#endif
      else
        call deffun(iflag,nvar,xparam,funct1,grad)
      endif

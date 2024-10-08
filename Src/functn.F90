@@ -48,6 +48,10 @@
 #ifdef TRACE
   use trace,       only : trace_in, trace_out
 #endif
+#ifdef KLMC
+  ! 10/24 wkjee
+  use klmc,        only : lklmc_return_gulp
+#endif
   implicit none
 !
 !  Passed arrays
@@ -115,12 +119,36 @@
     call deffun(ifcall,n,xc,fc,gc)
   else
     call funct(ifcall,n,xc,fc,gc)
+#ifdef KLMC
+    !
+    ! 10/24 wkjee
+    !
+    if (lklmc_return_gulp) then
+      if (ioproc) then
+        write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after funct() : 1"
+        call gflush(ioout)
+      endif
+      goto 999
+    endif
+#endif
 !
 !  Check return flag for geometry error
 !
     if (ifcall.eq.-2) then
       call outerror('geometry has become unphysical during finite differences',0_i4)
       call stopnow('functn')
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after stopnow() : 1"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
     endif
   endif
 !
@@ -142,12 +170,37 @@
       call deffun(ifcall,n,xc,fcf,gcf)
     else
       call funct(ifcall,n,xc,fcf,gcf)
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after funct() : 2"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
+
 !
 !  Check return flag for geometry error
 !
       if (ifcall.eq.-2) then
         call outerror('geometry has become unphysical during finite differences',0_i4)
         call stopnow('functn')
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after stopnow() : 2"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
     endif
 !
@@ -158,12 +211,37 @@
       call deffun(ifcall,n,xc,fcb,gcb)
     else
       call funct(ifcall,n,xc,fcb,gcb)
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after funct() : 3"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
+
 !
 !  Check return flag for geometry error
 !
       if (ifcall.eq.-2) then
         call outerror('geometry has become unphysical during finite differences',0_i4)
         call stopnow('functn')
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after stopnow() : 3"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
     endif
 !
@@ -205,14 +283,47 @@
     call deffun(ifcall,n,xc,fc,gc)
   else
     call funct(ifcall,n,xc,fc,gc)
+#ifdef KLMC
+    !
+    ! 10/24 wkjee
+    !
+    if (lklmc_return_gulp) then
+      if (ioproc) then
+        write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after funct() : 4"
+        call gflush(ioout)
+      endif
+      goto 999
+    endif
+#endif
 !
 !  Check return flag for geometry error
 !
     if (ifcall.eq.-2) then
       call outerror('geometry has become unphysical during finite differences',0_i4)
       call stopnow('functn')
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine functn() > see fuctn.F90 : invoked after stopnow() : 4"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
     endif
   endif
+
+#ifdef KLMC
+!
+! 10/24 wkjee
+!
+! KLMC < GULP Exit point
+!
+999 continue
+#endif
 !
 !  Free local arrays
 !

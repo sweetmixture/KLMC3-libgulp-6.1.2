@@ -197,6 +197,10 @@
 #endif
   use times
   use xcgc
+#ifdef KLMC
+  ! 10/24 wkjee
+  use klmc,          only : lklmc_return_gulp
+#endif
 
   implicit none
 !
@@ -543,6 +547,19 @@
           call functnf(iflag,nvar,xc,fc,gc,.true.)
         endif
         call functn(iflag,nvar,xc,fc,gc,hess,nhwords,lhess2D,1_i4)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after functn() : 1"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       else
         if (lusenumericd2.and.iflag.eq.2) then
           if (lfastfd) then
@@ -552,6 +569,19 @@
           endif
         else
           call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+          !
+          ! 10/24 wkjee
+          !
+          if (lklmc_return_gulp) then
+            if (ioproc) then
+              write(ioout,'(A)') &
+              " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 1"
+              call gflush(ioout)
+            endif
+            goto 999
+          endif
+#endif
         endif
       endif
     endif
@@ -574,8 +604,34 @@
         else
           if (lfinitediff1.and..not.ldefect) then
             call functn(1_i4,nvar,xc,fc,gc,hess,nhwords,lhess2D,1_i4)
+#ifdef KLMC
+            ! 
+            ! 10/24 wkjee
+            ! 
+            if (lklmc_return_gulp) then
+              if (ioproc) then
+                write(ioout,'(A)') &
+                " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after functn() : 2"
+                call gflush(ioout)
+              endif
+              goto 999
+            endif
+#endif    
           else
             call funct(1_i4,nvar,xc,fc,gc)
+#ifdef KLMC
+            !
+            ! 10/24 wkjee
+            !
+            if (lklmc_return_gulp) then
+              if (ioproc) then
+                write(ioout,'(A)') &
+                " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 2"
+                call gflush(ioout)
+              endif
+              goto 999
+            endif
+#endif
           endif
         endif
       endif
@@ -638,6 +694,19 @@
           endif
         else
           call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+          !
+          ! 10/24 wkjee
+          !
+          if (lklmc_return_gulp) then
+            if (ioproc) then
+              write(ioout,'(A)') &
+              " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 3"
+              call gflush(ioout)
+            endif
+            goto 999
+          endif
+#endif
         endif
         call property3(.false.)
       endif
@@ -699,6 +768,19 @@
       lprintsave = lopprt
       lopprt = .false.
       call minimise(xc,fc,gc,hess,nhwords,lhess2D,ifail,1_i4,.false.)
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') &
+          " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after minimise() : 1"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif    
       lopprt = lprintsave
       loptsuccess = (ifail.eq.0)
 !
@@ -712,6 +794,19 @@
 !  Implicit harmonic relaxation
 !
       call harmonicrelax(xc,fc,gc,hess(1,1),nhwords,lhess2D,1_i4)
+#ifdef KLMC
+      ! 
+      ! 10/24 wkjee
+      ! 
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') &
+          " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after harmonicrealx() : 1"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif    
       ifail = 4
       loptsuccess = .true.
       if (ioproc) call outener
@@ -720,6 +815,20 @@
 !  Minimise static/free energy
 !
       call minimise(xc,fc,gc,hess,nhwords,lhess2D,ifail,1_i4,lfree)
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') &
+          " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after minimise() : 2"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif    
+
       loptsuccess = (ifail.eq.0)
     endif
 !
@@ -757,6 +866,19 @@
           endif
         else
           call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+          !
+          ! 10/24 wkjee
+          !
+          if (lklmc_return_gulp) then
+            if (ioproc) then
+              write(ioout,'(A)') &
+              " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 4"
+              call gflush(ioout)
+            endif
+            goto 999
+          endif
+#endif
         endif
       endif
       lopt = .true.
@@ -771,6 +893,19 @@
         endif
       else
         call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 5"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
     endif
 !
@@ -1052,6 +1187,19 @@
         endif
       else
         call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 6"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
     endif
     if (loptiloc.or.lharmloc.or.lfree) then
@@ -1109,6 +1257,19 @@
           endif
         else
           call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+          !
+          ! 10/24 wkjee
+          !
+          if (lklmc_return_gulp) then
+            if (ioproc) then
+              write(ioout,'(A)') &
+              " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 7"
+              call gflush(ioout)
+            endif
+            goto 999
+          endif
+#endif
         endif
         call property3(.false.)
       endif
@@ -1129,6 +1290,19 @@
       lgacost = .true.
       iflag = 0
       call funct(iflag,nvar,xc,cost,gc)
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') &
+          " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after funct() : 8"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
       write(ioout,'(/,''  The value of the cost function for this initial structure is '',f14.7,/)')cost
       write(ioout,'(/,''--------------------------------------------------------------------------------''/)')
       lgacost = .false.
@@ -1212,6 +1386,19 @@
         if (ncbl.gt.1) then
           call outerror('No centred cells',0_i4)
           call stopnow('optim')
+#ifdef KLMC
+          !
+          ! 10/24 wkjee
+          !
+          if (lklmc_return_gulp) then
+            if (ioproc) then
+              write(ioout,'(A)') &
+              " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after optim() : 1"
+              call gflush(ioout)
+            endif
+            goto 999
+          endif
+#endif    
         endif
       
         do i = 1,3
@@ -1278,13 +1465,33 @@
 
 #ifdef KLMC
 !
-! 06.2024 WKJEE: fully deallocate test
-! 
+! 10/24 wkjee
+!
+999 continue
+#endif
+
+#ifdef KLMC
+  !
+  ! 06.2024 WKJEE: fully deallocate test
+  ! 
   if (associated(hess)) then
     deallocate(hess)
     nullify(hess)
   end if
 #endif 
+
+#ifdef KLMC
+  !
+  ! 10/24 wkjee
+  !
+  if (lklmc_return_gulp) then
+    if (ioproc) then
+      write(ioout,'(A)') &
+      " > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : before return : abnormal KLMC < GULP return"
+      call gflush(ioout)
+    endif
+  endif
+#endif
 
   return
   end

@@ -3636,6 +3636,17 @@
   !   ! lklmcfreshrun controls above variables: see modules.F90: module klmc
   !   lklmcfreshrun = .false.
   ! end if
+
+
+  !
+  ! 10/24 wkjee                         
+  ! GULP return/kill normal fix - see description in 'module.F90'
+  !
+  ! module klmc
+  ! KLMCADD
+  lklmc_return_gulp      = .false.
+  lklmc_kill_gulp        = .false.
+
 #endif
 
   return

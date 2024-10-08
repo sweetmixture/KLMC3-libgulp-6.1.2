@@ -46,7 +46,12 @@
 #ifdef TRACE
   use trace,          only : trace_in, trace_out
 #endif
-
+#ifdef KLMC
+  !
+  ! 10/24 wkjee
+  !
+  use klmc,           only : lklmc_return_gulp
+#endif
   implicit none
 !
 !  Passed variables
@@ -120,12 +125,38 @@
   fcin = fc
   if (imode.eq.1) then
     call funct(iflag,nvar,xc,fc,gc)
+#ifdef KLMC
+    !
+    ! 10/24 wkjee
+    !
+    if (lklmc_return_gulp) then
+      if (ioproc) then
+        write(ioout,'(A)') &
+        " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after funct() : 1"
+        call gflush(ioout)
+      endif
+      goto 999
+    endif
+#endif
 !
 !  Check return flag for problem with geometry
 !
     if (iflag.eq.-2) then
       call outerror('geometry has become unphysical during harmonic relaxation',0_i4)
       call stopnow('harmonicrelax')
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') &
+          " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after stopnow() : 1"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
     endif
   else
     call deffun(iflag,nvar,xc,fc,gc)
@@ -143,12 +174,38 @@
   iflag = 2
   if (imode.eq.1) then
     call funct(iflag,nvar,xc,funct1,gc)
+#ifdef KLMC
+    !
+    ! 10/24 wkjee
+    !
+    if (lklmc_return_gulp) then
+      if (ioproc) then
+        write(ioout,'(A)') &
+        " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after funct() : 2"
+        call gflush(ioout)
+      endif 
+      goto 999  
+    endif
+#endif
 !
 !  Check return flag for problem with geometry
 !
     if (iflag.eq.-2) then
       call outerror('geometry has become unphysical during harmonic relaxation',0_i4)
       call stopnow('harmonicrelax')
+#ifdef KLMC
+      !
+      ! 10/24 wkjee
+      !
+      if (lklmc_return_gulp) then
+        if (ioproc) then
+          write(ioout,'(A)') &
+          " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after stopnow() : 2"
+          call gflush(ioout)
+        endif
+        goto 999
+      endif
+#endif
     endif
   else
     call deffun(iflag,nvar,xc,funct1,gc)
@@ -222,6 +279,19 @@
       if (ifails.ne.0) then
         call outerror('initialisation in descinit failed',0_i4)
         call stopnow('harmonicrelax')
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after stopnow() : 3"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
 !
 !  Factorise matrix using Scalapack
@@ -243,6 +313,20 @@
   if (info.gt.0) then
     call outerror('hessian inversion failed during estimation of relaxation energy',0_i4)
     call stopnow('harmonicrelax')
+#ifdef KLMC
+    !
+    ! 10/24 wkjee
+    !
+    if (lklmc_return_gulp) then
+      if (ioproc) then
+        write(ioout,'(A)') &
+        " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after stopnow() : 4"
+        call gflush(ioout)
+      endif
+      goto 999
+    endif
+#endif
+
   else
 !***********************
 !  Complete inversion  *
@@ -349,6 +433,19 @@
       if (ifails.ne.0) then
         call outerror('initialisation in descinit failed',0_i4)
         call stopnow('harmonicrelax')
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine harmonicrelax() > see harmonicrealx.F90 : invoked after stopnow() : 5"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
 !
 !  Call pblas
@@ -372,6 +469,25 @@
 !
   erelax = - ddot(nvar,pvect,1_i4,gc,1_i4)
   erelax = 0.5_dp*erelax
+#ifdef KLMC
+!
+! 10/24 wkjee
+! KLMC Exit point
+!
+999 continue
+! KLMC custom deallocation
+if (allocated(wrk)) then
+  deallocate(wrk)
+end if
+#ifdef MPI
+if (allocated(ipivot)) then
+  deallocate(ipivot)
+end if
+if (allocated(iwrk)) then
+  deallocate(iwrk)
+end if
+#endif
+#endif
 !
 !  Free local memory
 !

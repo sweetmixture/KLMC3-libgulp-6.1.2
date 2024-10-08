@@ -47,6 +47,10 @@
   use genetic,     only : lgacost
   use parallel
   use symmetry
+#ifdef KLMC
+  use klmc,        only : lklmc_return_gulp
+  use iochannels
+#endif
 #ifdef TRACE
   use trace,       only : trace_in, trace_out
 #endif
@@ -108,6 +112,21 @@
 !  Check core-shell distances
 !
       call cutscheck
+!
+! KLMC TESTING BLOCK 10/24 wkjee
+!#ifdef KLMC
+!      ! 10/24 wkjee
+!      ! return if core-shell check failed - TESTING BLOCK 08.10.2024
+!      if (lklmc_return_gulp) then
+!        if (ioproc) then
+!          write(ioout,'(A)') " > KLMC_MESSAGE : abnormal stop requested : funct()"
+!          call gflush(ioproc)
+!        endif
+!        return
+!      endif
+!#endif
+!
+
 !
       lfirst = .true.
 !
@@ -174,5 +193,77 @@
   call trace_out('funct')
 #endif
 !
+
+#ifdef KLMC
+  !
+  ! 10/24 wkjee
+  !
+  if (lklmc_return_gulp) then
+    if (ioproc) then
+      write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine funct() > see funct.F90"
+      call gflush(ioproc)
+    endif
+    return
+  endif
+!
+! 10/24 wkjee
+! KLMC developmenet purpose
+! case: call stopnow() 
+!
+! funct() called at:
+!
+! functn.F90:    call funct(ifcall,n,xc,fc,gc)
+! functn.F90:      call funct(ifcall,n,xc,fcf,gcf)
+! functn.F90:      call funct(ifcall,n,xc,fcb,gcb)
+! functn.F90:    call funct(ifcall,n,xc,fc,gc)
+! gaexpd.F90:      call funct(iflag,nvar,xc,fc,gc)
+! gaexpd.F90:    call funct(iflag,nvar,xc,fc,gc)
+! gaexpd.F90:       call funct(iflag,nvar,xc,fc,gc)
+! gaexpd.F90:       call funct(iflag,nvar,xc,fc,gc)
+! gasubs.F90:    call funct(iflag,nvar,xc,fc,gcd)
+! gasubs.F90:    call funct(iflag,nvar,xc,fc,gcd)
+! gasubs.F90:    call funct(iflag,nvar,xc,fc,gcd)
+! harmonicrelax.F90:    call funct(iflag,nvar,xc,fc,gc)
+! harmonicrelax.F90:    call funct(iflag,nvar,xc,funct1,gc)
+! lmbfgs.F90:    call funct(iflag,N,X,F,G)
+! lmbfgs.F90:        call funct(iflag,N,X,F,G)
+! minimise.F90:        call funct(iflag,nvar,xc,fc,gc,"min1")
+! minimise.F90:              call funct(iflag,nvar,xc,funct1,gc,"min2")
+! minimise.F90:        call funct(iflag,nvar,xc,fc,gc,"min3")
+! numhess.F90:  call funct(iflag,nvar,xvar,funct2,gvar)
+! olinmin.F90:    call funct(iflag,nvar,xparam,phi(2),grad,"olin1")
+! olinmin.F90:    call funct(iflag,nvar,xparam,funct1,grad,"olin2")
+! olinmin.F90:       call funct(iflag,nvar,xparam,funct1,grad,"olin3")
+! optim.F90:          call funct(iflag,nvar,xc,fc,gc)
+! optim.F90:            call funct(1_i4,nvar,xc,fc,gc)
+! optim.F90:          call funct(iflag,nvar,xc,fc,gc)
+! optim.F90:          call funct(iflag,nvar,xc,fc,gc)
+! optim.F90:        call funct(iflag,nvar,xc,fc,gc)
+! optim.F90:        call funct(iflag,nvar,xc,fc,gc)
+! optim.F90:          call funct(iflag,nvar,xc,fc,gc)
+! optim.F90:      call funct(iflag,nvar,xc,cost,gc)
+! predict.F90:      call funct(iflag,nvar,xc,fc,gc)
+! predict.F90:      call funct(iflag,nvar,xc,fc,gc)
+!
+! * call tree *
+!
+! optim.F90
+!   > funct.F90
+!   > functn.F90
+!     > funct.F90
+!   > minimise.F90
+!     > funct.F90
+!     > functn.F90
+!       > funct.F90
+!   > olinmin.F90
+!     > funct.F90
+!   > harmonicrealx.F90
+!     > funct.F90
+! ----
+! funct.F90
+!   # core-shell case only
+!   > cutscheck.F90
+!     > stopnow.F90
+#endif
   return
   end

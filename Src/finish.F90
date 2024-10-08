@@ -110,7 +110,9 @@
   if (ichemsh_qm < 0) call mpfinish
 #else
   if (ichemsh_link.eq.0) call mpfinish
-  ! wkjee - this will be called
+  !
+  ! KLMC 07/23 wkjee - this will be called
+  !
 #endif
 
   return

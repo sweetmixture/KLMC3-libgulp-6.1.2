@@ -6,6 +6,11 @@
 !
   use iochannels
   use parallel
+#ifdef KLMC
+  ! 10/24 wkjee
+  ! use klmc return/kill flags
+  use klmc
+#endif
   implicit none
 !
   character(len=*) :: routine
@@ -24,10 +29,10 @@
     ! wkjee
 #ifdef KLMC
     ! wkjee - do not close processors
-    if(ioproc) then
-      write (ioout,'(A)') "KLMC> in stopnow(routine): something went wrong: checkout the .gout"
-      call gflush(ioout)
-    end if
+    !if(ioproc) then
+    !  write (ioout,'(A)') "KLMC> in stopnow(routine): something went wrong: checkout the .gout"
+    !  call gflush(ioout)
+    !end if
     ! return
 #endif
   endif
@@ -42,11 +47,23 @@
 #endif
 
 #ifdef KLMC
-  ! wkjee - instead 'stop' simply return
+  ! 10/24 wkjee
+  ! use klmc return/kill flags
+  !
+  ! Instead of call GULP default 'stop()', KLMC alternatively return back to 'gulpmain()'
+  !
   if(ioproc) then
-    write(ioout,'(A)') "KLMC> in stopnow(return): something went wrong: checkout the .gout"
+    write(ioout,'(A)') " * KLMC detected abnormal exit"
+    ! Here 'routine' variable can be used to pass the reason why this routine is called
+    write(ioout,'(A)') " > KLMC_MESSAGE : _KLMC_GULP_EXIT_ : subroutine stopnow() : stopnow.F90"
     call gflush(ioout)
   end if
+
+  !
+  ! variable module 'klmc' in 'module.F90' default value = .false. > this will be recoverd in every gulpmain() calls
+  ! see: subroutine initial() : initial.F90
+  !
+  lklmc_return_gulp = .true.
   return
 #endif
 

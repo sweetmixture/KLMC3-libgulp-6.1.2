@@ -29,6 +29,11 @@
   use iochannels
   use parallel
   use shells
+#ifdef KLMC
+  ! 10/24 wkjee
+  ! use klmc return/kill flags
+  use klmc
+#endif
 #ifdef TRACE
   use trace,         only : trace_in, trace_out
 #endif
@@ -114,6 +119,22 @@
       write(ioout,'(/,''  Largest core-shell distance = '',f8.4,'' Angstroms'',/)') sqrt(largestr2)
     endif
     call stopnow('cutscheck')
+#ifdef KLMC
+    !
+    ! 10/24 wkjee
+    ! at this point: 'stopnow()' set lklmc_return_gulp = .true.
+    !
+    ! instead of call 'stop' (as default) but simply return
+    !
+    if (lklmc_return_gulp) then
+      if (ioproc) then
+        write(ioout,'(A)') " > KLMC_MESSAGE : call stack : subroutine cutscheck() > see cutscheck.F90"
+        call gflush(ioout)
+      endif
+      return
+    endif
+#endif
+
   endif
 #ifdef TRACE
   call trace_out('cutscheck')

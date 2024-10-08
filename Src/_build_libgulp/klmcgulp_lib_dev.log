@@ -98,4 +98,18 @@
 
 			> implementation of backtracing to 'gulpmain' has not been done.
 
+			* 08.10.2024 Core-Shell error hotfix
 
+			> see changes in the source files below
+
+			initial.F90
+			modules.F90
+			stopnow.F90
+			cutscheck.F90
+			funct.F90
+			functn.F90
+			olinmin.F90
+			finish.F90
+			harmonicrelax.F90
+			minimise.F90
+			optim.F90

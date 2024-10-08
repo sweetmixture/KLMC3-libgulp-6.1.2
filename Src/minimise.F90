@@ -145,6 +145,11 @@
   use trace,          only : trace_in, trace_out
 #endif
 
+#ifdef KLMC
+  ! 10/24 wkjee
+  use klmc,           only : lklmc_return_gulp
+#endif
+
   implicit none
 !
 !  Passed variables
@@ -439,10 +444,36 @@
     else
       if (lfinitediff2.and.iflag.eq.2) then
         call functn(iflag,nvar,xc,fc,gc,hessian,maxhess,lhess2D,imode)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after functn() : 1"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       elseif (lfinitediff1.and.iflag.eq.1) then
         call fefunctn(iflag,nvar,xc,fc,gc,hessian,maxhess,lhess2D)
       else
         call funct(iflag,nvar,xc,fc,gc,"min1")
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after funct() : 1"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
     endif
   else
@@ -708,8 +739,34 @@
           else
             if (lfinitediff2) then
               call functn(iflag,nvar,xc,funct1,gc,hessian,maxhess,lhess2D,imode)
+#ifdef KLMC
+              !
+              ! 10/24 wkjee
+              !
+              if (lklmc_return_gulp) then
+                if (ioproc) then
+                  write(ioout,'(A)') &
+                  " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after functn() : 2"
+                  call gflush(ioout)
+                endif
+                goto 999
+              endif
+#endif
             else
               call funct(iflag,nvar,xc,funct1,gc,"min2")
+#ifdef KLMC
+              ! 
+              ! 10/24 wkjee
+              ! 
+              if (lklmc_return_gulp) then
+                if (ioproc) then
+                  write(ioout,'(A)') &
+                  " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after funct() : 2"
+                  call gflush(ioout)
+                endif
+                goto 999
+              endif
+#endif
             endif
           endif
         else
@@ -1131,6 +1188,19 @@
       endif
     else
       call olinmin(xc,alp,pvect,nvar,fc,okf,gg,imode)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after olinmin() : 1"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       if (.not.okf) then
 !
 !  Force reset of quaternions for rigid molecules
@@ -1142,6 +1212,19 @@
         endif
         alp = 1.0_dp
         call olinmin(xc,alp,pvect,nvar,fc,okf,gg,imode)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after olinmin() : 2"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif    
       endif
     endif
     if (okf) then
@@ -1165,8 +1248,34 @@
     else
       if (lfinitediff1) then
         call functn(iflag,nvar,xc,fc,gc,hessian,maxhess,lhess2D,imode)
+#ifdef KLMC
+        !
+        ! 10/24 wkjee
+        !
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after functn() : 3"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       else
         call funct(iflag,nvar,xc,fc,gc,"min3")
+#ifdef KLMC
+        ! 
+        ! 10/24 wkjee
+        ! 
+        if (lklmc_return_gulp) then
+          if (ioproc) then
+            write(ioout,'(A)') &
+            " > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after funct() : 3"
+            call gflush(ioout)
+          endif
+          goto 999
+        endif
+#endif
       endif
     endif
   else
