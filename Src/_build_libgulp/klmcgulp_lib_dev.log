@@ -74,13 +74,23 @@
 			* 'BLACS_GRIDINIT' used in other subroutines: 'eigensolve_elpa.F90', 'pdiagd.F90', 'pdiaggd.F90',
 			  and they are followed by 'BLACS_GRIDEXIT'
 
+
+	4. 10.2024 WKJEE.
+
 		!
 		! Catching abnormal gulpfinish
 		!
-			* Core-Shell abnormal distance invoke gulpfinish (by 07.2024), this is managed by keep calling return.
-			  (not ideal solution, but can deal with this by adding 'stepmx' option word in GULP input files)
+			* Core-Shell abnormal distance invoke 'stopnow() or gulpfinish()', direct to call 'stop' and crash gulp-lib.
 
-			- Call stack of 'core-shell' distance: this check is done by 'cutscheck()' subroutine (in cutscheck.F90)
+			  Before this point, 'stop' was replaced to 'return' and, for instance, gulp-lib was hanging until the end of optimisation cycle.
+
+			  Other possible solution:
+
+			  [1] core-shell breaking incident can be eased by including 'stepmx' option work in GULP input files,
+			      which constrains the maximul atom moving step size during line minimisation.
+
+
+			* SCORE-P investigation result on ARCHER2
 
 			+ 128 gulpklmc
 				+ 128 gulpmain
@@ -96,14 +106,39 @@
 				funct()         | funct.F90
 				cutscheck()     | cutscheck.F90
 
-			> implementation of backtracing to 'gulpmain' has not been done.
+			here 'cutscheck()' subroutine is resposible for the core-shell distance, verifying whether it is broken.
 
-			* 08.10.2024 Core-Shell error hotfix
+			> subroutine 'funct()' does many types of energy, force, etc related measurements, including 'custcheck()'.
 
-			> see changes in the source files below
+			  KEY: ONLY 'funct()' CALL 'cutscheck()' SUBROUTINE
 
-			initial.F90
-			modules.F90
+			* Possible call stack of a standard energy minimisaton:
+
+			...
+				+ gulp_options()                                             : options.F90
+					...
+					+ optim()                                                : optim.F90    optimisation, note. defect calculation is seperated as defopt() in defopt.F90
+						+ funct()                                            : funct.F90    energy, derivative ... including 'cutscheck()'
+						+ functn()                                           : functn.F90   energy, numerical derivative ... including funct()
+							+ funct()
+							+ stopnow()                                      : stopnow.F90  forcing exit, this is detected by KLMC3
+						+ minimise()
+							+ funct()
+							+ functn()
+								+ funct()
+							+ olinmin()                                      : olinmin.F90  line minimiser
+								+ funct()
+						+ harmonicrelax()
+							+ funct()
+							+ stopnow()
+
+			^^^^^^^^^^^^^^^^^^^^^^^^^^^^ listing the possible edge cases covered by this hotfix, catching core-shell error
+
+			> Changes were made for the following GULP source files
+
+			modules.F90                           : in module klmc, a logical type 'lklmc_return_gulp' is added as a flag to return GULP.
+
+			initial.F90                           : initialising 'lklmc_return_gulp'
 			stopnow.F90
 			cutscheck.F90
 			funct.F90
@@ -113,3 +148,36 @@
 			harmonicrelax.F90
 			minimise.F90
 			optim.F90
+
+		* Update tested
+
+			[1] Multiple gulpmain() calls tested
+
+			[2] Calling gulpmain() in KLMC3 interface tested: /work/e05/e05/wkjee/Masters/Zirui2023/MnO/shelOnly/li3/_testrun_core_shell_fix
+
+
+		* Possible output of core-shell breaking is:
+
+			!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			!! ERROR : Largest core-shell distance exceeds cutoff of cuts
+			!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			
+			
+			  Largest core-shell distance =   1.7167 Angstroms
+			
+			
+			 Program terminated by processor     0 in            cutscheck
+			
+			 * KLMC detected abnormal exit
+			 > KLMC_MESSAGE : _KLMC_GULP_EXIT_ : subroutine stopnow() : stopnow.F90
+			 > KLMC_MESSAGE : call stack : subroutine cutscheck() > see cutscheck.F90
+			 > KLMC_MESSAGE : call stack : subroutine funct() > see funct.F90
+			 > KLMC_MESSAGE : call stack : subroutine olinmin() > see olinmin.F90 : invoked after funct() : 3
+			 > KLMC_MESSAGE : call stack : subroutine minimise() > see minimise.F90 : invoked after olinmin() : 1
+			 > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : invoked after minimise() : 2
+			 > KLMC_MESSAGE : call stack : subroutine optim() > see optim.F90 : before return : abnormal KLMC < GULP return
+
+
+			If user is using a custom post-processing script, this could be dected by searching '_KLMC_GULP_EXIT_' string in GULP standard output files.
+
+
